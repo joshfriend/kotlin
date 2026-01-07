@@ -165,6 +165,7 @@ include(
     ":compiler:plugin-api",
     ":compiler:light-classes",
     ":compiler:javac-wrapper",
+    ":compiler:java-direct",
     ":compiler:cli:cli-arguments-generator",
     ":compiler:cli-base",
     ":compiler:cli",

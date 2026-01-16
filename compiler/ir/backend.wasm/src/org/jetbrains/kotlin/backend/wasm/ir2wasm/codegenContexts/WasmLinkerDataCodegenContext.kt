@@ -40,6 +40,10 @@ open class WasmLinkerDataCodegenContext(
     fun referenceTypeId(irClass: IrClassSymbol): Long =
         cityHash64(irClass.getReferenceKey().toString().encodeToByteArray()).toLong()
 
+    fun addUsedAsWasmRawFunctionReference(irFunction: IrFunctionSymbol) {
+        wasmFileFragment.wasmReferencedFunctions.add(irFunction.getReferenceKey())
+    }
+
     fun addJsFun(irFunction: IrFunctionSymbol, importName: WasmSymbol<String>, jsCode: String) {
         wasmFileFragment.jsFuns[irFunction.getReferenceKey()] =
             WasmCompiledModuleFragment.JsCodeSnippet(importName = importName, jsCode = jsCode)

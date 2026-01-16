@@ -179,7 +179,8 @@ class WasmCompiledModuleFragment(
         createAndBindSpecialITableTypes(definedDeclarations)
         createAndBindRttiTypeDeclaration(definedDeclarations)
 
-        val elements = mutableListOf<WasmElement>()
+        val elements = getUsedAsWasmRawFunctionReference(definedDeclarations)
+
         createAndExportServiceFunctions(
             definedDeclarations = definedDeclarations,
             stringEntities = stringEntities,
@@ -392,6 +393,18 @@ class WasmCompiledModuleFragment(
         )
 
         definedDeclarations.gcTypes[Synthetics.GcTypes.rttiType.value] = rttiTypeDeclaration
+    }
+
+    private fun getUsedAsWasmRawFunctionReference(definedDeclarations: DefinedDeclarationsResolver) = mutableListOf<WasmElement>().apply {
+        // WebAssembly requires functions used for value via ref.func to be forward declared.
+        forEachLinkerData { linkerData ->
+            addAll(linkerData.wasmReferencedFunctions.map { key ->
+                WasmElement(
+                    type = WasmFuncRef,
+                    values = listOf(WasmTable.Value.Function(definedDeclarations.resolve(FuncSymbol(key)))),
+                    mode = WasmElement.Mode.Declarative)
+            })
+        }
     }
 
     private fun getGlobals(definedDeclarations: DefinedDeclarationsResolver) = mutableListOf<WasmGlobal>().apply {

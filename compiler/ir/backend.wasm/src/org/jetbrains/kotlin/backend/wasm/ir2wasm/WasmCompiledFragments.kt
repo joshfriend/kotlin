@@ -53,6 +53,7 @@ class WasmCompiledLinkerDataFileFragment(
     val classAssociatedObjectsInstanceGetters: MutableList<ClassAssociatedObjects> = mutableListOf(),
     val objectInstanceFieldInitializers: MutableList<IdSignature> = mutableListOf(),
     val nonConstantFieldInitializers: MutableList<IdSignature> = mutableListOf(),
+    val wasmReferencedFunctions: MutableSet<IdSignature> = mutableSetOf(),
 )
 
 abstract class WasmCompiledFileFragment(

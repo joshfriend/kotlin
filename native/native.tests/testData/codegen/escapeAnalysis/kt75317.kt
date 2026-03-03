@@ -1,5 +1,6 @@
 // IGNORE_NATIVE: optimizationMode=DEBUG
 // IGNORE_NATIVE: optimizationMode=NO
+// IGNORE_KLIB_RUNTIME_ERRORS_WITH_CUSTOM_SECOND_STAGE: Native:*
 @file:OptIn(kotlin.native.runtime.NativeRuntimeApi::class)
 
 import kotlin.native.internal.isStack

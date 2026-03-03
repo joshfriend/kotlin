@@ -64,6 +64,20 @@ fun main(args: Array<String>) {
                 model("boxInline")
             }
         }
+
+        // Native-specific codegen/box tests based on Compiler Core testinfra
+        testGroup(testsRoot, "native/native.tests/testData/codegen") {
+            testClass<AbstractCustomNativeCompilerSecondStageTest>(
+                suiteTestClassName = "CustomNativeSpecificSecondStageTestGenerated",
+                annotations = listOf(
+                    annotation(HeavyTest::class.java),
+                    annotation(Tag::class.java, "aggregate-second-stage"),
+                    provider<UseDummyTestCaseGroupProvider>(),
+                )
+            ) {
+                model()
+            }
+        }
     }
 }
 

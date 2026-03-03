@@ -6,6 +6,7 @@
 package org.jetbrains.kotlin.test.frontend.objcinterop
 
 import org.jetbrains.kotlin.cli.common.ExitCode
+import org.jetbrains.kotlin.config.LanguageVersion
 import org.jetbrains.kotlin.diagnostics.impl.DiagnosticsCollectorImpl
 import org.jetbrains.kotlin.konan.test.blackbox.support.LoggedData
 import org.jetbrains.kotlin.konan.test.blackbox.support.TestDirectives.FREE_CINTEROP_ARGS
@@ -18,6 +19,8 @@ import org.jetbrains.kotlin.konan.test.blackbox.support.settings.KotlinNativeTar
 import org.jetbrains.kotlin.konan.test.blackbox.support.util.ClangMode
 import org.jetbrains.kotlin.konan.test.blackbox.support.util.compileWithClangToStaticLibrary
 import org.jetbrains.kotlin.konan.test.blackbox.testRunSettings
+import org.jetbrains.kotlin.konan.test.klib.customNativeCompilerSettings
+import org.jetbrains.kotlin.konan.test.klib.defaultLanguageVersion
 import org.jetbrains.kotlin.test.model.AbstractTestFacade
 import org.jetbrains.kotlin.test.model.ArtifactKinds
 import org.jetbrains.kotlin.test.model.BinaryArtifacts
@@ -31,12 +34,14 @@ import org.jetbrains.kotlin.test.services.sourceFileProvider
 import kotlin.collections.flatMap
 import kotlin.io.extension
 
-class ObjCInteropFacade(val testServices: TestServices) : AbstractTestFacade<ResultingArtifact.Source, BinaryArtifacts.KLib>() {
+class ObjCInteropFacade(val testServices: TestServices, customClassLoader: KotlinNativeClassLoader? = null) :
+    AbstractTestFacade<ResultingArtifact.Source, BinaryArtifacts.KLib>()
+{
     override val inputKind = SourcesKind
     override val outputKind = ArtifactKinds.KLib
     private val settings = testServices.testRunSettings
     private val targets: KotlinNativeTargets = settings.get()
-    private val classLoader: KotlinNativeClassLoader = settings.get()
+    private val classLoader: KotlinNativeClassLoader = customClassLoader ?: settings.get()
 
     override fun shouldTransform(module: TestModule): Boolean {
         return module.files.any { it.name.endsWith(".def") }
@@ -94,6 +99,17 @@ class ObjCInteropFacade(val testServices: TestServices) : AbstractTestFacade<Res
             }
             add("-compiler-option")
             add("-I$defRealFileFolder")
+            val defaultLanguageVersion = customNativeCompilerSettings.defaultLanguageVersion
+            if (defaultLanguageVersion < LanguageVersion.LATEST_STABLE) {
+                add("-Xklib-abi-compatibility-level")
+                add("${defaultLanguageVersion.major}.${defaultLanguageVersion.minor}")
+                if (!this.contains("-Xccall-mode")) {
+                    add("-Xccall-mode")
+                    add("direct")
+                }
+                add("-libraryPath")
+                add(expectedArtifact.klibFile.parentFile.absolutePath)
+            }
         }
 
         val loggedCInteropParameters = LoggedData.CInteropParameters(args, defFile)

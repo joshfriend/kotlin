@@ -1,3 +1,4 @@
+// IGNORE_FIR
 // common.pack.ClassToCheck
 // MODULE: m1-common
 // FILE: common.kt

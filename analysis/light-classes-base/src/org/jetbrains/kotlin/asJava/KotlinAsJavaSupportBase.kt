@@ -27,10 +27,9 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
     //region Light Facades
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun createLightFacade(file: KtFile): KtLightClassForFacade? {
+    fun createLightFacade(file: KtFile, module: TModule): KtLightClassForFacade? {
         if (!file.facadeIsPossible()) return null
 
-        val module = file.findModule()?.takeIf { facadeIsApplicable(it, file) } ?: return null
         val facadeFqName = file.javaFileFacadeFqName
         val facadeFiles = if (file.canHaveAdditionalFilesInFacade()) {
             findFilesForFacade(facadeFqName, module.contentSearchScope).filter(KtFile::isJvmMultifileClassFile)
@@ -45,7 +44,7 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
             }
 
             facadeFiles.all(KtFile::isCompiled) -> {
-                createInstanceOfDecompiledLightFacade(facadeFqName, facadeFiles)
+                createInstanceOfDecompiledLightFacade(facadeFqName, module, facadeFiles)
             }
 
             else -> error("Source and compiled files are mixed: $facadeFiles")
@@ -56,37 +55,35 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
         return createInstanceOfLightFacade(file.javaFileFacadeFqName, listOf(file)) ?: errorWithAttachment(
             "Unsupported ${file::class.simpleName}"
         ) {
-            withEntry("module", file.findModule().toString())
+            withEntry("module", file.getContainingModule().toString())
             withPsiEntry("file", file)
         }
     }
 
     override fun getFacadeClasses(facadeFqName: FqName, scope: GlobalSearchScope): Collection<KtLightClassForFacade> {
-        return findFilesForFacade(facadeFqName, scope).toFacadeClasses()
+        return findFilesForFacade(facadeFqName, scope).toFacadeClasses(scope)
     }
 
     override fun getFacadeClassesInPackage(packageFqName: FqName, scope: GlobalSearchScope): Collection<KtLightClassForFacade> {
-        return findFilesForFacadeByPackage(packageFqName, scope).toFacadeClasses()
+        return findFilesForFacadeByPackage(packageFqName, scope).toFacadeClasses(scope)
     }
 
     override fun getFacadeNames(packageFqName: FqName, scope: GlobalSearchScope): Collection<String> {
         return findFilesForFacadeByPackage(packageFqName, scope).mapNotNullTo(mutableSetOf()) { file ->
             file.takeIf { it.facadeIsPossible() }
-                ?.takeIf { it.findModule()?.let { module -> facadeIsApplicable(module, file) } == true }
+                ?.takeIf { facadeIsApplicable(it.getContainingModule(), file) }
                 ?.javaFileFacadeFqName
                 ?.shortName()
                 ?.asString()
         }.toSet()
     }
 
-    private fun Collection<KtFile>.toFacadeClasses(): List<KtLightClassForFacade> = mapNotNull { file ->
-        file.takeIf { it.facadeIsPossible() }?.findModule()?.let { file to it }
+    private fun Collection<KtFile>.toFacadeClasses(scope: GlobalSearchScope): List<KtLightClassForFacade> = mapNotNull { file ->
+        file.takeIf { it.facadeIsPossible() }?.findContextModule(scope) { facadeIsApplicable(it, file) }?.let { file to it }
     }.groupBy { (file, module) ->
         FacadeKey(file.javaFileFacadeFqName, file.isJvmMultifileClassFile, module)
     }.mapNotNull { (_, pairs) ->
-        pairs.firstNotNullOfOrNull { (file, module) ->
-            file.takeIf { facadeIsApplicable(module, file) }
-        }?.let(::getLightFacade)
+        pairs.firstOrNull()?.let { (file, module) -> getLightFacade(file, module) }
     }
 
     private data class FacadeKey<TModule>(val fqName: FqName, val isMultifile: Boolean, val module: TModule)
@@ -102,8 +99,15 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
     }
 
     protected abstract fun facadeIsApplicable(module: TModule, file: KtFile): Boolean
+
+    protected abstract fun getLightFacade(file: KtFile, module: TModule?): KtLightClassForFacade?
     protected abstract fun createInstanceOfLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade?
-    protected abstract fun createInstanceOfDecompiledLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade?
+    protected abstract fun createInstanceOfDecompiledLightFacade(
+        facadeFqName: FqName,
+        module: TModule,
+        files: List<KtFile>,
+    ): KtLightClassForFacade?
+
     protected abstract fun createInstanceOfLightFacade(facadeFqName: FqName, module: TModule, files: List<KtFile>): KtLightClassForFacade?
 
     private fun KtFile.canHaveAdditionalFilesInFacade(): Boolean = !isCompiled && isJvmMultifileClassFile
@@ -112,14 +116,14 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
     // ============ LIGHT SCRIPTS ============
     //region Light Scripts
 
-    fun createLightScript(script: KtScript): KtLightClass? {
+    fun createLightScript(script: KtScript, module: TModule?): KtLightClass? {
         val containingFile = script.containingFile
         if (containingFile is KtCodeFragment) {
             // Avoid building light classes for code fragments
             return null
         }
 
-        return createInstanceOfLightScript(script)
+        return createInstanceOfLightScript(script, module)
     }
 
     override fun getScriptClasses(scriptFqName: FqName, scope: GlobalSearchScope): Collection<PsiClass> {
@@ -127,27 +131,27 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
             return emptyList()
         }
 
-        return findFilesForScript(scriptFqName, scope).mapNotNull { getLightClassForScript(it) }
+        return findFilesForScript(scriptFqName, scope).mapNotNull { getLightClassForScript(it, scope) }
     }
 
-    protected abstract fun createInstanceOfLightScript(script: KtScript): KtLightClass?
+    protected abstract fun createInstanceOfLightScript(script: KtScript, module: TModule?): KtLightClass?
     //endregion
 
     // ============ LIGHT CLASSES ============
     //region Light Classes
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun createLightClass(classOrObject: KtClassOrObject): KtLightClass? {
+    fun createLightClass(classOrObject: KtClassOrObject, module: TModule?): KtLightClass? {
         if (classOrObject.shouldNotBeVisibleAsLightClass()) return null
 
         val containingFile = classOrObject.containingKtFile
         when (declarationLocation(containingFile)) {
             DeclarationLocation.ProjectSources -> {
-                return createInstanceOfLightClass(classOrObject)
+                return createInstanceOfLightClass(classOrObject, module)
             }
 
             DeclarationLocation.LibraryClasses -> {
-                return createInstanceOfDecompiledLightClass(classOrObject)
+                return createInstanceOfDecompiledLightClass(classOrObject, module)
             }
 
             DeclarationLocation.LibrarySources -> {
@@ -156,7 +160,7 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
                     ?.getOriginalElement(classOrObject) as? KtClassOrObject
 
                 val value = originalClassOrObject?.takeUnless(classOrObject::equals)?.let {
-                    guardedRun { getLightClass(it) }
+                    guardedRun { getLightClass(it, module) }
                 }
 
                 return value
@@ -166,14 +170,15 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
         }
 
         if (containingFile.analysisContext != null || containingFile.originalFile.virtualFile != null) {
-            return createInstanceOfLightClass(classOrObject)
+            return createInstanceOfLightClass(classOrObject, module)
         }
 
         return null
     }
 
-    protected abstract fun createInstanceOfLightClass(classOrObject: KtClassOrObject): KtLightClass?
-    protected abstract fun createInstanceOfDecompiledLightClass(classOrObject: KtClassOrObject): KtLightClass?
+    protected abstract fun getLightClass(classOrObject: KtClassOrObject, module: TModule?): KtLightClass?
+    protected abstract fun createInstanceOfLightClass(classOrObject: KtClassOrObject, module: TModule?): KtLightClass?
+    protected abstract fun createInstanceOfDecompiledLightClass(classOrObject: KtClassOrObject, module: TModule?): KtLightClass?
     //endregion
 
     // ============ TRACKERS AND UTILS ============
@@ -187,7 +192,23 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
 
     abstract fun librariesTracker(element: PsiElement): ModificationTracker
 
-    protected abstract fun KtFile.findModule(): TModule?
+    /**
+     * Returns a containing module for [this].
+     */
+    protected abstract fun KtElement.getContainingModule(): TModule
+
+    /**
+     * Returns a module covered by [scope] which should be used as a context for the light class creation for [this].
+     *
+     * [moduleFilter] is called on the containing module to ensure that this module is allowed for the light class creation.
+     * If [moduleFilter] returns `false` on the containing module, returns `null`.
+     * If [scope] is `null`, the containing module is returned.
+     */
+    protected abstract fun KtElement.findContextModule(
+        scope: GlobalSearchScope? = null,
+        moduleFilter: (TModule) -> Boolean = { true }
+    ): TModule?
+
     protected abstract val TModule.contentSearchScope: GlobalSearchScope
 
     protected abstract fun declarationLocation(file: KtFile): DeclarationLocation?

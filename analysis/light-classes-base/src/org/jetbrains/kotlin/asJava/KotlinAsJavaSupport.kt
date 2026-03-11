@@ -17,16 +17,43 @@ import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtScript
 
 abstract class KotlinAsJavaSupport {
-    abstract fun getLightClass(classOrObject: KtClassOrObject): KtLightClass?
+    /**
+     * Creates a [KtLightClass] for the given [classOrObject].
+     *
+     * [GlobalSearchScope] represents the scope which should be used to find a suitable context module for the produced [KtLightClass].
+     * If `null`, the declaration-site module is used.
+     */
+    abstract fun getLightClass(classOrObject: KtClassOrObject, searchScope: GlobalSearchScope? = null): KtLightClass?
 
-    abstract fun getLightClassForScript(script: KtScript): KtLightClass?
+    /**
+     * Creates a [KtLightClass] for the given [script].
+     *
+     * [GlobalSearchScope] represents the scope which should be used to find a suitable context module for the produced [KtLightClass].
+     * If `null`, the declaration-site module is used.
+     */
+    abstract fun getLightClassForScript(script: KtScript, searchScope: GlobalSearchScope? = null): KtLightClass?
 
     abstract fun getFakeLightClass(classOrObject: KtClassOrObject): KtFakeLightClass
 
-    abstract fun getLightFacade(file: KtFile): KtLightClassForFacade?
+    /**
+     * Creates a [KtLightClass] for the given [file].
+     *
+     * [GlobalSearchScope] represents the scope which should be used to find a suitable context module
+     * for the produced [KtLightClassForFacade]. If `null`, the declaration-site module is used.
+     */
+    abstract fun getLightFacade(file: KtFile, searchScope: GlobalSearchScope? = null): KtLightClassForFacade?
 
     abstract fun createFacadeForSyntheticFile(file: KtFile): KtLightClassForFacade
 
+    /**
+     * Returns all facade classes for the given [facadeFqName] found in [scope].
+     *
+     * All [KtLightClassForFacade]s are created in the context of a JVM module:
+     * - If the original file was located in a JVM module, this module is used as a context.
+     * - If the original file was located in a COMMON module, a suitable JVM implementation module is passed as a context.
+     *   This JVM module is the first implementation module found that is covered by the provided [scope],
+     *   see [GlobalSearchScope.isSearchInModuleContent].
+     */
     abstract fun getFacadeClasses(facadeFqName: FqName, scope: GlobalSearchScope): Collection<KtLightClassForFacade>
 
     /**

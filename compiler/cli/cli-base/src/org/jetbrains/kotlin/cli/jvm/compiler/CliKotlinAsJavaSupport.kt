@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.descriptors.PackageViewDescriptor
 import org.jetbrains.kotlin.load.java.components.FilesByFacadeFqNameIndexer
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClassOrObject
+import org.jetbrains.kotlin.psi.KtElement
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtScript
 import org.jetbrains.kotlin.resolve.BindingContext
@@ -43,9 +44,9 @@ class CliKotlinAsJavaSupport(project: Project, private val traceHolder: CliTrace
         ?.filter { PsiSearchScopeUtil.isInScope(searchScope, it) }
         .orEmpty()
 
-    override fun KtFile.findModule(): KtFile = this
+    override fun KtElement.getContainingModule(): KtFile = this.containingKtFile
 
-    override fun createInstanceOfDecompiledLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade? {
+    override fun createInstanceOfDecompiledLightFacade(facadeFqName: FqName, module: KtFile, files: List<KtFile>): KtLightClassForFacade? {
         error("Should not be called")
     }
 
@@ -100,7 +101,7 @@ class CliKotlinAsJavaSupport(project: Project, private val traceHolder: CliTrace
         ).mapNotNull { member -> (member as? PackageViewDescriptor)?.fqName }
     }
 
-    override fun createInstanceOfLightScript(script: KtScript): KtLightClass {
+    override fun createInstanceOfLightScript(script: KtScript, module: KtFile?): KtLightClass {
         return LightClassGenerationSupport.getInstance(script.project).createUltraLightClassForScript(script)
     }
 
@@ -128,8 +129,10 @@ class CliKotlinAsJavaSupport(project: Project, private val traceHolder: CliTrace
 
     override fun createFacadeForSyntheticFile(file: KtFile): KtLightClassForFacade = error("Should not be called")
     override fun declarationLocation(file: KtFile): DeclarationLocation = DeclarationLocation.ProjectSources
-    override fun createInstanceOfDecompiledLightClass(classOrObject: KtClassOrObject): KtLightClass = error("Should not be called")
-    override fun createInstanceOfLightClass(classOrObject: KtClassOrObject): KtLightClass {
+    override fun createInstanceOfDecompiledLightClass(classOrObject: KtClassOrObject, module: KtFile?): KtLightClass =
+        error("Should not be called")
+
+    override fun createInstanceOfLightClass(classOrObject: KtClassOrObject, module: KtFile?): KtLightClass {
         return LightClassGenerationSupport.getInstance(classOrObject.project).createUltraLightClass(classOrObject)
     }
 }

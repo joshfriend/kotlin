@@ -11,10 +11,12 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.ModificationTracker
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
+import com.intellij.psi.impl.ResolveScopeManager
 import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.classes.KtLightClassForFacade
 import org.jetbrains.kotlin.asJava.classes.shouldNotBeVisibleAsLightClass
+import org.jetbrains.kotlin.asJava.elements.FakeFileForLightClass
 import org.jetbrains.kotlin.fileClasses.isJvmMultifileClassFile
 import org.jetbrains.kotlin.fileClasses.javaFileFacadeFqName
 import org.jetbrains.kotlin.name.FqName
@@ -183,6 +185,15 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
 
     // ============ TRACKERS AND UTILS ============
     //region Trackers and Utils
+
+    /**
+     * Default implementation of resolution scope for [file] used by Java
+     * to query [org.jetbrains.kotlin.asJava.finder.JavaElementFinder] with
+     * when resolving declarations in this file.
+     */
+    override fun getResolutionScope(file: FakeFileForLightClass): GlobalSearchScope {
+        return ResolveScopeManager.getInstance(project).getDefaultResolveScope(file.virtualFile)
+    }
 
     abstract fun projectWideOutOfBlockModificationTracker(): ModificationTracker
 

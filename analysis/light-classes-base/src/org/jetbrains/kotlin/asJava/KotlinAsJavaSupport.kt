@@ -11,6 +11,8 @@ import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.asJava.classes.KtFakeLightClass
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.classes.KtLightClassForFacade
+import org.jetbrains.kotlin.asJava.elements.FakeFileForLightClass
+import org.jetbrains.kotlin.asJava.finder.JavaElementFinder
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClassOrObject
 import org.jetbrains.kotlin.psi.KtFile
@@ -93,6 +95,12 @@ abstract class KotlinAsJavaSupport {
     abstract fun getFacadeClassesInPackage(packageFqName: FqName, scope: GlobalSearchScope): Collection<KtLightClassForFacade>
 
     abstract fun getFacadeNames(packageFqName: FqName, scope: GlobalSearchScope): Collection<String>
+
+    /**
+     * Provides a resolution scope for [FakeFileForLightClass.getFileResolveScope].
+     * This scope is then passed to [KotlinAsJavaSupport] from [JavaElementFinder] when resolving declarations in the [file].
+     */
+    abstract fun getResolutionScope(file: FakeFileForLightClass): GlobalSearchScope
 
     companion object {
         @JvmStatic

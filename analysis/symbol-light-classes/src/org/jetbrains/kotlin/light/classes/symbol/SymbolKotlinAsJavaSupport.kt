@@ -33,10 +33,9 @@ import org.jetbrains.kotlin.asJava.classes.KtFakeLightClass
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.classes.KtLightClassForFacade
 import org.jetbrains.kotlin.asJava.classes.lazyPub
-import org.jetbrains.kotlin.light.classes.symbol.classes.SymbolBasedFakeLightClass
-import org.jetbrains.kotlin.light.classes.symbol.classes.SymbolLightClassForFacade
-import org.jetbrains.kotlin.light.classes.symbol.classes.SymbolLightClassForScript
-import org.jetbrains.kotlin.light.classes.symbol.classes.createSymbolLightClassNoCache
+import org.jetbrains.kotlin.asJava.elements.FakeFileForLightClass
+import org.jetbrains.kotlin.asJava.finder.JavaElementFinder
+import org.jetbrains.kotlin.light.classes.symbol.classes.*
 import org.jetbrains.kotlin.light.classes.symbol.utils.SafeNestedCaffeineCache
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
@@ -321,6 +320,49 @@ internal class SymbolKotlinAsJavaSupport(project: Project) : KotlinAsJavaSupport
 
     // ============ TRACKERS AND UTILS ============
     //region Trackers and Utils
+    /**
+     * [getResolutionScope] is used to adjust the resolve scope of [FakeFileForLightClass] from common modules.
+     * It's vital for issues like KT-71429 or KT-40059 when the consumed / returned type of declaration from a common module
+     * is an `expect` class.
+     *
+     * When Java tries to resolve some type inside a declaration in a common module, it searches for the class declaration
+     * in the resolve scope of the containing common file (i.e., passes this resolution scope to [JavaElementFinder]).
+     * This scope is a resolution scope of the containing common module.
+     * However, there might be several issues:
+     * - The type is a user-defined `expect` class. In this case, Java will search for it in the common module and find just
+     *   the `expect` declaration and not the `actual` one. Light classes are prohibited for `expect` classes, so the resolution will fail.
+     *   In this case, we need to enlarge the resolve scope of the containing common file to include scopes of all JVM implementation modules,
+     *   which might contain the corresponding `actual` declaration.
+     * - The type is a built-in Kotlin `expect` class. One of such examples is `kotlin.Function`.
+     *   Numbered actualizations (`FunctionN`) are platform-specific. So if some LC uses `kotlin.jvm.Function1`, Java won't find it
+     *   in the resolve scope of the containing common module. In this case, we need to include all platform stdlibs in the resolve scope.
+     *
+     * [getResolutionScope] returns a union of resolution scopes of all modules represented by this file.
+     * These modules are context modules of light classes taken from [FakeFileForLightClass.getClasses].
+     * If no modules were found, returns the default common scope.
+     *
+     * Note that [getResolutionScope] doesn't do any target platform adjustments by itself.
+     * It's expected that all classes created through [JavaElementFinder] are constructed with some JVM module as a context:
+     * - If the original declaration was already in a JVM module, this module is used as a context.
+     *   In this case, [getResolutionScope] just provides an identical scope.
+     * - If the original declaration was in a common module, the first found JVM implementation module is passed as a context.
+     *   In this case, [getResolutionScope] returns the scope of this implementation module.
+     */
+    override fun getResolutionScope(file: FakeFileForLightClass): GlobalSearchScope {
+        val analysisScopesForContextModules = file.classes.mapNotNullTo(mutableSetOf()) { lightClass ->
+            (lightClass as? SymbolLightClassBase)?.ktModule
+        }.map { module ->
+            analyzeForLightClasses(module) {
+                analysisScope
+            }
+        }
+
+        return when {
+            analysisScopesForContextModules.isEmpty() -> super.getResolutionScope(file)
+            analysisScopesForContextModules.size == 1 -> analysisScopesForContextModules.single()
+            else -> GlobalSearchScope.union(analysisScopesForContextModules)
+        }
+    }
 
     override fun projectWideOutOfBlockModificationTracker(): ModificationTracker {
         return project.createProjectWideSourceModificationTracker()

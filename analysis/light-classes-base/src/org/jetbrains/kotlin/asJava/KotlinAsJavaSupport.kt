@@ -29,16 +29,22 @@ abstract class KotlinAsJavaSupport {
 
     abstract fun getFacadeClasses(facadeFqName: FqName, scope: GlobalSearchScope): Collection<KtLightClassForFacade>
 
-    // Returns only immediately declared classes/objects, package classes are not included (they have no declarations)
+    /**
+     * Returns classes and objects declared in [packageFqName] that fall under [searchScope].
+     */
     abstract fun findClassOrObjectDeclarationsInPackage(packageFqName: FqName, searchScope: GlobalSearchScope): Collection<KtClassOrObject>
 
-    /*
-    * Finds files whose package declaration is exactly {@code fqName}. For example, if a file declares
-    *     package a.b.c
-    * it will not be returned for fqName "a.b"
-    *
-    * If the resulting collection is empty, it means that this package has not other declarations than sub-packages
-    */
+    /**
+     * Finds [KtFile]s whose package declaration is exactly [packageFqName].
+     *
+     * For example, if a file declares
+     * ```kotlin
+     * package a.b.c
+     * ```
+     * it will not be returned for `a.b` [packageFqName].
+     *
+     * If the package has no declarations other than sub-packages, returns an empty collection.
+     */
     abstract fun findFilesForPackage(packageFqName: FqName, searchScope: GlobalSearchScope): Collection<KtFile>
 
     abstract fun findFilesForFacade(facadeFqName: FqName, searchScope: GlobalSearchScope): Collection<KtFile>
@@ -64,7 +70,7 @@ abstract class KotlinAsJavaSupport {
     companion object {
         @JvmStatic
         fun getInstance(project: Project): KotlinAsJavaSupport {
-            return project.getService( KotlinAsJavaSupport::class.java)
+            return project.getService(KotlinAsJavaSupport::class.java)
         }
     }
 }

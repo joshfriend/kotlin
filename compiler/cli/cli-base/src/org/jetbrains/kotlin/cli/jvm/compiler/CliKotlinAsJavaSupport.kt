@@ -30,6 +30,11 @@ import org.jetbrains.kotlin.resolve.lazy.ResolveSessionUtils
 import org.jetbrains.kotlin.resolve.scopes.DescriptorKindFilter
 import org.jetbrains.kotlin.resolve.scopes.MemberScope
 
+/**
+ * Obsolete K1 implementation of [org.jetbrains.kotlin.asJava.KotlinAsJavaSupport].
+ * Operates on [KtFile]s as enviroment entities instead of proper modules,
+ * see `TModule` type parameter in [org.jetbrains.kotlin.asJava.KotlinAsJavaSupportBase].
+ */
 class CliKotlinAsJavaSupport(project: Project, private val traceHolder: CliTraceHolder) : KotlinAsJavaSupportBase<KtFile>(project) {
     override fun findFilesForFacadeByPackage(
         packageFqName: FqName,

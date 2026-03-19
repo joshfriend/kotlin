@@ -25,6 +25,9 @@ import org.jetbrains.kotlin.utils.exceptions.errorWithAttachment
 import org.jetbrains.kotlin.utils.exceptions.withPsiEntry
 
 abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Project) : KotlinAsJavaSupport() {
+    // ============ LIGHT FACADES ============
+    //region Light Facades
+
     @Suppress("MemberVisibilityCanBePrivate")
     fun createLightFacade(file: KtFile): LightClassCachedValue<KtLightClassForFacade>? {
         if (!file.facadeIsPossible()) return null
@@ -51,37 +54,6 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
         }
     }
 
-    /**
-     * lightweight applicability check
-     */
-    private fun KtFile.facadeIsPossible(): Boolean = when {
-        isCompiled && !name.endsWith(".class") -> false
-        isScript() -> false
-        canHaveAdditionalFilesInFacade() -> true
-        else -> hasTopLevelCallables()
-    }
-
-    private fun KtFile.canHaveAdditionalFilesInFacade(): Boolean = !isCompiled && isJvmMultifileClassFile
-
-    protected abstract fun KtFile.findModule(): TModule?
-    protected abstract fun facadeIsApplicable(module: TModule, file: KtFile): Boolean
-    protected abstract val TModule.contentSearchScope: GlobalSearchScope
-
-    protected abstract fun createInstanceOfLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade?
-    protected open fun createInstanceOfLightFacade(facadeFqName: FqName, module: TModule, files: List<KtFile>): KtLightClassForFacade? {
-        return createInstanceOfLightFacade(facadeFqName, files)
-    }
-
-    protected abstract fun createInstanceOfDecompiledLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade?
-
-    abstract fun projectWideOutOfBlockModificationTracker(): ModificationTracker
-
-    open fun outOfBlockModificationTracker(element: PsiElement): ModificationTracker {
-        return projectWideOutOfBlockModificationTracker()
-    }
-
-    abstract fun librariesTracker(element: PsiElement): ModificationTracker
-
     override fun getLightFacade(file: KtFile): KtLightClassForFacade? = ifValid(file) {
         cacheLightClass(file) {
             cachedValueResult(createLightFacade(file))
@@ -97,12 +69,12 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
         }
     }
 
-    override fun getFacadeClassesInPackage(packageFqName: FqName, scope: GlobalSearchScope): Collection<KtLightClassForFacade> {
-        return findFilesForFacadeByPackage(packageFqName, scope).toFacadeClasses()
-    }
-
     override fun getFacadeClasses(facadeFqName: FqName, scope: GlobalSearchScope): Collection<KtLightClassForFacade> {
         return findFilesForFacade(facadeFqName, scope).toFacadeClasses()
+    }
+
+    override fun getFacadeClassesInPackage(packageFqName: FqName, scope: GlobalSearchScope): Collection<KtLightClassForFacade> {
+        return findFilesForFacadeByPackage(packageFqName, scope).toFacadeClasses()
     }
 
     override fun getFacadeNames(packageFqName: FqName, scope: GlobalSearchScope): Collection<String> {
@@ -127,16 +99,58 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
 
     private data class FacadeKey<TModule>(val fqName: FqName, val isMultifile: Boolean, val module: TModule)
 
-    private val recursiveGuard = ThreadLocal<Boolean>()
-    private inline fun <T> guardedRun(body: () -> T): T? {
-        if (recursiveGuard.get() == true) return null
-        return try {
-            recursiveGuard.set(true)
-            body()
-        } finally {
-            recursiveGuard.set(false)
+    /**
+     * lightweight applicability check
+     */
+    protected fun KtFile.facadeIsPossible(): Boolean = when {
+        isCompiled && !name.endsWith(".class") -> false
+        isScript() -> false
+        canHaveAdditionalFilesInFacade() -> true
+        else -> hasTopLevelCallables()
+    }
+
+    protected abstract fun facadeIsApplicable(module: TModule, file: KtFile): Boolean
+    protected abstract fun createInstanceOfLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade?
+    protected abstract fun createInstanceOfDecompiledLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade?
+    protected open fun createInstanceOfLightFacade(facadeFqName: FqName, module: TModule, files: List<KtFile>): KtLightClassForFacade? {
+        return createInstanceOfLightFacade(facadeFqName, files)
+    }
+
+    private fun KtFile.canHaveAdditionalFilesInFacade(): Boolean = !isCompiled && isJvmMultifileClassFile
+    //endregion
+
+    // ============ LIGHT SCRIPTS ============
+    //region Light Scripts
+
+    fun createLightScript(script: KtScript): LightClassCachedValue<KtLightClass>? {
+        val containingFile = script.containingFile
+        if (containingFile is KtCodeFragment) {
+            // Avoid building light classes for code fragments
+            return null
+        }
+
+        return LightClassCachedValue(createInstanceOfLightScript(script), projectWideOutOfBlockModificationTracker())
+    }
+
+    override fun getLightClassForScript(script: KtScript): KtLightClass? = ifValid(script) {
+        cacheLightClass(script) {
+            cachedValueResult(createLightScript(script))
         }
     }
+
+    override fun getScriptClasses(scriptFqName: FqName, scope: GlobalSearchScope): Collection<PsiClass> {
+        if (scriptFqName.isRoot) {
+            return emptyList()
+        }
+
+        return findFilesForScript(scriptFqName, scope).mapNotNull { getLightClassForScript(it) }
+    }
+
+    protected abstract fun createInstanceOfLightScript(script: KtScript): KtLightClass?
+    //endregion
+
+    // ============ LIGHT CLASSES ============
+    //region Light Classes
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun createLightClass(classOrObject: KtClassOrObject): LightClassCachedValue<KtLightClass>? {
@@ -174,41 +188,53 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
         return null
     }
 
-    protected abstract fun createInstanceOfLightClass(classOrObject: KtClassOrObject): KtLightClass?
-    protected abstract fun createInstanceOfDecompiledLightClass(classOrObject: KtClassOrObject): KtLightClass?
-    protected abstract fun declarationLocation(file: KtFile): DeclarationLocation?
-
-    protected enum class DeclarationLocation {
-        ProjectSources, LibraryClasses, LibrarySources,
-    }
-
     override fun getLightClass(classOrObject: KtClassOrObject): KtLightClass? = ifValid(classOrObject) {
         cacheLightClass(classOrObject) {
             cachedValueResult(createLightClass(classOrObject))
         }
     }
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    fun createLightScript(script: KtScript): LightClassCachedValue<KtLightClass>? {
-        val containingFile = script.containingFile
-        if (containingFile is KtCodeFragment) {
-            // Avoid building light classes for code fragments
-            return null
-        }
+    protected abstract fun createInstanceOfLightClass(classOrObject: KtClassOrObject): KtLightClass?
+    protected abstract fun createInstanceOfDecompiledLightClass(classOrObject: KtClassOrObject): KtLightClass?
+    //endregion
 
-        return LightClassCachedValue(createInstanceOfLightScript(script), projectWideOutOfBlockModificationTracker())
+    // ============ TRACKERS AND UTILS ============
+    //region Trackers and Utils
+
+    abstract fun projectWideOutOfBlockModificationTracker(): ModificationTracker
+
+    open fun outOfBlockModificationTracker(element: PsiElement): ModificationTracker {
+        return projectWideOutOfBlockModificationTracker()
     }
 
-    protected abstract fun createInstanceOfLightScript(script: KtScript): KtLightClass?
+    abstract fun librariesTracker(element: PsiElement): ModificationTracker
+
+    protected abstract fun KtFile.findModule(): TModule?
+    protected abstract val TModule.contentSearchScope: GlobalSearchScope
+
+    protected abstract fun declarationLocation(file: KtFile): DeclarationLocation?
+
+    protected enum class DeclarationLocation {
+        ProjectSources, LibraryClasses, LibrarySources,
+    }
+
+    private val recursiveGuard = ThreadLocal<Boolean>()
+    private inline fun <T> guardedRun(body: () -> T): T? {
+        if (recursiveGuard.get() == true) return null
+        return try {
+            recursiveGuard.set(true)
+            body()
+        } finally {
+            recursiveGuard.set(false)
+        }
+    }
+    //endregion
+
+    // ============ CACHE ============
+    //region Cache
 
     protected open fun <E : KtElement, R : KtLightClass> cacheLightClass(element: E, provider: CachedValueProvider<R>): R? {
         return CachedValuesManager.getCachedValue(element, provider)
-    }
-
-    override fun getLightClassForScript(script: KtScript): KtLightClass? = ifValid(script) {
-        cacheLightClass(script) {
-            cachedValueResult(createLightScript(script))
-        }
     }
 
     private fun <T : KtLightClass> cachedValueResult(lightClassCachedValue: LightClassCachedValue<T>?): CachedValueProvider.Result<T> {
@@ -216,14 +242,7 @@ abstract class KotlinAsJavaSupportBase<TModule : Any>(protected val project: Pro
         val tracker = lightClassCachedValue?.tracker ?: projectWideOutOfBlockModificationTracker()
         return CachedValueProvider.Result.createSingleDependency(value, tracker)
     }
-
-    override fun getScriptClasses(scriptFqName: FqName, scope: GlobalSearchScope): Collection<PsiClass> {
-        if (scriptFqName.isRoot) {
-            return emptyList()
-        }
-
-        return findFilesForScript(scriptFqName, scope).mapNotNull { getLightClassForScript(it) }
-    }
+    //endregion
 
     companion object {
         @JvmStatic

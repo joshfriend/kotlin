@@ -109,104 +109,17 @@ private fun KaModule.isLightClassSupportAvailable(): Boolean {
 }
 
 internal class SymbolKotlinAsJavaSupport(project: Project) : KotlinAsJavaSupportBase<KaModule>(project) {
-    @KaCachedService
-    private val projectStructureProvider by lazyPub { KotlinProjectStructureProvider.getInstance(project) }
+    // ============ LIGHT FACADES ============
+    //region Light Facades
 
-    private fun PsiElement.getModuleIfSupportEnabled(): KaModule? {
-        return projectStructureProvider.getModule(
-            element = this,
-            useSiteModule = null,
-        ).takeIf(KaModule::isLightClassSupportAvailable)
-    }
-
-    override fun findClassOrObjectDeclarationsInPackage(
-        packageFqName: FqName,
-        searchScope: GlobalSearchScope
-    ): Collection<KtClassOrObject> = project.createDeclarationProvider(searchScope, contextualModule = null).run {
-        getTopLevelKotlinClassLikeDeclarationNamesInPackage(packageFqName).flatMap {
-            getAllClassesByClassId(ClassId.topLevel(packageFqName.child(it)))
-        }
-    }
-
-    override fun findFilesForPackage(packageFqName: FqName, searchScope: GlobalSearchScope): Collection<KtFile> = buildSet {
-        addAll(project.createDeclarationProvider(searchScope, contextualModule = null).findFilesForFacadeByPackage(packageFqName))
-        findClassOrObjectDeclarationsInPackage(packageFqName, searchScope).mapTo(this) {
-            it.containingKtFile
-        }
-    }
-
-    override fun findFilesForFacadeByPackage(packageFqName: FqName, searchScope: GlobalSearchScope): Collection<KtFile> {
-        return project.createDeclarationProvider(searchScope, contextualModule = null).findFilesForFacadeByPackage(packageFqName)
-    }
-
-    override fun findFilesForScript(scriptFqName: FqName, searchScope: GlobalSearchScope): Collection<KtScript> {
-        return project.createDeclarationProvider(searchScope, contextualModule = null).findFilesForScript(scriptFqName)
-    }
-
-    private fun FqName.toClassIdSequence(): Sequence<ClassId> {
-        var currentName = shortNameOrSpecial()
-        if (currentName.isSpecial) return emptySequence()
-        var currentParent = parentOrNull() ?: return emptySequence()
-        var currentRelativeName = currentName.asString()
-
-        return sequence {
-            while (true) {
-                yield(ClassId(currentParent, FqName(currentRelativeName), isLocal = false))
-                currentName = currentParent.shortNameOrSpecial()
-                if (currentName.isSpecial) break
-                currentParent = currentParent.parentOrNull() ?: break
-                currentRelativeName = "${currentName.asString()}.$currentRelativeName"
-            }
-        }
-    }
-
-    override fun findClassOrObjectDeclarations(fqName: FqName, searchScope: GlobalSearchScope): Collection<KtClassOrObject> {
-        val declarationProvider = project.createDeclarationProvider(searchScope, contextualModule = null)
-        return fqName.toClassIdSequence()
-            .flatMap(declarationProvider::getAllClassesByClassId)
-            .filter { it.isFromSourceOrLibraryBinary() }
-            .toSet()
-    }
-
-    override fun packageExists(fqName: FqName, scope: GlobalSearchScope): Boolean =
-        project.createPackageProvider(scope).doesKotlinOnlyPackageExist(fqName)
-
-    override fun getSubPackages(fqn: FqName, scope: GlobalSearchScope): Collection<FqName> =
-        project.createPackageProvider(scope)
-            .getKotlinOnlySubpackageNames(fqn)
-            .map { fqn.child(it) }
-
-    override fun createInstanceOfLightScript(script: KtScript): KtLightClass? {
-        val module = script.getModuleIfSupportEnabled() ?: return null
-        return SymbolLightClassForScript(script, module)
-    }
-
-    override fun KtFile.findModule(): KaModule? = getModuleIfSupportEnabled()
-
-    override fun declarationLocation(file: KtFile): DeclarationLocation? = when (file.getModuleIfSupportEnabled()) {
-        is KaSourceModule -> DeclarationLocation.ProjectSources
-        is KaLibraryModule -> DeclarationLocation.LibraryClasses
-        is KaLibrarySourceModule -> DeclarationLocation.LibrarySources
-        else -> null
-    }
-
-    override fun createInstanceOfDecompiledLightClass(classOrObject: KtClassOrObject): KtLightClass? {
-        val lightClass = DecompiledLightClassesFactory.getLightClassForDecompiledClassOrObject(classOrObject, project)
-        if (lightClass != null) {
+    override fun createInstanceOfLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade? {
+        val kaModule = files.first().getModuleIfSupportEnabled()
+        if (kaModule != null) {
+            val lightClass = createInstanceOfLightFacade(facadeFqName, kaModule, files)
             return lightClass
         }
 
-        if (isMultiplatformSupportAvailable) {
-            // Light classes for binary declarations are built over decompiled Java stubs which KMP files don't provide
-            return createInstanceOfLightClass(classOrObject)
-        }
-
         return null
-    }
-
-    override fun createInstanceOfLightClass(classOrObject: KtClassOrObject): KtLightClass? {
-        val module = classOrObject.getModuleIfSupportEnabled() ?: return null
-        return createSymbolLightClassNoCache(classOrObject, module)
     }
 
     override fun createInstanceOfDecompiledLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade? {
@@ -223,46 +136,46 @@ internal class SymbolKotlinAsJavaSupport(project: Project) : KotlinAsJavaSupport
         return null
     }
 
-    override fun projectWideOutOfBlockModificationTracker(): ModificationTracker {
-        return project.createProjectWideSourceModificationTracker()
+    override fun createInstanceOfLightFacade(facadeFqName: FqName, module: KaModule, files: List<KtFile>): KtLightClassForFacade {
+        return SymbolLightClassForFacade(facadeFqName, files, module)
     }
 
-    override fun outOfBlockModificationTracker(element: PsiElement): ModificationTracker {
-        return project.createProjectWideSourceModificationTracker()
-    }
+    override fun facadeIsApplicable(module: KaModule, file: KtFile): Boolean =
+        module.isFromSourceOrLibraryBinary() && module.isLightClassSupportAvailable()
+    //endregion
 
-    override fun librariesTracker(element: PsiElement): ModificationTracker {
-        return project.createProjectWideLibraryModificationTracker()
-    }
+    // ============ LIGHT SCRIPTS ============
+    //region Light Scripts
 
-    override fun createInstanceOfLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade? {
-        val module = files.first().getModuleIfSupportEnabled()
-        if (module != null) {
-            val lightClass = createInstanceOfLightFacade(facadeFqName, module, files)
-            if (lightClass != null) {
-                return lightClass
-            }
+    override fun createInstanceOfLightScript(script: KtScript): KtLightClass? {
+        val kaModule = script.getModuleIfSupportEnabled() ?: return null
+        return SymbolLightClassForScript(script, kaModule)
+    }
+    //endregion
+
+    // ============ LIGHT CLASSES ============
+    //region Light Classes
+
+    override fun getFakeLightClass(classOrObject: KtClassOrObject): KtFakeLightClass = SymbolBasedFakeLightClass(classOrObject)
+
+    override fun createInstanceOfDecompiledLightClass(classOrObject: KtClassOrObject): KtLightClass? {
+        val lightClass = DecompiledLightClassesFactory.getLightClassForDecompiledClassOrObject(classOrObject, project)
+        if (lightClass != null) {
+            return lightClass
+        }
+
+        if (isMultiplatformSupportAvailable) {
+            // Light classes for binary declarations are built over decompiled Java stubs which KMP files don't provide
+            return createInstanceOfLightClass(classOrObject)
         }
 
         return null
     }
 
-    override fun createInstanceOfLightFacade(facadeFqName: FqName, module: KaModule, files: List<KtFile>): KtLightClassForFacade? {
-        return SymbolLightClassForFacade(facadeFqName, files, module)
+    override fun createInstanceOfLightClass(classOrObject: KtClassOrObject): KtLightClass? {
+        val kaModule = classOrObject.getModuleIfSupportEnabled() ?: return null
+        return createSymbolLightClassNoCache(classOrObject, kaModule)
     }
-
-    override val KaModule.contentSearchScope: GlobalSearchScope
-        get() = GlobalSearchScope.union(
-            buildList {
-                add(contentScope)
-                for (dependency in transitiveDependsOnDependencies) {
-                    add(dependency.contentScope)
-                }
-            }
-        )
-
-    override fun facadeIsApplicable(module: KaModule, file: KtFile): Boolean =
-        module.isFromSourceOrLibraryBinary() && module.isLightClassSupportAvailable()
 
     override fun getKotlinInternalClasses(fqName: FqName, scope: GlobalSearchScope): Collection<PsiClass> {
         val facadeKtFiles = project.createDeclarationProvider(scope, null).findInternalFilesForFacade(fqName)
@@ -288,21 +201,97 @@ internal class SymbolKotlinAsJavaSupport(project: Project) : KotlinAsJavaSupport
             }
         }
     }
+    //endregion
+
+    // ============ KT ELEMENTS SEARCH ============
+    //region KtElements Search
+
+    override fun findClassOrObjectDeclarations(fqName: FqName, searchScope: GlobalSearchScope): Collection<KtClassOrObject> {
+        val declarationProvider = project.createDeclarationProvider(searchScope, contextualModule = null)
+        return fqName.toClassIdSequence()
+            .flatMap(declarationProvider::getAllClassesByClassId)
+            .filter { it.isFromSourceOrLibraryBinary() }
+            .toSet()
+    }
+
+    override fun findClassOrObjectDeclarationsInPackage(
+        packageFqName: FqName,
+        searchScope: GlobalSearchScope
+    ): Collection<KtClassOrObject> = project.createDeclarationProvider(searchScope, contextualModule = null).run {
+        getTopLevelKotlinClassLikeDeclarationNamesInPackage(packageFqName).flatMap {
+            getAllClassesByClassId(ClassId.topLevel(packageFqName.child(it)))
+        }
+    }
+    //endregion
+
+    // ============ PACKAGE SEARCH ============
+    //region Package Search
+
+    override fun packageExists(fqName: FqName, scope: GlobalSearchScope): Boolean =
+        project.createPackageProvider(scope).doesKotlinOnlyPackageExist(fqName)
+
+    override fun getSubPackages(fqn: FqName, scope: GlobalSearchScope): Collection<FqName> =
+        project.createPackageProvider(scope)
+            .getKotlinOnlySubpackageNames(fqn)
+            .map { fqn.child(it) }
+    //endregion
+
+    // ============ FILE SEARCH ============
+    //region File Search
+
+    override fun findFilesForPackage(packageFqName: FqName, searchScope: GlobalSearchScope): Collection<KtFile> = buildSet {
+        addAll(project.createDeclarationProvider(searchScope, contextualModule = null).findFilesForFacadeByPackage(packageFqName))
+        findClassOrObjectDeclarationsInPackage(packageFqName, searchScope).mapTo(this) {
+            it.containingKtFile
+        }
+    }
 
     override fun findFilesForFacade(facadeFqName: FqName, searchScope: GlobalSearchScope): Collection<KtFile> {
         return project.createDeclarationProvider(searchScope, contextualModule = null).findFilesForFacade(facadeFqName)
     }
 
-    override fun getFakeLightClass(classOrObject: KtClassOrObject): KtFakeLightClass = SymbolBasedFakeLightClass(classOrObject)
-
-    override fun <E : KtElement, R : KtLightClass> cacheLightClass(element: E, provider: CachedValueProvider<R>): R? {
-        return if (isMultiplatformSupportAvailable) {
-            @Suppress("UNCHECKED_CAST")
-            KMP_CACHE.get().computeIfAbsent(element) { provider.compute()?.value } as R?
-        } else {
-            super.cacheLightClass(element, provider)
-        }
+    override fun findFilesForFacadeByPackage(packageFqName: FqName, searchScope: GlobalSearchScope): Collection<KtFile> {
+        return project.createDeclarationProvider(searchScope, contextualModule = null).findFilesForFacadeByPackage(packageFqName)
     }
+
+    override fun findFilesForScript(scriptFqName: FqName, searchScope: GlobalSearchScope): Collection<KtScript> {
+        return project.createDeclarationProvider(searchScope, contextualModule = null).findFilesForScript(scriptFqName)
+    }
+    //endregion
+
+    // ============ TRACKERS AND UTILS ============
+    //region Trackers and Utils
+
+    override fun projectWideOutOfBlockModificationTracker(): ModificationTracker {
+        return project.createProjectWideSourceModificationTracker()
+    }
+
+    override fun outOfBlockModificationTracker(element: PsiElement): ModificationTracker {
+        return project.createProjectWideSourceModificationTracker()
+    }
+
+    override fun librariesTracker(element: PsiElement): ModificationTracker {
+        return project.createProjectWideLibraryModificationTracker()
+    }
+
+    override fun declarationLocation(file: KtFile): DeclarationLocation? = when (file.getModuleIfSupportEnabled()) {
+        is KaSourceModule -> DeclarationLocation.ProjectSources
+        is KaLibraryModule -> DeclarationLocation.LibraryClasses
+        is KaLibrarySourceModule -> DeclarationLocation.LibrarySources
+        else -> null
+    }
+
+    override val KaModule.contentSearchScope: GlobalSearchScope
+        get() = GlobalSearchScope.union(
+            buildList {
+                add(contentScope)
+                for (dependency in transitiveDependsOnDependencies) {
+                    add(dependency.contentScope)
+                }
+            }
+        )
+
+    override fun KtFile.findModule(): KaModule? = getModuleIfSupportEnabled()
 
     private fun KtElement.isFromSourceOrLibraryBinary(): Boolean = getModuleIfSupportEnabled()?.isFromSourceOrLibraryBinary() == true
 
@@ -314,4 +303,45 @@ internal class SymbolKotlinAsJavaSupport(project: Project) : KotlinAsJavaSupport
             else -> false
         }
     }
+
+    private fun PsiElement.getModuleIfSupportEnabled(): KaModule? {
+        return projectStructureProvider.getModule(
+            element = this,
+            useSiteModule = null,
+        ).takeIf(KaModule::isLightClassSupportAvailable)
+    }
+
+    private fun FqName.toClassIdSequence(): Sequence<ClassId> {
+        var currentName = shortNameOrSpecial()
+        if (currentName.isSpecial) return emptySequence()
+        var currentParent = parentOrNull() ?: return emptySequence()
+        var currentRelativeName = currentName.asString()
+
+        return sequence {
+            while (true) {
+                yield(ClassId(currentParent, FqName(currentRelativeName), isLocal = false))
+                currentName = currentParent.shortNameOrSpecial()
+                if (currentName.isSpecial) break
+                currentParent = currentParent.parentOrNull() ?: break
+                currentRelativeName = "${currentName.asString()}.$currentRelativeName"
+            }
+        }
+    }
+
+    @KaCachedService
+    private val projectStructureProvider by lazyPub { KotlinProjectStructureProvider.getInstance(project) }
+    //endregion
+
+    // ============ CACHE ============
+    //region Cache
+
+    override fun <E : KtElement, R : KtLightClass> cacheLightClass(element: E, provider: CachedValueProvider<R>): R? {
+        return if (isMultiplatformSupportAvailable) {
+            @Suppress("UNCHECKED_CAST")
+            KMP_CACHE.get().computeIfAbsent(element) { provider.compute()?.value } as R?
+        } else {
+            super.cacheLightClass(element, provider)
+        }
+    }
+    //endregion
 }

@@ -12,7 +12,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.PsiSearchScopeUtil
 import com.intellij.util.SmartList
-import org.jetbrains.kotlin.asJava.KotlinAsJavaSupportBase
+import org.jetbrains.kotlin.asJava.KotlinAsJavaSupportK1Base
 import org.jetbrains.kotlin.asJava.LightClassGenerationSupport
 import org.jetbrains.kotlin.asJava.classes.KtDescriptorBasedFakeLightClass
 import org.jetbrains.kotlin.asJava.classes.KtFakeLightClass
@@ -35,7 +35,7 @@ import org.jetbrains.kotlin.resolve.scopes.MemberScope
  * Operates on [KtFile]s as enviroment entities instead of proper modules,
  * see `TModule` type parameter in [org.jetbrains.kotlin.asJava.KotlinAsJavaSupportBase].
  */
-class CliKotlinAsJavaSupport(project: Project, private val traceHolder: CliTraceHolder) : KotlinAsJavaSupportBase<KtFile>(project) {
+class CliKotlinAsJavaSupport(project: Project, private val traceHolder: CliTraceHolder) : KotlinAsJavaSupportK1Base<KtFile>(project) {
     override fun findFilesForFacadeByPackage(
         packageFqName: FqName,
         searchScope: GlobalSearchScope

@@ -5,19 +5,19 @@
 
 package org.jetbrains.kotlin.light.classes.symbol
 
+import com.github.benmanes.caffeine.cache.Caffeine
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.ModificationTracker
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.CachedValueProvider
 import com.intellij.util.concurrency.annotations.RequiresReadLock
 import org.jetbrains.kotlin.analysis.api.KaNonPublicApi
 import org.jetbrains.kotlin.analysis.api.platform.KaCachedService
+import org.jetbrains.kotlin.analysis.api.platform.analysisMessageBus
 import org.jetbrains.kotlin.analysis.api.platform.declarations.createDeclarationProvider
-import org.jetbrains.kotlin.analysis.api.platform.modification.createProjectWideLibraryModificationTracker
-import org.jetbrains.kotlin.analysis.api.platform.modification.createProjectWideSourceModificationTracker
+import org.jetbrains.kotlin.analysis.api.platform.modification.*
 import org.jetbrains.kotlin.analysis.api.platform.packages.createPackageProvider
 import org.jetbrains.kotlin.analysis.api.platform.permissions.KaAnalysisPermissionChecker
 import org.jetbrains.kotlin.analysis.api.platform.projectStructure.KotlinProjectStructureProvider
@@ -34,6 +34,7 @@ import org.jetbrains.kotlin.light.classes.symbol.classes.SymbolBasedFakeLightCla
 import org.jetbrains.kotlin.light.classes.symbol.classes.SymbolLightClassForFacade
 import org.jetbrains.kotlin.light.classes.symbol.classes.SymbolLightClassForScript
 import org.jetbrains.kotlin.light.classes.symbol.classes.createSymbolLightClassNoCache
+import org.jetbrains.kotlin.light.classes.symbol.utils.SafeNestedCaffeineCache
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.parentOrNull
@@ -109,8 +110,35 @@ private fun KaModule.isLightClassSupportAvailable(): Boolean {
 }
 
 internal class SymbolKotlinAsJavaSupport(project: Project) : KotlinAsJavaSupportBase<KaModule>(project) {
+
+    init {
+        project.analysisMessageBus.connect(project).subscribe(
+            KotlinModificationEvent.TOPIC,
+            KotlinModificationEventListener { event ->
+                when (event) {
+                    is KotlinModuleStateModificationEvent,
+                    is KotlinModuleOutOfBlockModificationEvent,
+                    KotlinGlobalModuleStateModificationEvent,
+                    KotlinGlobalSourceModuleStateModificationEvent,
+                    KotlinGlobalScriptModuleStateModificationEvent,
+                    KotlinGlobalSourceOutOfBlockModificationEvent,
+                        -> moduleBasedLightClassCache.invalidateAll()
+
+                    is KotlinCodeFragmentContextModificationEvent -> {}
+                }
+            }
+        )
+    }
+
     // ============ LIGHT FACADES ============
     //region Light Facades
+
+    override fun getLightFacade(file: KtFile): KtLightClassForFacade? = ifValid(file) {
+        val kaModule = file.getModuleIfSupportEnabled() ?: return null
+        cacheLightClass(file, kaModule) {
+            createLightFacade(file)
+        }
+    }
 
     override fun createInstanceOfLightFacade(facadeFqName: FqName, files: List<KtFile>): KtLightClassForFacade? {
         val kaModule = files.first().getModuleIfSupportEnabled()
@@ -147,6 +175,13 @@ internal class SymbolKotlinAsJavaSupport(project: Project) : KotlinAsJavaSupport
     // ============ LIGHT SCRIPTS ============
     //region Light Scripts
 
+    override fun getLightClassForScript(script: KtScript): KtLightClass? = ifValid(script) {
+        val kaModule = script.getModuleIfSupportEnabled() ?: return null
+        cacheLightClass(script, kaModule) {
+            createLightScript(script)
+        }
+    }
+
     override fun createInstanceOfLightScript(script: KtScript): KtLightClass? {
         val kaModule = script.getModuleIfSupportEnabled() ?: return null
         return SymbolLightClassForScript(script, kaModule)
@@ -155,6 +190,13 @@ internal class SymbolKotlinAsJavaSupport(project: Project) : KotlinAsJavaSupport
 
     // ============ LIGHT CLASSES ============
     //region Light Classes
+
+    override fun getLightClass(classOrObject: KtClassOrObject): KtLightClass? = ifValid(classOrObject) {
+        val kaModule = classOrObject.getModuleIfSupportEnabled() ?: return null
+        cacheLightClass(classOrObject, kaModule) {
+            createLightClass(classOrObject)
+        }
+    }
 
     override fun getFakeLightClass(classOrObject: KtClassOrObject): KtFakeLightClass = SymbolBasedFakeLightClass(classOrObject)
 
@@ -335,13 +377,41 @@ internal class SymbolKotlinAsJavaSupport(project: Project) : KotlinAsJavaSupport
     // ============ CACHE ============
     //region Cache
 
-    override fun <E : KtElement, R : KtLightClass> cacheLightClass(element: E, provider: CachedValueProvider<R>): R? {
-        return if (isMultiplatformSupportAvailable) {
-            @Suppress("UNCHECKED_CAST")
-            KMP_CACHE.get().computeIfAbsent(element) { provider.compute()?.value } as R?
-        } else {
-            super.cacheLightClass(element, provider)
+    /**
+     * Stores a map [KaModule] -> [KtElement] -> [KtLightClass].
+     *
+     * [KaModule] represents the module which is used as a context for the light class creation.
+     *
+     * The whole cache gets invalidated on every project modification.
+     */
+    private val moduleBasedLightClassCache = SafeNestedCaffeineCache<KaModule, KtElement, KtLightClass>(
+        outerCache =
+            Caffeine.newBuilder()
+                .weakKeys()
+                .build(),
+        innerCacheFactory = {
+            Caffeine.newBuilder()
+                .weakKeys()
+                .softValues()
+                .build()
         }
+    )
+
+    private fun <R : KtLightClass> cacheLightClass(
+        element: KtElement,
+        module: KaModule,
+        provider: () -> R?
+    ): R? {
+        val computedValue = if (isMultiplatformSupportAvailable) {
+            KMP_CACHE.get().computeIfAbsent(element) { provider() }
+        } else {
+            moduleBasedLightClassCache.getOrPut(module, element) { _, _ ->
+                provider()
+            }
+        }
+
+        @Suppress("UNCHECKED_CAST")
+        return computedValue as R?
     }
     //endregion
 }

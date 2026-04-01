@@ -58,6 +58,7 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
         private val equalsAndHashCodeNames = setOf("equals", "hashCode")
         private val javaLangFqName = FqName("java.lang")
         private val cloneableFqName = FqName("Cloneable")
+        private val recordFqName = FqName("Record")
     }
 
     @OptIn(SymbolInternals::class)
@@ -92,7 +93,7 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
             if (supertypeSymbol.isInterface) continue
             if (!isExtendedValueClass) {
                 reporter.reportOn(supertypeEntry.source, FirErrors.VALUE_CLASS_CANNOT_EXTEND_CLASSES)
-            } else if (!supertypeSymbol.fir.isExtendedValueClass(context)) {
+            } else if (!supertypeSymbol.fir.isExtendedValueClass(context) && !supertypeSymbol.classId.isRecordId()) {
                 reporter.reportOn(supertypeEntry.source, FirErrors.VALUE_CLASS_CANNOT_EXTEND_IDENTITY_CLASSES)
             }
         }
@@ -319,4 +320,7 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
     private fun ClassId.isCloneableId(): Boolean =
         relativeClassName == cloneableFqName &&
                 (packageFqName == StandardClassIds.BASE_KOTLIN_PACKAGE || packageFqName == javaLangFqName)
+
+    private fun ClassId.isRecordId(): Boolean =
+        relativeClassName == recordFqName && packageFqName == javaLangFqName
 }

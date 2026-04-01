@@ -21,6 +21,11 @@ import org.jetbrains.kotlin.fir.backend.generators.setParent
 import org.jetbrains.kotlin.fir.backend.utils.createFilesWithBuiltinsSyntheticDeclarationsIfNeeded
 import org.jetbrains.kotlin.fir.backend.utils.unsubstitutedScope
 import org.jetbrains.kotlin.fir.declarations.*
+import org.jetbrains.kotlin.fir.declarations.FirAnonymousInitializer
+import org.jetbrains.kotlin.fir.declarations.FirProperty
+import org.jetbrains.kotlin.fir.declarations.FirRegularClass
+import org.jetbrains.kotlin.fir.declarations.FirTypeAlias
+import org.jetbrains.kotlin.fir.declarations.destructuringDeclarationContainerVariable
 import org.jetbrains.kotlin.fir.declarations.utils.classId
 import org.jetbrains.kotlin.fir.declarations.utils.correspondingValueParameterFromPrimaryConstructor
 import org.jetbrains.kotlin.fir.declarations.utils.isSynthetic
@@ -247,6 +252,9 @@ class Fir2IrConverter(
             }
             if (irClass.isMultiFieldValueClass) {
                 allDeclarations += dataClassMembersGenerator.generateMultiFieldValueClassMembers(klass, irClass)
+            }
+            if (irClass.isExtendedValueClass) {
+                allDeclarations += dataClassMembersGenerator.generateExtendedValueClassMembers(klass, irClass)
             }
             if (irClass.isData) {
                 allDeclarations += dataClassMembersGenerator.generateDataClassMembers(klass, irClass)

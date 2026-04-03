@@ -259,10 +259,12 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
                     )
                 }
 
-                !isExtendedValueClass && parameterTypeRef.coneType.isRecursiveValueClassType(context.session) -> {
-                    reporter.reportOn(
-                        parameterTypeRef.source, FirErrors.VALUE_CLASS_CANNOT_BE_RECURSIVE, valueModifierPrefix,
-                    )
+                // Currently, it is decided to forbid recursive value classes even for EXTENDED ones because they require implementation on non-JVM platforms.
+                // As they can be expressed in Java, the prohibition creates a subtle difference between Java's and Kotlin's recursive unconstructible value classes.
+                // Also, there appears a minor inconsistency between unconstructible value and non-value classes in Kotlin.
+                // Neither of the issues affects any meaningful code.
+                parameterTypeRef.coneType.isRecursiveValueClassType(context.session, checkExtendedValueClasses = true) -> {
+                    reporter.reportOn(parameterTypeRef.source, FirErrors.VALUE_CLASS_CANNOT_BE_RECURSIVE)
                 }
 
                 declaration.multiFieldValueClassRepresentation != null -> {

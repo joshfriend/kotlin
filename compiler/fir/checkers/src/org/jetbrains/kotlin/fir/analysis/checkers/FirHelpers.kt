@@ -53,6 +53,7 @@ import org.jetbrains.kotlin.types.ConstantValueKind
 import org.jetbrains.kotlin.types.TypeApproximatorConfiguration
 import org.jetbrains.kotlin.types.model.KotlinTypeMarker
 import org.jetbrains.kotlin.types.model.TypeCheckerProviderContext
+import org.jetbrains.kotlin.types.model.isNullableType
 import org.jetbrains.kotlin.util.ImplementationStatus
 import org.jetbrains.kotlin.util.OperatorNameConventions
 import org.jetbrains.kotlin.util.getChildren
@@ -128,23 +129,24 @@ fun ConeKotlinType.isValueClass(session: FirSession): Boolean {
     return toRegularClassSymbol(session)?.isInlineOrValue == true
 }
 
-fun ConeKotlinType.isSingleFieldValueClass(session: FirSession): Boolean = with(session.typeContext) {
-    isRecursiveSingleFieldValueClassType(session) || typeConstructor().isInlineClass()
+fun ConeKotlinType.isBasicSingleFieldValueClass(session: FirSession): Boolean = with(session.typeContext) {
+    isRecursiveValueClassType(session, checkExtendedValueClasses = false, checkMultiField = false) || typeConstructor().isInlineClass()
 }
 
-private fun ConeKotlinType.isRecursiveSingleFieldValueClassType(session: FirSession) =
-    isRecursiveValueClassType(hashSetOf(), session, onlyInline = true)
+fun ConeKotlinType.isRecursiveValueClassType(session: FirSession, checkExtendedValueClasses: Boolean, checkMultiField: Boolean = true): Boolean =
+    isRecursiveValueClassType(hashSetOf(), session, checkExtendedValueClasses, checkMultiField)
 
-fun ConeKotlinType.isRecursiveValueClassType(session: FirSession): Boolean =
-    isRecursiveValueClassType(hashSetOf(), session, onlyInline = false)
-
-private fun ConeKotlinType.isRecursiveValueClassType(visited: HashSet<ConeKotlinType>, session: FirSession, onlyInline: Boolean): Boolean {
-    val asRegularClass = this.toRegularClassSymbol(session)?.takeIf { it.isInlineOrValueClass() } ?: return false
+private fun ConeKotlinType.isRecursiveValueClassType(
+    visited: HashSet<ConeKotlinType>, session: FirSession, checkExtendedValueClasses: Boolean, checkMultiField: Boolean
+): Boolean = context(session.typeContext) {
+    val asRegularClass = this.toRegularClassSymbol(session)
+        ?.takeIf { it.isInlineOrValueClass() && (!it.isExtendedValueClass(session) || checkExtendedValueClasses && !isNullableType()) }
+        ?: return false
     val primaryConstructor = asRegularClass.primaryConstructorIfAny(session) ?: return false
 
-    if (primaryConstructor.valueParameterSymbols.size > 1 && onlyInline) return false
+    if (primaryConstructor.valueParameterSymbols.size > 1 && !checkMultiField) return false
     return !visited.add(this) || primaryConstructor.valueParameterSymbols.any {
-        it.resolvedReturnType.isRecursiveValueClassType(visited, session, onlyInline)
+        it.resolvedReturnType.isRecursiveValueClassType(visited, session, checkExtendedValueClasses, checkMultiField)
     }.also { visited.remove(this) }
 }
 

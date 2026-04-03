@@ -512,7 +512,7 @@ class StabilityInferencer(
                     Stability.Stable
                 } else {
                     stabilityOf(
-                        type = getInlineClassUnderlyingType(inlineClassDeclaration),
+                        type = getInlineClassUnderlyingType(inlineClassDeclaration, distinguishBasicAndExtended = true),
                         substitutions = substitutions,
                         currentlyAnalyzing = currentlyAnalyzing,
                         analysisEntryFile

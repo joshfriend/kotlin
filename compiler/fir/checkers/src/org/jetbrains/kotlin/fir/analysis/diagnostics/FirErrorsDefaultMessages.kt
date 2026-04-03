@@ -2427,7 +2427,7 @@ object FirErrorsDefaultMessages : BaseDiagnosticRendererFactory() {
         map.put(VALUE_CLASS_CANNOT_IMPLEMENT_INTERFACE_BY_DELEGATION, "Value class cannot implement an interface by delegation.")
         map.put(VALUE_CLASS_CANNOT_EXTEND_CLASSES, "{0} class cannot extend classes.", STRING)
         map.put(VALUE_CLASS_CANNOT_EXTEND_IDENTITY_CLASSES, "Value class cannot extend identity classes.")
-        map.put(VALUE_CLASS_CANNOT_BE_RECURSIVE, "{0} class cannot be recursive.", STRING)
+        map.put(VALUE_CLASS_CANNOT_BE_RECURSIVE, "Value class cannot be recursive.")
         map.put(
             MULTI_FIELD_VALUE_CLASS_PRIMARY_CONSTRUCTOR_DEFAULT_PARAMETER,
             "Default parameters are not supported in the primary constructor of a multi-field value class."

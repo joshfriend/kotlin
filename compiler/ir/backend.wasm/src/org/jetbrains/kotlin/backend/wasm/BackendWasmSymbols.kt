@@ -50,7 +50,8 @@ class BackendWasmSymbols(
         val isSupportedInterface = CallableIds.isSupportedInterface.functionSymbol()
         val getInterfaceVTable = CallableIds.getInterfaceVTable.functionSymbol()
         val wasmGetInterfaceVTableBodyImpl = CallableIds.wasmGetInterfaceVTableBodyImpl.functionSymbol()
-        val kFunctionImpl: IrClassSymbol = ClassIds.KFunctionImpl.classSymbol()
+        // XXX To be changed after bootstrap.
+        val kFunctionImpl: IrClassSymbol = ClassIds.KFunctionImplNew.classSymbolOrNull() ?: ClassIds.KFunctionImpl.classSymbol()
         val kFunctionErrorImpl: IrClassSymbol = ClassIds.KFunctionErrorImpl.classSymbol()
     }
 
@@ -345,6 +346,8 @@ private object ClassIds {
     val KClassImpl = "KClassImpl".wasmClassId
     val KClassInterfaceImpl = "KClassInterfaceImpl".wasmClassId
     val KFunctionImpl = "KFunctionImpl".wasmClassId
+    // XXX To be removed after bootstrap.
+    val KFunctionImplNew = "KFunctionImplNew".wasmClassId
     val KFunctionErrorImpl = "KFunctionErrorImpl".wasmClassId
     val WasmLongImmutableArray = "WasmLongImmutableArray".wasmClassId
     val FunctionAdapter = "FunctionAdapter".wasmClassId

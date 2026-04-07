@@ -21,6 +21,8 @@ import org.jetbrains.kotlin.compiler.plugin.CommandLineProcessor
 import org.jetbrains.kotlin.compiler.plugin.CompilerPluginRegistrar
 import org.jetbrains.kotlin.compiler.plugin.ComponentRegistrar
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.config.LanguageFeature
+import org.jetbrains.kotlin.config.languageVersionSettings
 import org.jetbrains.kotlin.config.perfManager
 import org.jetbrains.kotlin.config.phaser.Action
 import org.jetbrains.kotlin.metadata.deserialization.BinaryVersion
@@ -82,8 +84,8 @@ abstract class AbstractConfigurationPhase<A : CommonCompilerArguments>(
         val arguments = input.arguments
         val pluginClasspaths = arguments.pluginClasspaths.orEmpty().toMutableList()
         val pluginOptions = arguments.pluginOptions.orEmpty().toMutableList()
-        val pluginConfigurations = arguments.pluginConfigurations?.asList().orEmpty()
-        val pluginOrderConstraints = arguments.pluginOrderConstraints?.asList().orEmpty()
+        val pluginConfigurations = arguments.pluginConfigurations.asList().orEmpty().toMutableList()
+        val pluginOrderConstraints = arguments.pluginOrderConstraints.asList().orEmpty()
 
         if (!checkPluginsArguments(configuration, useK2 = true, pluginClasspaths, pluginOptions, pluginConfigurations)) {
             return
@@ -119,6 +121,17 @@ abstract class AbstractConfigurationPhase<A : CommonCompilerArguments>(
 
         pluginClasspaths.addAll(scriptingPluginClasspath)
         pluginOptions.addAll(scriptingPluginOptions)
+
+        configuration.setupLanguageVersionSettings(arguments)
+
+        if (configuration.languageVersionSettings.supportsFeature(LanguageFeature.JavaDirect)) {
+            val kotlinPaths = paths ?: PathUtil.kotlinPathsForCompiler
+            val libPath = kotlinPaths.libPath.takeIf { it.exists() && it.isDirectory } ?: File(".")
+            val jarPath = File(libPath, PathUtil.KOTLIN_JAVA_DIRECT_COMPILER_PLUGIN_JAR).takeIf { it.exists() }
+            if (jarPath != null) {
+                pluginConfigurations.add(jarPath.canonicalPath)
+            }
+        }
 
         PluginCliParser.loadPluginsSafe(
             pluginClasspaths,

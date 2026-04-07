@@ -773,6 +773,24 @@ class BodyGenerator(
             return
         }
 
+        if (call.symbol == wasmSymbols.callRef) {
+            val resultType = call.typeArguments[0]!!
+            val callRefArguments = call.arguments.drop(1)
+            val wasmFunctionType = WasmFunctionType(
+                parameterTypes = callRefArguments.map {
+                    wasmModuleTypeTransformer.transformType(it!!.type)
+                },
+                resultTypes = listOfNotNull(wasmModuleTypeTransformer.transformResultType(resultType)),
+            )
+            callRefArguments.forEach { generateExpression(it!!) }
+            val functionTypeReference = typeCodegenContext.referenceWasmFunctionType(wasmFunctionType)
+            generateExpression(call.arguments[0]!!)
+            body.buildInstr(WasmOp.CALL_REF, location, functionTypeReference)
+            if (resultType.isUnit())
+                body.buildGetUnit()
+            return
+        }
+
         if (call.symbol == wasmSymbols.wasmGetRttiIntField || call.symbol == wasmSymbols.wasmGetRttiLongField) {
             val fieldIndex = (call.arguments[0] as? IrConst)?.value as? Int ?: error("Invalid field index")
             generateExpression(call.arguments[1]!!)

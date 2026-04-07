@@ -26,6 +26,7 @@ import org.jetbrains.kotlin.ir.backend.js.ReflectionSymbols
 import org.jetbrains.kotlin.ir.backend.js.lower.JsInnerClassesSupport
 import org.jetbrains.kotlin.ir.declarations.*
 import org.jetbrains.kotlin.ir.declarations.impl.IrExternalPackageFragmentImpl
+import org.jetbrains.kotlin.ir.expressions.IrExpression
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.symbols.IrFileSymbol
 import org.jetbrains.kotlin.ir.symbols.impl.DescriptorlessExternalPackageFragmentSymbol
@@ -81,6 +82,10 @@ class WasmBackendContext(
 
         var objectInstanceFieldInitializer: IrSimpleFunction? = null
         var nonConstantFieldInitializer: IrSimpleFunction? = null
+
+        // Map from STATIC_FUNCTION_REFERENCE fields to their initializer expressions. Used by DCE
+        // to visit initializers when the field is accessed
+        val staticFunctionReferenceInitializers = mutableMapOf<IrField, IrExpression>()
     }
 
     val fileContexts = mutableMapOf<IrFile, CrossFileContext>()

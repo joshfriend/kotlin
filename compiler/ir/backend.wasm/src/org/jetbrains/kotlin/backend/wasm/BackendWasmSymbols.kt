@@ -16,8 +16,10 @@ import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.symbols.IrClassifierSymbol
 import org.jetbrains.kotlin.ir.symbols.IrPropertySymbol
 import org.jetbrains.kotlin.ir.symbols.IrSimpleFunctionSymbol
+import org.jetbrains.kotlin.ir.types.IrSimpleType
 import org.jetbrains.kotlin.ir.types.IrType
 import org.jetbrains.kotlin.ir.types.classOrNull
+import org.jetbrains.kotlin.ir.types.typeWith
 import org.jetbrains.kotlin.ir.util.isNullable
 import org.jetbrains.kotlin.name.*
 import org.jetbrains.kotlin.platform.wasm.WasmTarget
@@ -161,6 +163,7 @@ class BackendWasmSymbols(
     val refIsNull = CallableIds.wasm_ref_is_null.functionSymbol()
     val refTest = CallableIds.wasm_ref_test.functionSymbol()
     val refCastNull = CallableIds.wasm_ref_cast_null.functionSymbol()
+    val callRef = CallableIds.wasm_call_ref.functionSymbol()
     val wasmArrayCopy = CallableIds.wasm_array_copy.functionSymbol()
     val wasmArrayNewData0 = CallableIds.array_new_data0.functionSymbol()
     val wasmArrayNewData = CallableIds.array_new_data.functionSymbol()
@@ -239,6 +242,10 @@ class BackendWasmSymbols(
 
     val wasmStructRefType by ClassIds.structref.defaultType()
     val wasmFuncRefType by ClassIds.funcref.defaultType()
+    val wasmTypedFuncRefClass = ClassIds.typedfuncref.classSymbol()
+
+    fun wasmTypedFuncRefType(functionType: IrType): IrSimpleType =
+        wasmTypedFuncRefClass.typeWith(functionType)
 
     val wasmAnyRefClass = ClassIds.anyref.classSymbol()
 
@@ -386,6 +393,7 @@ private object ClassIds {
     val Appendable = ClassId(StandardClassIds.BASE_TEXT_PACKAGE, Name.identifier("Appendable"))
     val structref = ClassId(WasmStandardClassIds.BASE_WASM_INTERNAL_PACKAGE.child(Name.identifier("reftypes")), Name.identifier("structref"))
     val funcref = ClassId(WasmStandardClassIds.BASE_WASM_INTERNAL_PACKAGE.child(Name.identifier("reftypes")), Name.identifier("funcref"))
+    val typedfuncref = ClassId(WasmStandardClassIds.BASE_WASM_INTERNAL_PACKAGE.child(Name.identifier("reftypes")), Name.identifier("typedfuncref"))
     val anyref = ClassId(WasmStandardClassIds.BASE_WASM_INTERNAL_PACKAGE.child(Name.identifier("reftypes")), Name.identifier("anyref"))
     val WasmExport = ClassId(WasmStandardClassIds.BASE_WASM_PACKAGE, Name.identifier("WasmExport"))
 }
@@ -436,6 +444,7 @@ private object CallableIds {
     val wasm_i32_and = "wasm_i32_and".wasmCallableId
     val wasm_ref_eq = "wasm_ref_eq".wasmCallableId
     val wasm_ref_is_null = "wasm_ref_is_null".wasmCallableId
+    val wasm_call_ref = "wasm_call_ref".wasmCallableId
     val wasm_ref_test = "wasm_ref_test".wasmCallableId
     val wasm_ref_cast_null = "wasm_ref_cast_null".wasmCallableId
     val wasm_array_copy = "wasm_array_copy".wasmCallableId

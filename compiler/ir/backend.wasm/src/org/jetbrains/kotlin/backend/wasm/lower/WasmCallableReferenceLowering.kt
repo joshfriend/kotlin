@@ -427,10 +427,10 @@ class WasmCallableReferenceLowering(val backendContext: WasmBackendContext) : Fi
         val boundInfo = if (boundValueTypes.isNotEmpty()) {
             // Encode the types of bound values to avoid collisions.
             val typeCodes = boundValueTypes.joinToString("") { it.toTypeSignatureCode() }
-            "bound${boundValueTypes.size}_$typeCodes"
+            "_bound${boundValueTypes.size}_$typeCodes"
         } else ""
 
-        return "${prefix}${suspendPrefix}Function${arity}${superClassSuffix}_${boundInfo}"
+        return "${prefix}${suspendPrefix}Function${arity}${superClassSuffix}${boundInfo}"
     }
 
     private fun createOrGetFunctionReferenceClass(functionReference: IrRichFunctionReference, irFile: IrFile): IrClass {

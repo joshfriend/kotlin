@@ -7,6 +7,7 @@ package org.jetbrains.kotlin.backend.wasm.dce
 
 import org.jetbrains.kotlin.backend.wasm.WasmBackendContext
 import org.jetbrains.kotlin.backend.wasm.ir2wasm.*
+import org.jetbrains.kotlin.backend.wasm.lower.WasmCallableReferenceLowering.Companion.STATIC_FUNCTION_REFERENCE
 import org.jetbrains.kotlin.backend.wasm.utils.*
 import org.jetbrains.kotlin.ir.backend.js.dce.UsefulDeclarationProcessor
 import org.jetbrains.kotlin.ir.backend.js.objectGetInstanceFunction
@@ -64,6 +65,11 @@ internal class WasmUsefulDeclarationProcessor(
 
             if (field.isObjectInstanceField()) {
                 field.type.classOrFail.owner.primaryConstructor?.enqueue(field, "object lazy initialization")
+            }
+
+            if (field.origin == STATIC_FUNCTION_REFERENCE) {
+                val initializer = context.fileContexts.getValue(field.file).staticFunctionReferenceInitializers[field]
+                initializer?.accept(this, data)
             }
 
             super.visitGetField(expression, data)

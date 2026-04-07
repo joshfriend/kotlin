@@ -49,6 +49,7 @@ class WasmCompiledLinkerDataFileFragment(
     val mainFunctionWrappers: MutableList<MainFunctionWrapper> = mutableListOf(),
     var testFunctionDeclarators: MutableList<IdSignature> = mutableListOf(),
     val equivalentFunctions: MutableList<Pair<String, IdSignature>> = mutableListOf(),
+    val equivalentTypes: MutableList<Pair<String, IdSignature>> = mutableListOf(),
     val jsModuleAndQualifierReferences: MutableSet<JsModuleAndQualifierReference> = mutableSetOf(),
     val classAssociatedObjectsInstanceGetters: MutableList<ClassAssociatedObjects> = mutableListOf(),
     val objectInstanceFieldInitializers: MutableList<IdSignature> = mutableListOf(),

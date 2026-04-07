@@ -79,6 +79,10 @@ open class WasmLinkerDataCodegenContext(
         wasmFileFragment.equivalentFunctions.add(key to function.getReferenceKey())
     }
 
+    open fun addEquivalentType(key: String, klass: IrClassSymbol) {
+        wasmFileFragment.equivalentTypes.add(key to klass.getReferenceKey())
+    }
+
     open fun addClassAssociatedObjects(klass: IrClassSymbol, associatedObjectsGetters: List<AssociatedObjectBySymbols>) {
         val classAssociatedObjects = ClassAssociatedObjects(
             referenceTypeId(klass),

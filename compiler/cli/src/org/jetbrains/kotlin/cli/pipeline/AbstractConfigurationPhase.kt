@@ -12,6 +12,7 @@ import org.jetbrains.kotlin.cli.common.CLICompiler.Companion.SCRIPT_PLUGIN_COMMA
 import org.jetbrains.kotlin.cli.common.CLICompiler.Companion.SCRIPT_PLUGIN_K2_REGISTRAR_NAME
 import org.jetbrains.kotlin.cli.common.CLICompiler.Companion.SCRIPT_PLUGIN_REGISTRAR_NAME
 import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
+import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.cli.jvm.plugins.PluginCliParser
 import org.jetbrains.kotlin.cli.plugins.extractPluginClasspathAndOptions
 import org.jetbrains.kotlin.cli.plugins.processCompilerPluginsOptions
@@ -122,9 +123,7 @@ abstract class AbstractConfigurationPhase<A : CommonCompilerArguments>(
         pluginClasspaths.addAll(scriptingPluginClasspath)
         pluginOptions.addAll(scriptingPluginOptions)
 
-        configuration.setupLanguageVersionSettings(arguments)
-
-        if (configuration.languageVersionSettings.supportsFeature(LanguageFeature.JavaDirect)) {
+        if (configuration.languageVersionSettings.supportsFeature(LanguageFeature.JavaDirect) || (arguments as? K2JVMCompilerArguments)?.javaDirect == true) {
             val kotlinPaths = paths ?: PathUtil.kotlinPathsForCompiler
             val libPath = kotlinPaths.libPath.takeIf { it.exists() && it.isDirectory } ?: File(".")
             val jarPath = File(libPath, PathUtil.KOTLIN_JAVA_DIRECT_COMPILER_PLUGIN_JAR).takeIf { it.exists() }

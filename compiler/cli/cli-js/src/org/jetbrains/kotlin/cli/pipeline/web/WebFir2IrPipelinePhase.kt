@@ -31,6 +31,7 @@ import org.jetbrains.kotlin.ir.backend.js.checkers.JsKlibCheckers
 import org.jetbrains.kotlin.ir.backend.js.getSerializedData
 import org.jetbrains.kotlin.ir.backend.js.lower.serialization.ir.JsManglerIr
 import org.jetbrains.kotlin.ir.backend.js.lower.serialization.ir.collectJsExportNames
+import org.jetbrains.kotlin.ir.backend.js.wasm.WasmKlibCheckers
 import org.jetbrains.kotlin.ir.types.IrTypeSystemContextImpl
 import org.jetbrains.kotlin.ir.visitors.acceptVoid
 import org.jetbrains.kotlin.js.config.incrementalDataProvider
@@ -39,19 +40,19 @@ import org.jetbrains.kotlin.library.isJsStdlib
 import org.jetbrains.kotlin.library.isWasmStdlib
 import org.jetbrains.kotlin.storage.LockBasedStorageManager
 
-object WebFir2IrPipelinePhase : PipelinePhase<WebFrontendPipelineArtifact, JsFir2IrPipelineArtifact>(
-    name = "JsFir2IrPipelinePhase",
+object WebFir2IrPipelinePhase : PipelinePhase<WebFrontendPipelineArtifact, WebFir2IrPipelineArtifact>(
+    name = "WebFir2IrPipelinePhase",
     preActions = setOf(PerformanceNotifications.TranslationToIrStarted),
     postActions = setOf(PerformanceNotifications.TranslationToIrFinished, CheckCompilationErrors.CheckDiagnosticCollector)
 ) {
-    override fun executePhase(input: WebFrontendPipelineArtifact): JsFir2IrPipelineArtifact {
+    override fun executePhase(input: WebFrontendPipelineArtifact): WebFir2IrPipelineArtifact {
         val (firResult, configuration, moduleStructure, hasErrors) = input
         val diagnosticsReporter = configuration.diagnosticsCollector
         val fir2IrActualizedResult = transformFirToIr(moduleStructure, firResult.outputs, diagnosticsReporter)
-        if (!configuration.wasmCompilation)
-            runJsKlibCallCheckers(diagnosticsReporter, configuration, firResult.outputs, fir2IrActualizedResult)
 
-        return JsFir2IrPipelineArtifact(
+        runWebKlibCallCheckers(diagnosticsReporter, configuration, firResult.outputs, fir2IrActualizedResult)
+
+        return WebFir2IrPipelineArtifact(
             fir2IrActualizedResult,
             firResult,
             configuration,
@@ -106,7 +107,7 @@ object WebFir2IrPipelinePhase : PipelinePhase<WebFrontendPipelineArtifact, JsFir
 }
 
 
-private fun runJsKlibCallCheckers(
+private fun runWebKlibCallCheckers(
     diagnosticReporter: BaseDiagnosticsCollector,
     configuration: CompilerConfiguration,
     firOutputs: List<SingleModuleFrontendOutput>,
@@ -114,17 +115,23 @@ private fun runJsKlibCallCheckers(
 ) {
     val irDiagnosticReporter = KtDiagnosticReporterWithImplicitIrBasedContext(diagnosticReporter, configuration.languageVersionSettings)
 
-    val fir2KlibMetadataSerializer = Fir2KlibMetadataSerializer(
-        configuration,
-        firOutputs,
-        fir2IrActualizedResult,
-        produceHeaderKlib = false,
-    )
-    val cleanFiles = configuration.incrementalDataProvider?.getSerializedData(fir2KlibMetadataSerializer.sourceFiles).orEmpty()
-    val cleanFilesIrData = cleanFiles.map { it.irData ?: error("Metadata-only KLIBs are not supported in Kotlin/JS") }
-
     val irModuleFragment = fir2IrActualizedResult.irModuleFragment
-    irModuleFragment.acceptVoid(
+
+    val checker = if (configuration.wasmCompilation) {
+        WasmKlibCheckers.makeChecker(
+            irDiagnosticReporter,
+            configuration,
+        )
+    } else { // JS-specific
+        val fir2KlibMetadataSerializer = Fir2KlibMetadataSerializer(
+            configuration,
+            firOutputs,
+            fir2IrActualizedResult,
+            produceHeaderKlib = false,
+        )
+        val cleanFiles = configuration.incrementalDataProvider?.getSerializedData(fir2KlibMetadataSerializer.sourceFiles).orEmpty()
+        val cleanFilesIrData = cleanFiles.map { it.irData ?: error("Metadata-only KLIBs are not supported in Kotlin/JS") }
+
         JsKlibCheckers.makeChecker(
             irDiagnosticReporter,
             configuration,
@@ -133,5 +140,7 @@ private fun runJsKlibCallCheckers(
             cleanFiles = cleanFilesIrData,
             exportedNames = irModuleFragment.collectJsExportNames(),
         )
-    )
+    }
+
+    irModuleFragment.acceptVoid(checker)
 }

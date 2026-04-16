@@ -6,6 +6,10 @@
 package org.jetbrains.kotlin.wasm.test
 
 import org.jetbrains.kotlin.config.LanguageFeature
+import org.jetbrains.kotlin.js.test.converters.Fir2IrCliWebFacade
+import org.jetbrains.kotlin.js.test.converters.FirCliWebFacade
+import org.jetbrains.kotlin.js.test.converters.FirKlibSerializerCliJsFacade
+import org.jetbrains.kotlin.js.test.converters.FirKlibSerializerCliWasmFacade
 import org.jetbrains.kotlin.platform.TargetPlatform
 import org.jetbrains.kotlin.platform.wasm.WasmPlatforms
 import org.jetbrains.kotlin.platform.wasm.WasmTarget
@@ -17,7 +21,6 @@ import org.jetbrains.kotlin.test.backend.ir.IrBackendInput
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
 import org.jetbrains.kotlin.test.builders.configureFirHandlersStep
 import org.jetbrains.kotlin.test.builders.firHandlersStep
-import org.jetbrains.kotlin.test.builders.wasmArtifactsHandlersStep
 import org.jetbrains.kotlin.test.configuration.commonFirHandlersForCodegenTest
 import org.jetbrains.kotlin.test.directives.CodegenTestDirectives.IGNORE_BACKEND_K2_MULTI_MODULE
 import org.jetbrains.kotlin.test.directives.DiagnosticsDirectives
@@ -27,8 +30,6 @@ import org.jetbrains.kotlin.test.directives.LanguageSettingsDirectives
 import org.jetbrains.kotlin.test.directives.LanguageSettingsDirectives.LANGUAGE
 import org.jetbrains.kotlin.test.directives.WasmEnvironmentConfigurationDirectives
 import org.jetbrains.kotlin.test.directives.model.ValueDirective
-import org.jetbrains.kotlin.test.frontend.fir.Fir2IrResultsConverter
-import org.jetbrains.kotlin.test.frontend.fir.FirFrontendFacade
 import org.jetbrains.kotlin.test.frontend.fir.FirMetaInfoDiffSuppressor
 import org.jetbrains.kotlin.test.frontend.fir.FirOutputArtifact
 import org.jetbrains.kotlin.test.frontend.fir.handlers.FirCfgConsistencyHandler
@@ -40,7 +41,6 @@ import org.jetbrains.kotlin.test.services.AdditionalSourceProvider
 import org.jetbrains.kotlin.test.services.SplittingModuleTransformerForBoxTests
 import org.jetbrains.kotlin.test.services.SplittingTestConfigurator
 import org.jetbrains.kotlin.test.services.configuration.JsEnvironmentConfigurator
-import org.jetbrains.kotlin.wasm.test.converters.FirWasmKlibSerializerFacade
 import org.jetbrains.kotlin.wasm.test.converters.WasmBackendFacade
 import org.jetbrains.kotlin.wasm.test.handlers.WasiBoxRunner
 import org.jetbrains.kotlin.wasm.test.handlers.WasmBoxRunner
@@ -64,15 +64,6 @@ abstract class AbstractFirWasmTest(
 ) : AbstractWasmBlackBoxCodegenTestBase<FirOutputArtifact, IrBackendInput, BinaryArtifacts.KLib>(
     FrontendKinds.FIR, targetBackend, targetPlatform, pathToTestDir, testGroupOutputDirPrefix
 ) {
-    override val frontendFacade: Constructor<FrontendFacade<FirOutputArtifact>>
-        get() = ::FirFrontendFacade
-
-    override val frontendToBackendConverter: Constructor<Frontend2BackendConverter<FirOutputArtifact, IrBackendInput>>
-        get() = ::Fir2IrResultsConverter
-
-    override val backendFacade: Constructor<BackendFacade<IrBackendInput, BinaryArtifacts.KLib>>
-        get() = ::FirWasmKlibSerializerFacade
-
     override val afterBackendFacade: Constructor<AbstractTestFacade<BinaryArtifacts.KLib, BinaryArtifacts.Wasm>>
         get() = ::WasmBackendFacade
 

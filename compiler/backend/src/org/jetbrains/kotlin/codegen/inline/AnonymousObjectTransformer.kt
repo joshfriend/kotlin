@@ -339,6 +339,7 @@ class AnonymousObjectTransformer(
             }
         val result = MethodInliner(
             sourceNode,
+            transformationInfo.oldClassName,
             parameters,
             inliningContext.subInline(
                 transformationInfo.nameGenerator,

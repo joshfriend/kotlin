@@ -68,7 +68,7 @@ class IrInlineCodegen(
             nodeAndSmap = sourceCompiler.compileInlineFunction(jvmSignature).apply {
                 node.preprocessSuspendMarkers(forInline = true, keepFakeContinuation = false)
             }
-            val result = inlineCall(nodeAndSmap, function.isInlineOnly(), expression)
+            val result = inlineCall(nodeAndSmap, callableMethod.owner.internalName, function.isInlineOnly(), expression)
             leaveTemps()
             codegen.propagateChildReifiedTypeParametersUsages(result.reifiedTypeParametersUsages)
             codegen.markLineNumberAfterInlineIfNeeded(isInsideIfCondition)
@@ -259,7 +259,12 @@ class IrInlineCodegen(
         return canInlineArgumentsInPlace(sourceCompiler.compileInlineFunction(jvmSignature).node)
     }
 
-    private fun inlineCall(nodeAndSmap: SMAPAndMethodNode, isInlineOnly: Boolean, expression: IrFunctionAccessExpression): InlineResult {
+    private fun inlineCall(
+        nodeAndSmap: SMAPAndMethodNode,
+        inlineFunctionOwnerInternalName: String,
+        isInlineOnly: Boolean,
+        expression: IrFunctionAccessExpression
+    ): InlineResult {
         val node = nodeAndSmap.node
         if (maskStartIndex != -1) {
             val parameters = invocationParamBuilder.buildParameters()
@@ -328,7 +333,12 @@ class IrInlineCodegen(
         val callSite = SourcePosition(lastLineNumber, sourceInfo.sourceFileName!!, sourceInfo.pathOrCleanFQN)
         info.inlineScopesGenerator?.apply { currentCallSiteLineNumber = lastLineNumber }
         val inliner = MethodInliner(
-            node, parameters, info, FieldRemapper(null, null, parameters), sourceCompiler.isCallInsideSameModuleAsCallee,
+            node,
+            inlineFunctionOwnerInternalName,
+            parameters,
+            info,
+            FieldRemapper(null, null, parameters),
+            sourceCompiler.isCallInsideSameModuleAsCallee,
             { "Method inlining " + sourceCompiler.callElementText },
             SourceMapCopier(sourceMapper, nodeAndSmap.classSMAP, callSite),
             info.callSiteInfo,

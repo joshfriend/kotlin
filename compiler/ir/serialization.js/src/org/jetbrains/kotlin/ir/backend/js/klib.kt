@@ -170,11 +170,8 @@ fun loadIrForSingleModule(
         messageCollector = messageLogger,
         builtIns = irBuiltIns,
         symbolTable = symbolTable,
-        partialLinkageSupport = createPartialLinkageSupportForLinker(
-            partialLinkageConfig = configuration.partialLinkageConfig,
-            builtIns = irBuiltIns,
-            diagnosticReporter = irDiagnosticReporter,
-        ),
+        partialLinkageConfig = configuration.partialLinkageConfig,
+        irDiagnosticReporter = irDiagnosticReporter,
         friendModules = friendModules
     )
 
@@ -228,7 +225,7 @@ fun loadIrForSingleModule(
     return IrModuleInfo(
         module = mainFragment,
         dependencies = moduleDependencies,
-        bultins = irBuiltIns,
+        bultins = irLinker.builtIns,
         symbolTable = symbolTable,
         deserializer = irLinker,
     )
@@ -255,11 +252,8 @@ private fun getIrModuleInfoForKlib(
         messageCollector = messageCollector,
         builtIns = irBuiltIns,
         symbolTable = symbolTable,
-        partialLinkageSupport = createPartialLinkageSupportForLinker(
-            partialLinkageConfig = configuration.partialLinkageConfig,
-            builtIns = irBuiltIns,
-            diagnosticReporter = irDiagnosticReporter,
-        ),
+        partialLinkageConfig = configuration.partialLinkageConfig,
+        irDiagnosticReporter = irDiagnosticReporter,
         friendModules = friendModules
     )
 
@@ -278,7 +272,7 @@ private fun getIrModuleInfoForKlib(
     return IrModuleInfo(
         module = moduleDependencies.included!!,
         dependencies = moduleDependencies,
-        bultins = irBuiltIns,
+        bultins = irLinker.builtIns,
         symbolTable = symbolTable,
         deserializer = irLinker,
     )

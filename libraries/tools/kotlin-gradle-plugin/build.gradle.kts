@@ -4,6 +4,7 @@ import gradle.GradlePluginVariant
 import org.gradle.plugin.compatibility.compatibility
 import org.jetbrains.kotlin.build.androidsdkprovisioner.ProvisioningType
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinWithJavaCompilation
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.testFederation.TemporaryTestFederationApi
 import org.jetbrains.kotlin.testFederation.isSmokeTest
@@ -619,6 +620,13 @@ sourceSets.getByName("testFixtures") {
     }
 }
 
+fun KotlinWithJavaCompilation<*, *>.enableKotlinSerializationPlugin() {
+    val version = libs.versions.kotlin.`for`.gradle.plugins.compilation.get()
+    configurations.pluginConfiguration.dependencies.add(
+        dependencies.create("org.jetbrains.kotlin:kotlin-serialization-compiler-plugin-embeddable:${version}")
+    )
+}
+
 // Enforce lowest jvm version to make testFixtures compatible with KGP-IT injections
 val testFixturesCompilation = kotlin.target.compilations.getByName("testFixtures")
 testFixturesCompilation.compileJavaTaskProvider.configure {
@@ -642,9 +650,7 @@ functionalTestCompilation.compileTaskProvider.configure {
     }
 }
 
-functionalTestCompilation.configurations.pluginConfiguration.dependencies.add(
-    dependencies.create("org.jetbrains.kotlin:kotlin-serialization-compiler-plugin-embeddable:${libs.versions.kotlin.`for`.gradle.plugins.compilation.get()}")
-)
+functionalTestCompilation.enableKotlinSerializationPlugin()
 functionalTestCompilation.associateWith(kotlin.target.compilations.getByName(gradlePluginVariantForFunctionalTests.sourceSetName))
 functionalTestCompilation.associateWith(kotlin.target.compilations.getByName("common"))
 functionalTestCompilation.associateWith(testFixturesCompilation)
@@ -750,9 +756,7 @@ tasks.withType<Jar>().configureEach {
 }
 
 kotlin {
-    target.compilations.getByName("common").configurations.pluginConfiguration.dependencies.add(
-        dependencies.create("org.jetbrains.kotlin:kotlin-serialization-compiler-plugin-embeddable:${libs.versions.kotlin.`for`.gradle.plugins.compilation.get()}")
-    )
+    target.compilations.getByName("common").enableKotlinSerializationPlugin()
 }
 
 val generateKgpBuildConstants = registerGenerateKgpBuildConstantsTask {

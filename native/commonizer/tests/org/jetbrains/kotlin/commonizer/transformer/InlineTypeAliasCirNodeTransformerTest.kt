@@ -4,8 +4,10 @@ import org.jetbrains.kotlin.commonizer.DefaultCommonizerSettings
 import org.jetbrains.kotlin.commonizer.LeafCommonizerTarget
 import org.jetbrains.kotlin.commonizer.TargetDependent
 import org.jetbrains.kotlin.commonizer.cir.*
+import org.jetbrains.kotlin.commonizer.core.SupportExpectClassSupplier
 import org.jetbrains.kotlin.commonizer.mapValue
 import org.jetbrains.kotlin.commonizer.mergedtree.*
+import org.jetbrains.kotlin.commonizer.repository.CommonizerSupportLibraryRepository
 import org.jetbrains.kotlin.commonizer.tree.CirTreeRoot
 import org.jetbrains.kotlin.commonizer.tree.mergeCirTree
 import org.jetbrains.kotlin.commonizer.utils.InlineSourceBuilder
@@ -14,6 +16,7 @@ import org.jetbrains.kotlin.commonizer.utils.createCirTree
 import org.jetbrains.kotlin.descriptors.ClassKind
 import org.jetbrains.kotlin.descriptors.Visibilities
 import org.jetbrains.kotlin.storage.LockBasedStorageManager
+import org.jetbrains.kotlin.util.DummyLogger
 
 class InlineTypeAliasCirNodeTransformerTest : KtInlineSourceCommonizerTestCase() {
 
@@ -93,8 +96,11 @@ class InlineTypeAliasCirNodeTransformerTest : KtInlineSourceCommonizerTestCase()
             )
         )
 
-        val mergedTree = mergeCirTree(LockBasedStorageManager.NO_LOCKS, classifiers, roots, DefaultCommonizerSettings)
-        InlineTypeAliasCirNodeTransformer(LockBasedStorageManager.NO_LOCKS, classifiers, DefaultCommonizerSettings).invoke(mergedTree)
+        val logger = DummyLogger
+        val repository = CommonizerSupportLibraryRepository(logger)
+        val supportExpectClassSupplier = SupportExpectClassSupplier(roots.targets, repository)
+        val mergedTree = mergeCirTree(LockBasedStorageManager.NO_LOCKS, classifiers, roots, DefaultCommonizerSettings, supportExpectClassSupplier)
+        InlineTypeAliasCirNodeTransformer(LockBasedStorageManager.NO_LOCKS, classifiers, DefaultCommonizerSettings, supportExpectClassSupplier).invoke(mergedTree)
 
         val pkg = mergedTree.modules.values.single().packages.getValue(CirPackageName.create("pkg"))
         val xClassNode = kotlin.test.assertNotNull(pkg.classes[CirName.create("X")])
@@ -184,8 +190,11 @@ class InlineTypeAliasCirNodeTransformerTest : KtInlineSourceCommonizerTestCase()
             commonDependencies = CirProvidedClassifiers.EMPTY
         )
 
-        val mergedTree = mergeCirTree(LockBasedStorageManager.NO_LOCKS, classifiers, roots, DefaultCommonizerSettings)
-        InlineTypeAliasCirNodeTransformer(LockBasedStorageManager.NO_LOCKS, classifiers, DefaultCommonizerSettings).invoke(mergedTree)
+        val logger = DummyLogger
+        val repository = CommonizerSupportLibraryRepository(logger)
+        val supportExpectClassSupplier = SupportExpectClassSupplier(roots.targets, repository)
+        val mergedTree = mergeCirTree(LockBasedStorageManager.NO_LOCKS, classifiers, roots, DefaultCommonizerSettings, supportExpectClassSupplier)
+        InlineTypeAliasCirNodeTransformer(LockBasedStorageManager.NO_LOCKS, classifiers, DefaultCommonizerSettings, supportExpectClassSupplier).invoke(mergedTree)
 
         val pkg = mergedTree.modules.values.single().packages.getValue(CirPackageName.create("pkg"))
         val xClassNode = kotlin.test.assertNotNull(pkg.classes[CirName.create("X")])

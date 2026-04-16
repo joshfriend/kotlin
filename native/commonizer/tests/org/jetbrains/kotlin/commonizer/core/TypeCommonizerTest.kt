@@ -11,9 +11,11 @@ import org.jetbrains.kotlin.commonizer.mergedtree.CirClassifierIndex
 import org.jetbrains.kotlin.commonizer.mergedtree.CirCommonizedClassifierNodes
 import org.jetbrains.kotlin.commonizer.mergedtree.CirKnownClassifiers
 import org.jetbrains.kotlin.commonizer.mergedtree.CirProvidedClassifiers
+import org.jetbrains.kotlin.commonizer.repository.CommonizerSupportLibraryRepository
 import org.jetbrains.kotlin.commonizer.tree.mergeCirTree
 import org.jetbrains.kotlin.commonizer.utils.*
 import org.jetbrains.kotlin.storage.LockBasedStorageManager
+import org.jetbrains.kotlin.util.DummyLogger
 
 class TypeCommonizerTest : AbstractInlineSourcesCommonizationTest() {
 
@@ -98,16 +100,19 @@ class TypeCommonizerTest : AbstractInlineSourcesCommonizationTest() {
             LeafCommonizerTarget("c") to targetCRoot
         )
 
+        val repository = CommonizerSupportLibraryRepository(DummyLogger)
+        val supportExpectClassSupplier = SupportExpectClassSupplier(roots.targets, repository)
+
         val classifiers = CirKnownClassifiers(
             classifierIndices = roots.mapValue(::CirClassifierIndex),
             targetDependencies = targetDependencies,
             commonizedNodes = CirCommonizedClassifierNodes.default(),
             commonDependencies = commonDependencies
         ).also { classifiers ->
-            mergeCirTree(LockBasedStorageManager.NO_LOCKS, classifiers, roots, settings = DefaultCommonizerSettings)
+            mergeCirTree(LockBasedStorageManager.NO_LOCKS, classifiers, roots, settings = DefaultCommonizerSettings, supportExpectClassSupplier)
         }
 
-        return TypeCommonizer(classifiers, DefaultCommonizerSettings)
+        return TypeCommonizer(classifiers, DefaultCommonizerSettings, supportExpectClassSupplier = supportExpectClassSupplier)
     }
 
 
@@ -620,8 +625,12 @@ class TypeCommonizerTest : AbstractInlineSourcesCommonizationTest() {
 
 
     companion object {
-        fun areEqual(classifiers: CirKnownClassifiers, a: CirType, b: CirType): Boolean =
-            TypeCommonizer(classifiers, DefaultCommonizerSettings).invoke(listOf(a, b)) != null
+        fun areEqual(classifiers: CirKnownClassifiers, a: CirType, b: CirType): Boolean {
+            val repository = CommonizerSupportLibraryRepository(DummyLogger)
+            val supportExpectClassSupplier = SupportExpectClassSupplier(emptyList(), repository)
+
+            return TypeCommonizer(classifiers, DefaultCommonizerSettings, supportExpectClassSupplier = supportExpectClassSupplier).invoke(listOf(a, b)) != null
+        }
     }
 }
 

@@ -1240,6 +1240,7 @@ class BodyGenerator(
 
             wasmSymbols.coroutinesStackSwitchingIntrinsics?.suspendIntrinsic -> {
                 body.buildSuspend(contTagId, location)
+                body.buildDrop(location)
             }
 
             wasmSymbols.coroutinesStackSwitchingIntrinsics?.resumeThrowIntrinsic -> {
@@ -1259,7 +1260,6 @@ class BodyGenerator(
                     body.buildGetLocal(wasmContinuation, location)
                     val contHandle = body.createNewContHandle(contTagId, idx)
                     body.buildResumeThrow(zeroArgContType, exceptionTagId, contHandle, location)
-                    body.buildCall(declarationCodegenContext.referenceFunction(wasmSymbols.coroutinesStackSwitchingIntrinsics.buildResumeIntrinsicValueResult), location)
                     body.buildInstr(WasmOp.RETURN, location)
                 }
                 body.buildCall(declarationCodegenContext.referenceFunction(wasmSymbols.coroutinesStackSwitchingIntrinsics.buildResumeIntrinsicSuspendResult), location)
@@ -1283,7 +1283,6 @@ class BodyGenerator(
                     body.buildGetLocal(wasmContinuation, location)
                     val contHandle = body.createNewContHandle(contTagId, idx)
                     body.buildResume(zeroArgContType, contHandle, location)
-                    body.buildCall(declarationCodegenContext.referenceFunction(wasmSymbols.coroutinesStackSwitchingIntrinsics.buildResumeIntrinsicValueResult), location)
                     body.buildInstr(WasmOp.RETURN, location)
                 }
                 body.buildCall(declarationCodegenContext.referenceFunction(wasmSymbols.coroutinesStackSwitchingIntrinsics.buildResumeIntrinsicSuspendResult), location)

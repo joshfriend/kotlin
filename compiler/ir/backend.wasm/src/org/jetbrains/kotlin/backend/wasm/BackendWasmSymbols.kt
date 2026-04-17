@@ -229,7 +229,6 @@ class BackendWasmSymbols(
         val resumeThrowIntrinsic = CallableIds.resumeThrowIntrinsic.functionSymbol()
         val resumeWithIntrinsic = CallableIds.resumeWithIntrinsic.functionSymbol()
         val buildResumeIntrinsicSuspendResult = CallableIds.buildResumeIntrinsicSuspendResult.functionSymbol()
-        val buildResumeIntrinsicValueResult = CallableIds.buildResumeIntrinsicValueResult.functionSymbol()
         val resumeWasmContinuationAndReturnResult = CallableIds.resumeWasmContinuationAndReturnResult.functionSymbol()
         val coroutineImpl = "CoroutineImplStackSwitching".coroutinesClassId
 
@@ -538,7 +537,6 @@ private object CallableIds {
     val resumeThrowIntrinsic = "resumeThrowIntrinsic".wasmCallableId
     val resumeWithIntrinsic = "resumeWithIntrinsic".wasmCallableId
     val buildResumeIntrinsicSuspendResult = "buildResumeIntrinsicSuspendResult".wasmCallableId
-    val buildResumeIntrinsicValueResult = "buildResumeIntrinsicValueResult".wasmCallableId
     val resumeWasmContinuationAndReturnResult = "resumeWasmContinuationAndReturnResult".wasmCallableId
 
     val kotlinToJsStringAdapter = "kotlinToJsStringAdapter".wasmCallableId

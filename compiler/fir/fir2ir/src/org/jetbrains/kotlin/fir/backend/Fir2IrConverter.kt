@@ -250,7 +250,7 @@ class Fir2IrConverter(
             if (irClass.isSingleFieldValueClass(distinguishBasicAndExtended = true)) {
                 allDeclarations += dataClassMembersGenerator.generateSingleFieldValueClassMembers(klass, irClass)
             }
-            if (irClass.isMultiFieldValueClass) {
+            if (irClass.isJvmInlineMultiFieldValueClass) {
                 allDeclarations += dataClassMembersGenerator.generateMultiFieldValueClassMembers(klass, irClass)
             }
             if (irClass.isExtendedValueClass && irClass.modality != Modality.ABSTRACT && irClass.modality != Modality.SEALED) {

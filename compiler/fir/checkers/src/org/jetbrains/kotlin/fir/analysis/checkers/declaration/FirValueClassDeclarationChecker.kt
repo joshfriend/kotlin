@@ -267,7 +267,7 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
                     reporter.reportOn(parameterTypeRef.source, FirErrors.VALUE_CLASS_CANNOT_BE_RECURSIVE)
                 }
 
-                declaration.multiFieldValueClassRepresentation != null -> {
+                declaration.jvmInlineMultiFieldValueClassRepresentation != null -> {
                     val defaultValue = primaryConstructorParameter.resolvedDefaultValue
                     if (defaultValue != null) {
                         // TODO, KT-50113: Fix when inline arguments are supported.

@@ -274,7 +274,7 @@ internal class JvmInlineMultiFieldValueClassLowering(context: JvmBackendContext)
     override val replacements
         get() = context.multiFieldValueClassReplacements
 
-    override fun IrClass.isSpecificLoweringLogicApplicable(): Boolean = isMultiFieldValueClass
+    override fun IrClass.isSpecificLoweringLogicApplicable(): Boolean = isJvmInlineMultiFieldValueClass
 
     override val specificMangle: SpecificMangle
         get() = SpecificMangle.MultiField
@@ -543,7 +543,7 @@ internal class JvmInlineMultiFieldValueClassLowering(context: JvmBackendContext)
             parameters = source.dispatchReceiverParameter!!
                 .let { it.copyTo(this, type = it.type.substitute(substitutionMap)) } // source!!!
                 .let(::listOf)
-            if ((source.parent as? IrClass)?.isMultiFieldValueClass == true) {
+            if ((source.parent as? IrClass)?.isJvmInlineMultiFieldValueClass == true) {
                 require(replacement.dispatchReceiverParameter == null) {
                     """
                         Ambiguous receivers:
@@ -832,7 +832,7 @@ internal class JvmInlineMultiFieldValueClassLowering(context: JvmBackendContext)
         val currentScope = currentScope!!.irElement as IrDeclaration
         val replacement = replacements.getReplacementFunction(function)
         return when {
-            function is IrConstructor && function.isPrimary && function.constructedClass.isMultiFieldValueClass &&
+            function is IrConstructor && function.isPrimary && function.constructedClass.isJvmInlineMultiFieldValueClass &&
                     currentScope.origin != JvmLoweredDeclarationOrigin.SYNTHETIC_MULTI_FIELD_VALUE_CLASS_MEMBER -> {
                 context.createJvmIrBuilder(currentScope.symbol, expression).irBlock {
                     val rootNode = replacements.getRootMfvcNode(function.constructedClass)
@@ -1099,7 +1099,7 @@ internal class JvmInlineMultiFieldValueClassLowering(context: JvmBackendContext)
     // so it is enough to check for eqeq.
     private val IrCall.isSpecializedMFVCEqEq: Boolean
         get() = symbol == context.irBuiltIns.eqeqSymbol &&
-                arguments.any { it!!.type.erasedUpperBound.isMultiFieldValueClass }
+                arguments.any { it!!.type.erasedUpperBound.isJvmInlineMultiFieldValueClass }
 
     override fun visitGetField(expression: IrGetField): IrExpression {
         expression.receiver = expression.receiver?.transform(this, null)
@@ -1228,7 +1228,7 @@ internal class JvmInlineMultiFieldValueClassLowering(context: JvmBackendContext)
         }
         if (expression is IrConstructorCall) {
             val constructor = expression.symbol.owner
-            if (constructor.isPrimary && constructor.constructedClass.isMultiFieldValueClass &&
+            if (constructor.isPrimary && constructor.constructedClass.isJvmInlineMultiFieldValueClass &&
                 constructor.origin != JvmLoweredDeclarationOrigin.STATIC_MULTI_FIELD_VALUE_CLASS_CONSTRUCTOR
             ) {
                 val oldArguments = expression.arguments.map {

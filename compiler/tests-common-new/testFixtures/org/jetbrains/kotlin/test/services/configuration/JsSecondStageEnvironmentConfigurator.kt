@@ -6,10 +6,12 @@
 package org.jetbrains.kotlin.test.services.configuration
 
 import org.jetbrains.kotlin.backend.common.linkage.partial.setupPartialLinkageConfig
+import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.PartialLinkageConfig
 import org.jetbrains.kotlin.config.PartialLinkageLogLevel
 import org.jetbrains.kotlin.ir.backend.js.MainModule
+import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.TranslationMode
 import org.jetbrains.kotlin.js.config.*
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.platform.isJs
@@ -29,6 +31,44 @@ import java.io.File
 open class JsSecondStageEnvironmentConfigurator(testServices: TestServices) : JsEnvironmentConfigurator(testServices) {
     override val compilationStage: CompilationStage
         get() = CompilationStage.SECOND
+
+    companion object {
+        fun getArtifactConfigurations(
+            testServices: TestServices,
+            module: TestModule,
+            configuration: CompilerConfiguration,
+            firstTimeCompilation: Boolean,
+        ): List<WebArtifactConfiguration> {
+            val moduleKind = configuration.moduleKind ?: error("Missing module kind")
+            val translationModes = if (incrementalEnabled(testServices)) {
+                listOf(TranslationMode.FULL_DEV, TranslationMode.PER_MODULE_DEV)
+            } else {
+                getTranslationModesForTest(testServices, module)
+            }
+            return translationModes.map { mode ->
+                val outputFile = File(
+                    getJsModuleArtifactPath(testServices, module.name, mode, firstTimeCompilation)
+                        .finalizePath(moduleKind)
+                )
+                val rootDir = outputFile.parentFile
+
+                // CompilationOutputs keeps the `outputDir` clean by removing all outdated JS and other unknown files.
+                // To ensure that useful files around `outputFile`, such as irdump, are not removed, use `tmpBuildDir` instead.
+                val tmpBuildDir = rootDir.resolve("tmp-build")
+
+                WebArtifactConfiguration(
+                    moduleName = configuration.getNotNull(CommonConfigurationKeys.MODULE_NAME),
+                    moduleKind = moduleKind,
+                    outputDirectory = tmpBuildDir,
+                    outputName = outputFile.nameWithoutExtension,
+                    granularity = mode.granularity,
+                    tsCompilationStrategy = TsCompilationStrategy.NONE, // TS generation is handled separately in JsIrLoweringFacade
+                    production = mode.production,
+                    minimizedMemberNames = mode.minimizedMemberNames,
+                )
+            }
+        }
+    }
 
     override fun DirectiveToConfigurationKeyExtractor.provideConfigurationKeys() {
         register(PROPERTY_LAZY_INITIALIZATION, JSConfigurationKeys.PROPERTY_LAZY_INITIALIZATION)
@@ -75,5 +115,6 @@ open class JsSecondStageEnvironmentConfigurator(testServices: TestServices) : Js
 
         val testPackage = extractTestPackage(testServices, ignoreEsModules = false)
         configuration.additionalExportedDeclarationNames = setOf(testPackage.child(Name.identifier("box")))
+        configuration.artifactConfigurations = getArtifactConfigurations(testServices, module, configuration, firstTimeCompilation = true)
     }
 }

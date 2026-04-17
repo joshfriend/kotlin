@@ -7,19 +7,20 @@ package org.jetbrains.kotlin.js.test.converters
 
 import org.jetbrains.kotlin.cli.pipeline.web.JsLoweredIrPipelineArtifact
 import org.jetbrains.kotlin.cli.pipeline.web.WebLoadedIrPipelineArtifact
+import org.jetbrains.kotlin.cli.pipeline.web.js.JsCodegenPipelinePhase
 import org.jetbrains.kotlin.cli.pipeline.web.js.JsIrLoweringPipelinePhase
 import org.jetbrains.kotlin.config.CommonConfigurationKeys
-import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.ir.backend.js.SourceMapsInfo
 import org.jetbrains.kotlin.ir.backend.js.ic.JsExecutableProducer
 import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.CompilationOutputs
 import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.CompilerResult
-import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.IrModuleToJsTransformer
 import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.TranslationMode
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.js.backend.ast.ESM_EXTENSION
 import org.jetbrains.kotlin.js.backend.ast.REGULAR_EXTENSION
-import org.jetbrains.kotlin.js.config.*
+import org.jetbrains.kotlin.js.config.JSConfigurationKeys
+import org.jetbrains.kotlin.js.config.ModuleKind
+import org.jetbrains.kotlin.js.config.artifactConfigurations
 import org.jetbrains.kotlin.js.test.tools.SwcRunner
 import org.jetbrains.kotlin.js.test.utils.jsIrIncrementalDataProvider
 import org.jetbrains.kotlin.js.test.utils.wrapWithModuleEmulationMarkers
@@ -73,9 +74,9 @@ class JsIrLoweringFacade(
             )
 
             val compiledModule = CompilerResult(
-                outputs = listOf(TranslationMode.FULL_DEV, TranslationMode.PER_MODULE_DEV).associateWith { mode ->
+                configuration.artifactConfigurations.map {
                     val jsExecutableProducer = JsExecutableProducer(
-                        artifactConfiguration = createArtifactConfiguration(configuration, mode, module),
+                        artifactConfiguration = it,
                         sourceMapsInfo = SourceMapsInfo.from(configuration),
                         caches = testServices.jsIrIncrementalDataProvider.getCaches(),
                     )
@@ -98,54 +99,19 @@ class JsIrLoweringFacade(
         return loweredIr2JsArtifact(module, loweredIr)
     }
 
-    private fun createArtifactConfiguration(
-        configuration: CompilerConfiguration,
-        mode: TranslationMode,
-        module: TestModule,
-    ): WebArtifactConfiguration {
-        val outputFile = File(
-            JsEnvironmentConfigurator.getJsModuleArtifactPath(testServices, module.name, mode, firstTimeCompilation)
-                .finalizePath(JsEnvironmentConfigurator.getModuleKind(testServices, module))
-        )
-        val rootDir = outputFile.parentFile
-
-        // CompilationOutputs keeps the `outputDir` clean by removing all outdated JS and other unknown files.
-        // To ensure that useful files around `outputFile`, such as irdump, are not removed, use `tmpBuildDir` instead.
-        val tmpBuildDir = rootDir.resolve("tmp-build")
-
-        return WebArtifactConfiguration(
-            moduleName = configuration.getNotNull(CommonConfigurationKeys.MODULE_NAME),
-            moduleKind = configuration.moduleKind ?: ModuleKind.PLAIN,
-            outputDirectory = tmpBuildDir,
-            outputName = outputFile.nameWithoutExtension,
-            granularity = mode.granularity,
-            tsCompilationStrategy = TsCompilationStrategy.NONE,
-            production = mode.production,
-            minimizedMemberNames = mode.minimizedMemberNames,
-        )
-    }
-
     private fun loweredIr2JsArtifact(
         module: TestModule,
         loweredIr: JsLoweredIrPipelineArtifact,
-    ): BinaryArtifacts.Js {
+    ): BinaryArtifacts.Js? {
         val moduleKind = JsEnvironmentConfigurator.getModuleKind(testServices, module)
 
         val outputFile = File(
             JsEnvironmentConfigurator.getJsModuleArtifactPath(testServices, module.name, TranslationMode.FULL_DEV).finalizePath(moduleKind)
         )
 
-        val transformer = IrModuleToJsTransformer(
-            loweredIr.context,
-        )
-        val artifactConfigurations = JsEnvironmentConfigurator
-            .getTranslationModesForTest(testServices, module)
-            .map {
-                createArtifactConfiguration(loweredIr.configuration, it, module)
-            }
-        val compilationOut =
-            transformer.generateModule(loweredIr.allModules, artifactConfigurations, outJsProgram = true)
-        return BinaryArtifacts.Js.JsIrArtifact(outputFile, compilationOut).dump(module)
+        val output = JsCodegenPipelinePhase.executePhase(loweredIr)
+            ?: return processErrorFromCliPhase(loweredIr.configuration, testServices)
+        return BinaryArtifacts.Js.JsIrArtifact(outputFile, output.result).dump(module)
     }
 
     private fun IrModuleFragment.resolveTestPaths() {

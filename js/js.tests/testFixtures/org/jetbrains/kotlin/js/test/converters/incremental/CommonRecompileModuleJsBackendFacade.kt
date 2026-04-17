@@ -8,6 +8,7 @@ package org.jetbrains.kotlin.js.test.converters.incremental
 import com.intellij.openapi.util.Disposer
 import org.jetbrains.kotlin.cli.common.disposeRootInWriteAction
 import org.jetbrains.kotlin.config.CompilerConfiguration
+import org.jetbrains.kotlin.js.config.artifactConfigurations
 import org.jetbrains.kotlin.js.config.icFilesToLoad
 import org.jetbrains.kotlin.test.NonGroupingTestRunner
 import org.jetbrains.kotlin.test.TargetBackend
@@ -23,6 +24,7 @@ import org.jetbrains.kotlin.test.model.BinaryArtifacts
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.*
 import org.jetbrains.kotlin.test.services.configuration.JsEnvironmentConfigurator
+import org.jetbrains.kotlin.test.services.configuration.JsSecondStageEnvironmentConfigurator
 import org.jetbrains.kotlin.test.services.impl.TestModuleStructureImpl
 
 abstract class CommonRecompileModuleJsBackendFacade(
@@ -40,6 +42,12 @@ abstract class CommonRecompileModuleJsBackendFacade(
     private class JsIcEnvironmentConfigurator(testServices: TestServices) : EnvironmentConfigurator(testServices) {
         override fun configureCompilerConfiguration(configuration: CompilerConfiguration, module: TestModule) {
             configuration.icFilesToLoad = module.files.map { "/${it.relativePath}" }.toSet()
+            configuration.artifactConfigurations = JsSecondStageEnvironmentConfigurator.getArtifactConfigurations(
+                testServices,
+                module,
+                configuration,
+                firstTimeCompilation = false,
+            )
         }
     }
 

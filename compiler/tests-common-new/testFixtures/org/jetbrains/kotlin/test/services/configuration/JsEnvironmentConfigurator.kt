@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.test.services.configuration
 
+import org.jetbrains.kotlin.cli.common.testEnvironment
 import org.jetbrains.kotlin.codegen.forTestCompile.TestCompilePaths.KOTLIN_JS_KOTLIN_TEST_KLIB_PATH
 import org.jetbrains.kotlin.codegen.forTestCompile.TestCompilePaths.KOTLIN_JS_STDLIB_KLIB_PATH
 import org.jetbrains.kotlin.config.*
@@ -168,6 +169,7 @@ abstract class JsEnvironmentConfigurator(testServices: TestServices) : Environme
     }
 
     override fun configureCompilerConfiguration(configuration: CompilerConfiguration, module: TestModule) {
+        configuration.testEnvironment = true
         configuration.phaseConfig = createJsTestPhaseConfig(testServices, module)
 
         configuration.moduleKind = getModuleKind(testServices, module)

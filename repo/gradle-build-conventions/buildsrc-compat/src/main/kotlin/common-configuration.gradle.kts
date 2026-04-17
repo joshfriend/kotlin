@@ -334,7 +334,6 @@ fun Project.configureTests() {
             ":jps:jps-plugin",
             ":kotlin-annotation-processing",
             ":kotlin-annotation-processing-base",
-            ":kotlin-atomicfu-compiler-plugin",
             ":kotlin-build-common",
             ":kotlin-compiler-client-embeddable",
             ":kotlin-compiler-embeddable",

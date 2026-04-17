@@ -56,6 +56,10 @@ internal open class KotlinJsIrLinkConfig(
             task.compilerOptions.moduleName.set(compilation.outputModuleName)
 
             task._outputFileProperty.convention(binary.mainFile.map { it.asFile })
+
+            if (compilation.platformType == KotlinPlatformType.wasm) {
+                task.sourceMapBaseDir.fileValue(project.rootDir)
+            }
         }
     }
 

@@ -522,7 +522,7 @@ abstract class AbstractKotlinWasmGradlePluginIT : KGPBaseTest() {
                     projectPath.resolve(
                         "build/compileSync/wasmJs/main/productionExecutable/kotlin/redefined-wasm-module-name.wasm.map"
                     ),
-                    "\"../../../../../../src/wasmJsMain/kotlin/foo.kt\"",
+                    "\"src/wasmJsMain/kotlin/foo.kt\"",
                     "\"NATIVE_IMPLEMENTATIONS.kt\"",
                 )
 

@@ -316,10 +316,12 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
         }
     }
 
-    private fun FirRegularClass.isExtendedValueClass(context: CheckerContext): Boolean =
-        context.languageVersionSettings.supportsFeature(LanguageFeature.ValueClasses) &&
-                hasModifier(KtTokens.VALUE_KEYWORD) &&
-                !hasAnnotation(JVM_INLINE_ANNOTATION_CLASS_ID, context.session)
+    private fun FirRegularClass.isExtendedValueClass(context: CheckerContext): Boolean {
+        if (!context.languageVersionSettings.supportsFeature(LanguageFeature.ValueClasses)) return false
+        if (!hasModifier(KtTokens.VALUE_KEYWORD)) return false
+        val jvmInlineAnnotationClassId = context.session.jvmInlineAnnotationClassId
+        return jvmInlineAnnotationClassId == null || !hasAnnotation(jvmInlineAnnotationClassId, context.session)
+    }
 
     private fun FirPropertySymbol.isRelatedToParameter(parameter: FirValueParameterSymbol?) =
         name == parameter?.name && source?.kind is KtFakeSourceElementKind

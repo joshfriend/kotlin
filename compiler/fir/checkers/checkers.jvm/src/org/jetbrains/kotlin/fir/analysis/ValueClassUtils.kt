@@ -7,10 +7,12 @@ package org.jetbrains.kotlin.fir.analysis
 
 import org.jetbrains.kotlin.fir.FirSession
 import org.jetbrains.kotlin.fir.declarations.FirRegularClass
+import org.jetbrains.kotlin.fir.declarations.FirResolvePhase
 import org.jetbrains.kotlin.fir.declarations.isBasicValueClass
 import org.jetbrains.kotlin.fir.declarations.utils.classId
 import org.jetbrains.kotlin.fir.resolve.toRegularClassSymbol
 import org.jetbrains.kotlin.fir.symbols.SymbolInternals
+import org.jetbrains.kotlin.fir.symbols.lazyResolveToPhase
 import org.jetbrains.kotlin.fir.types.FirTypeRef
 import org.jetbrains.kotlin.fir.types.coneType
 import org.jetbrains.kotlin.name.StandardClassIds
@@ -19,6 +21,7 @@ import org.jetbrains.kotlin.name.StandardClassIds
 @OptIn(SymbolInternals::class)
 fun FirTypeRef.isInlineClassThatRequiresMangling(session: FirSession): Boolean {
     val symbol = this.coneType.toRegularClassSymbol(session) ?: return false
+    symbol.lazyResolveToPhase(FirResolvePhase.STATUS)
     return symbol.fir.isInlineClassThatRequiresMangling()
 }
 

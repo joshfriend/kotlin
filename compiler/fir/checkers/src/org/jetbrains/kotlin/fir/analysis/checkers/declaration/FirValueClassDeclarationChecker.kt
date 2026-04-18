@@ -208,13 +208,17 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
             }
         }
 
+        val isJvmInlineMultiFieldEnabled = LanguageFeature.JvmInlineMultiFieldValueClasses.isEnabled()
         if (primaryConstructor?.source?.kind is KtRealSourceElementKind) {
-            if (LanguageFeature.JvmInlineMultiFieldValueClasses.isEnabled() || isExtendedValueClass) {
-                if (primaryConstructorParametersByName.isEmpty() && declaration.isFinal) {
+            if (isJvmInlineMultiFieldEnabled || isExtendedValueClass) {
+                if (primaryConstructorParametersByName.isEmpty() && (!isExtendedValueClass || declaration.isFinal)) {
+                    val valueClassDescription = when {
+                        !supportsExtendedValueClasses -> "Value"
+                        isExtendedValueClass -> "Final value"
+                        else -> "@JvmInline value"
+                    }
                     reporter.reportOn(
-                        primaryConstructor.source,
-                        FirErrors.VALUE_CLASS_EMPTY_CONSTRUCTOR,
-                        if (supportsExtendedValueClasses) "Final value" else "Value"
+                        primaryConstructor.source, FirErrors.VALUE_CLASS_EMPTY_CONSTRUCTOR, valueClassDescription
                     )
                     return
                 }
@@ -223,10 +227,13 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
                 return
             }
         } else if (!isExtendedValueClass || declaration.isFinal) {
+            val valueClassDescription = when {
+                !supportsExtendedValueClasses -> "value"
+                isExtendedValueClass -> "final value"
+                else -> "@JvmInline value"
+            }
             reporter.reportOn(
-                declaration.source,
-                FirErrors.ABSENCE_OF_PRIMARY_CONSTRUCTOR_FOR_VALUE_CLASS,
-                if (supportsExtendedValueClasses) "final value" else "value"
+                declaration.source, FirErrors.ABSENCE_OF_PRIMARY_CONSTRUCTOR_FOR_VALUE_CLASS, valueClassDescription
             )
             return
         }

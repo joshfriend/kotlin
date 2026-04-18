@@ -139,7 +139,7 @@ fun ConeKotlinType.isRecursiveValueClassType(session: FirSession, checkExtendedV
 private fun ConeKotlinType.isRecursiveValueClassType(
     visited: HashSet<ConeKotlinType>, session: FirSession, checkExtendedValueClasses: Boolean, checkMultiField: Boolean
 ): Boolean = context(session.typeContext) {
-    val asRegularClass = this.toRegularClassSymbol(session)
+    val asRegularClass = leastUpperBound(session).toRegularClassSymbol(session)
         ?.takeIf { it.isBasicValueClass(session) || checkExtendedValueClasses && it.isExtendedValueClass(session) && !isNullableType() }
         ?: return false
     val primaryConstructor = asRegularClass.primaryConstructorIfAny(session) ?: return false

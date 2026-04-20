@@ -244,6 +244,8 @@ projectTests {
     withMockJdkAnnotationsJar()
     withMockJdkRuntime()
 
+    withMockJDKModifiedRuntime()
+
     // For test task only, IncrementalK2JVMWithAtomicfuRunnerTestGenerated needs it
     @OptIn(KotlinCompilerDistUsage::class)
     withDist()

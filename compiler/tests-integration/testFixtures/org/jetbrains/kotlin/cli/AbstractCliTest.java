@@ -14,7 +14,6 @@ import kotlin.io.path.PathsKt;
 import kotlin.text.Charsets;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.kotlin.checkers.ThirdPartyAnnotationPathsKt;
 import org.jetbrains.kotlin.cli.common.CLICompiler;
 import org.jetbrains.kotlin.cli.common.CompilerSystemProperties;
 import org.jetbrains.kotlin.cli.common.ExitCode;
@@ -28,7 +27,6 @@ import org.jetbrains.kotlin.test.*;
 import org.jetbrains.kotlin.test.util.KtTestUtil;
 import org.jetbrains.kotlin.util.PerformanceManager;
 import org.jetbrains.kotlin.utils.ExceptionUtilsKt;
-import org.jetbrains.kotlin.utils.PathUtil;
 import org.jetbrains.kotlin.utils.StringsKt;
 import org.junit.Assert;
 
@@ -306,24 +304,24 @@ public abstract class AbstractCliTest extends TestCaseWithTmpdir {
                 .replace("$STDLIB_COMMON_PATH$", ForTestCompileRuntime.stdlibCommonForTests().getAbsolutePath())
                 .replace(
                         "$FOREIGN_ANNOTATIONS_DIR$",
-                        new File(ThirdPartyAnnotationPathsKt.FOREIGN_ANNOTATIONS_SOURCES_PATH).getPath()
+                        ForTestCompileRuntime.thirdPartyAnnotations().getAbsolutePath()
                 )
                 .replace(
                         "$JSR_305_DECLARATIONS$",
-                        new File(ThirdPartyAnnotationPathsKt.JSR_305_SOURCES_PATH).getPath()
+                        ForTestCompileRuntime.thirdPartyJsr305ForTests().getAbsolutePath()
                 )
                 .replace(
                         "$FOREIGN_JAVA8_ANNOTATIONS_DIR$",
-                        new File(ThirdPartyAnnotationPathsKt.FOREIGN_JDK8_ANNOTATIONS_SOURCES_PATH).getPath()
+                        ForTestCompileRuntime.thirdPartyJava8AnnotationsForTests().getAbsolutePath()
                 ).replace(
                         "$JDK_17$",
                         KtTestUtil.getJdk17Home().getPath()
                 ).replace(
                         "$STDLIB_JS$",
-                        PathUtil.getKotlinPathsForCompiler().getJsStdLibKlibPath().getAbsolutePath()
+                        ForTestCompileRuntime.stdlibJsForTests().getAbsolutePath()
                 ).replace(
                         "$STDLIB_WASM_JS$",
-                        PathUtil.getKotlinPathsForCompiler().getWasmJsStdLibKlibPath().getAbsolutePath()
+                        ForTestCompileRuntime.stdlibWasmJsForTests().getAbsolutePath()
                 );
     }
 

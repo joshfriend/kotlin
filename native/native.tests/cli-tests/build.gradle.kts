@@ -50,4 +50,9 @@ projectTests {
     }
 
     withStdlibCommon()
+    withThirdPartyAnnotations()
+    withThirdPartyJsr305()
+    withThirdPartyJava8Annotations()
+    withJsRuntime()
+    withWasmRuntime()
 }

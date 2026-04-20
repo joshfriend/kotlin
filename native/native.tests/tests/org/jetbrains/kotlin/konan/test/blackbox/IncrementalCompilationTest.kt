@@ -551,7 +551,7 @@ class IncrementalCompilationTest : AbstractNativeSimpleTest() {
 
     @Test
     @TestMetadata("makeOpenMethodFinal")
-    fun makeOpenMethodFinal() = withRootDir(File("$TEST_SUITE_PATH/makeOpenMethodFinal")) {
+    fun makeOpenMethodFinal() = withRootDir(ForTestCompileRuntime.transformTestDataPath("$TEST_SUITE_PATH/makeOpenMethodFinal")) {
         val lib = compileLibrary("lib") {
             "lib/lib.file1.kt" copyTo "lib.file1.kt"
             "lib/lib.file2.kt" copyTo "lib.file2.kt"

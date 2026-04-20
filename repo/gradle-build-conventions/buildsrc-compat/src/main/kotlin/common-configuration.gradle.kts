@@ -324,7 +324,7 @@ fun Project.configureTests() {
             ":compiler:ir.backend.common",
             ":compiler:multiplatform-parsing",
             ":compiler:test-infrastructure-utils",
-            ":compiler:tests-integration",
+            ":compiler:tests-integration", //
             ":compose-compiler-gradle-plugin",
             ":examples:scripting-jvm-embeddable-host",
             ":examples:scripting-jvm-maven-deps-host",

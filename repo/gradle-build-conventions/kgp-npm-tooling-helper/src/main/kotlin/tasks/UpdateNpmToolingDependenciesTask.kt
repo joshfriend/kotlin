@@ -9,9 +9,11 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFile
 import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.*
 import org.gradle.api.tasks.PathSensitivity.NONE
+import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecOperations
 import org.gradle.work.DisableCachingByDefault
 import org.jetbrains.kotlin.build.kgpnpmtooling.internal.execCapture
@@ -19,7 +21,12 @@ import java.io.File
 import javax.inject.Inject
 
 /**
- * Update all dependencies in a `package.json` file to the latest versions.
+ * Updates the `package-lock.json` and `yarn.lock` files.
+ *
+ * If [updateVersions] is `true`, updates all dependencies in
+ * the `package.json` file to the latest versions.
+ *
+ * ---
  *
  * This task is a convenience task and should be run manually.
  * Do not run this task as part of the regular KGP build.
@@ -28,7 +35,7 @@ import javax.inject.Inject
  * risk introducing new dependencies that haven't been thoroughly tested yet.
  */
 @DisableCachingByDefault(because = "Attempting to upgrade versions should always run.")
-abstract class UpgradeAllNpmToolingDependencyVersionsTask
+abstract class UpdateNpmToolingDependenciesTask
 @Inject
 internal constructor(
     private val exec: ExecOperations,
@@ -46,8 +53,10 @@ internal constructor(
     val yarnLockFile: Provider<RegularFile>
         get() = npmToolingProjectDir.file("yarn.lock")
 
-    @get:Internal
-    abstract val npmToolingProjectDir: DirectoryProperty
+    @get:Option("update-versions", description = "Whether to update the versions in the package.json file.")
+    @get:Input
+    @get:Optional
+    abstract val updateVersions: Property<Boolean>
 
     /** Location of the `node` executable. */
     @get:InputFile
@@ -64,6 +73,9 @@ internal constructor(
     @get:PathSensitive(NONE)
     abstract val yarnCli: RegularFileProperty
 
+    @get:Internal
+    abstract val npmToolingProjectDir: DirectoryProperty
+
     @get:LocalState
     abstract val workDir: DirectoryProperty
 
@@ -74,7 +86,9 @@ internal constructor(
 
     @TaskAction
     protected fun action() {
-        updateDependenciesVersions()
+        if (updateVersions.orNull == true) {
+            updateDependenciesVersions()
+        }
         executeNpmInstall()
         executeYarnInstall()
     }

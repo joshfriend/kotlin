@@ -17,7 +17,7 @@ import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.build.kgpnpmtooling.tasks.GenerateNpmVersionsKotlinClassTask
 import org.jetbrains.kotlin.build.kgpnpmtooling.tasks.PrepareNpmToolingLockFilesTask
-import org.jetbrains.kotlin.build.kgpnpmtooling.tasks.UpgradeAllNpmToolingDependencyVersionsTask
+import org.jetbrains.kotlin.build.kgpnpmtooling.tasks.UpdateNpmToolingDependenciesTask
 import java.io.File
 import javax.inject.Inject
 
@@ -75,7 +75,7 @@ internal constructor(
     }
 
     private fun registerKgpNpmToolingTasks(project: Project) {
-        project.tasks.register("upgradeAllKgpNpmToolingVersions", UpgradeAllNpmToolingDependencyVersionsTask::class)
+        project.tasks.register("updateKgpNpmToolingDependencies", UpdateNpmToolingDependenciesTask::class)
         project.tasks.register("prepareKgpNpmToolingLockFiles", PrepareNpmToolingLockFilesTask::class)
         project.tasks.register("generateNpmVersionsKotlinClass", GenerateNpmVersionsKotlinClassTask::class)
     }
@@ -102,7 +102,7 @@ internal constructor(
 
         val nodeSetupTask = project.tasks.named<NodeSetupTask>(NodeSetupTask.NAME)
         val yarnSetupTask = project.tasks.named<YarnSetupTask>(YarnSetupTask.NAME)
-        project.tasks.withType<UpgradeAllNpmToolingDependencyVersionsTask>().configureEach { t ->
+        project.tasks.withType<UpdateNpmToolingDependenciesTask>().configureEach { t ->
             t.group = TASK_GROUP
             t.description = "Upgrades Kotlin NPM tooling dependencies to the latest versions. This task must be run manually."
             t.nodeExecutable.convention(nodeExecutable)
@@ -114,6 +114,7 @@ internal constructor(
             )
             t.npmToolingProjectDir.convention(extension.npmToolingProjectDir)
             t.workDir.convention(t.temporaryDir)
+            t.updateVersions.convention(false)
         }
     }
 

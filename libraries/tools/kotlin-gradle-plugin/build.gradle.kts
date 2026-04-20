@@ -639,6 +639,7 @@ testFixturesCompilation.compileTaskProvider.configure {
         configureGradleCompatibility()
     }
 }
+testFixturesCompilation.enableKotlinSerializationPlugin()
 
 val functionalTestCompilation = kotlin.target.compilations.getByName("functionalTest")
 functionalTestCompilation.compileJavaTaskProvider.configure {

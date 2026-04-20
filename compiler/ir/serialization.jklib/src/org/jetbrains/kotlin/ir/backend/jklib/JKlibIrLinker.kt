@@ -25,6 +25,7 @@ import org.jetbrains.kotlin.ir.symbols.IrSymbol
 import org.jetbrains.kotlin.ir.types.IrTypeSystemContextImpl
 import org.jetbrains.kotlin.ir.util.DeclarationStubGenerator
 import org.jetbrains.kotlin.ir.util.IdSignature
+import org.jetbrains.kotlin.ir.util.KotlinMangler
 import org.jetbrains.kotlin.ir.util.SymbolTable
 import org.jetbrains.kotlin.ir.util.getNameWithAssert
 import org.jetbrains.kotlin.library.KotlinAbiVersion
@@ -42,7 +43,7 @@ class JKlibIrLinker(
     irBuiltIns: IrBuiltIns,
     symbolTable: SymbolTable,
     val stubGenerator: DeclarationStubGenerator,
-    val mangler: JKlibDescriptorMangler,
+    val descriptorMangler: JKlibDescriptorMangler,
 ) : KotlinIrLinker(module, messageCollector, irBuiltIns, symbolTable, emptyList()) {
     override val returnUnboundSymbolsIfSignatureNotFound
         get() = false
@@ -61,10 +62,12 @@ class JKlibIrLinker(
         return symbol.descriptor.isJavaDescriptor()
     }
 
+    override val irMangler: KotlinMangler.IrMangler = JKlibIrMangler()
+
     override val fakeOverrideBuilder = IrLinkerFakeOverrideProvider(
         linker = this,
         symbolTable = symbolTable,
-        mangler = JKlibIrMangler(),
+        mangler = irMangler,
         typeSystem = IrTypeSystemContextImpl(builtIns),
         friendModules = emptyMap(),
         partialLinkageSupport = partialLinkageSupport,
@@ -163,7 +166,7 @@ class JKlibIrLinker(
 
         private val descriptorFinder = DescriptorByIdSignatureFinderImpl(
             moduleDescriptor,
-            mangler,
+            descriptorMangler,
             DescriptorByIdSignatureFinderImpl.LookupMode.MODULE_ONLY,
         )
 
@@ -220,7 +223,7 @@ class JKlibIrLinker(
 
         private val descriptorByIdSignatureFinder = DescriptorByIdSignatureFinderImpl(
             moduleDescriptor,
-            mangler,
+            descriptorMangler,
             DescriptorByIdSignatureFinderImpl.LookupMode.MODULE_ONLY,
         )
 

@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.ir.symbols.IrSimpleFunctionSymbol
 import org.jetbrains.kotlin.ir.symbols.IrSymbol
 import org.jetbrains.kotlin.ir.symbols.isPublicApi
 import org.jetbrains.kotlin.ir.util.IdSignature
+import org.jetbrains.kotlin.ir.util.KotlinMangler
 import org.jetbrains.kotlin.ir.util.SymbolTable
 import org.jetbrains.kotlin.library.KotlinLibrary
 import org.jetbrains.kotlin.library.uniqueName
@@ -57,6 +58,8 @@ abstract class KotlinIrLinker(
     val modulesWithReachableTopLevels = linkedSetOf<IrModuleDeserializer>()
 
     protected val deserializersForModules = linkedMapOf<String, IrModuleDeserializer>()
+
+    abstract val irMangler: KotlinMangler.IrMangler
 
     abstract val fakeOverrideBuilder: IrLinkerFakeOverrideProvider
 
@@ -287,7 +290,7 @@ abstract class KotlinIrLinker(
             IrModuleDeserializerWithBuiltIns(
                 builtIns,
                 symbolTable,
-                fakeOverrideBuilder.mangler,
+                irMangler,
                 { clazz, signature -> fakeOverrideBuilder.enqueueClass(clazz, signature, moduleDeserializer.compatibilityMode) },
                 moduleDeserializer
             )

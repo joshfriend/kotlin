@@ -89,7 +89,7 @@ public abstract class AbstractCliTest extends TestCaseWithTmpdir {
             @NotNull String testDataDir,
             @NotNull String tmpdir
     ) {
-        String testDataAbsoluteDir = new File(testDataDir).getAbsolutePath();
+        String testDataAbsoluteDir = ForTestCompileRuntime.transformTestDataPath(testDataDir).getAbsolutePath();
         String output = pureOutput
                 .replace(testDataAbsoluteDir, TESTDATA_DIR)
                 .replace(FileUtil.toSystemIndependentName(testDataAbsoluteDir), TESTDATA_DIR);

@@ -42,6 +42,7 @@ projectTests {
         extensions.configure<TestInputsCheckExtension>("testInputsCheck") {
             allowFlightRecorder.set(true)
         }
+        workingDir = projectDir
     }
 }
 

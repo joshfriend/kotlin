@@ -5,6 +5,15 @@
 
 package org.jetbrains.kotlin.gradle.testing.js
 
+/**
+ * Minimal representation of a `yarn.lock` file.
+ *
+ * Only properties relevant for tests are defined
+ * to reduce the complexity and maintenance.
+ *
+ * The Yarn lock file format is a custom format,
+ * thus it must be decoded manually.
+ */
 internal data class YarnLock(
     val entries: List<Entry>,
 ) {
@@ -61,33 +70,6 @@ internal data class YarnLock(
                             versions = versions.sorted(),
                         )
                     }
-
-//                    .map { depAndVersion ->
-//
-//
-//                        if (depAndVersion.startsWith("@")) {
-//                            depAndVersion.drop(1)
-//                        } else {
-//                            depAndVersion
-//                        }.removeSurrounding("\"")
-//
-//
-//                            .let { depAndVersion ->
-//                                val version = depAndVersion.substringBeforeLast("@")
-//                                val requestedPkg = depAndVersion.substringBefore("@")
-//                            }
-//
-//
-//                        depAndVersion
-//                            .removeSurrounding("\"")
-//                            // Remove the version.
-//                            .substringBeforeLast("@")
-//                            // Remove actual package source, if present, to get the alias name.
-//                            // We need to compare yarn.lock against package-lock.json,
-//                            // and package-lock.json only contains the aliased name.
-//                            .substringBeforeLast("@npm:")
-//                    }
-//                    .distinct()
 
             return entries.singleOrNull()
                 ?: error("Expected a single entry, but got ${entries.size}. Entry:\n$content")

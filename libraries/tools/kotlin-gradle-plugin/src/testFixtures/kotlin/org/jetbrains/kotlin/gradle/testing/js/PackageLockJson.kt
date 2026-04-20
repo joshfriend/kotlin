@@ -7,6 +7,12 @@ package org.jetbrains.kotlin.gradle.testing.js
 
 import kotlinx.serialization.Serializable
 
+/**
+ * Minimal representation of a `package-lock.json` file.
+ *
+ * Only properties relevant for tests are defined
+ * to reduce the complexity and maintenance.
+ */
 @Serializable
 internal data class PackageLockJson(
     val name: String,

@@ -367,17 +367,14 @@ abstract class WasmPackageManagerGradlePluginIT : KGPBaseTest() {
     }
 
     companion object {
-        @JvmStatic
         private val kgpPackageLockJsonFileContent: String by lazy {
             NodeJsPlugin::class.loadResource("/org/jetbrains/kotlin/gradle/targets/js/npm/package-lock.json")
         }
 
-        @JvmStatic
         private val kgpYarnLockFileContent: String by lazy {
             NodeJsPlugin::class.loadResource("/org/jetbrains/kotlin/gradle/targets/js/yarn/yarn.lock")
         }
 
-        @JvmStatic
         private fun KClass<*>.loadResource(path: String): String {
             java.getResourceAsStream(path).use { source ->
                 requireNotNull(source) { "Resource not found: $path" }

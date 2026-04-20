@@ -17,5 +17,9 @@ internal data class PackageLockJson(
     data class Package(
         val version: String? = null,
         val dependencies: Map<String, String> = emptyMap(),
+        val devDependencies: Map<String, String> = emptyMap(),
+        val peerDependencies: Map<String, String> = emptyMap(),
+        val optionalDependencies: Map<String, String> = emptyMap(),
+        val bundledDependencies: List<String> = emptyList(),
     )
 }

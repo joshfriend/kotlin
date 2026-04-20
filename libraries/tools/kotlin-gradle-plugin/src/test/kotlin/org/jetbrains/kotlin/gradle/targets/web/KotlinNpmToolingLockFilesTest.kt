@@ -13,15 +13,71 @@ import org.jetbrains.kotlin.gradle.targets.js.NpmVersions
 import org.jetbrains.kotlin.gradle.targets.web.KotlinNpmToolingLockFilesTest.Companion.packageLockJson
 import org.jetbrains.kotlin.gradle.targets.web.KotlinNpmToolingLockFilesTest.Companion.packageLockJsonContent
 import org.jetbrains.kotlin.gradle.targets.web.KotlinNpmToolingLockFilesTest.Companion.yarnLockContent
+import org.jetbrains.kotlin.gradle.testing.js.PackageJson
 import org.jetbrains.kotlin.gradle.testing.js.PackageLockJson
+import org.jetbrains.kotlin.gradle.testing.js.YarnLock
 import org.jetbrains.kotlin.gradle.testing.prettyPrinted
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertNull
+import kotlin.io.path.Path
+import kotlin.io.path.readText
 import kotlin.test.assertEquals
 
 class KotlinNpmToolingLockFilesTest {
+
+    /**
+     * Sanity check to make sure `package-lock.json` was regenerated after a change in `package.json`.
+     */
+    @Test
+    fun `expect package-json and package-lock-json contain same dependencies`() {
+        assertEquals(
+            packageJson.dependencies.prettyPrinted,
+            packageLockJsonRootPackage.dependencies.prettyPrinted,
+        )
+        assertEquals(
+            packageJson.devDependencies.prettyPrinted,
+            packageLockJsonRootPackage.devDependencies.prettyPrinted,
+        )
+        assertEquals(
+            packageJson.peerDependencies.prettyPrinted,
+            packageLockJsonRootPackage.peerDependencies.prettyPrinted,
+        )
+        assertEquals(
+            packageJson.optionalDependencies.prettyPrinted,
+            packageLockJsonRootPackage.optionalDependencies.prettyPrinted,
+        )
+        assertEquals(
+            packageJson.bundledDependencies.prettyPrinted,
+            packageLockJsonRootPackage.bundledDependencies.prettyPrinted,
+        )
+    }
+
+    /**
+     * Sanity check to make sure `yarn.lock` was regenerated after a change in `package.json`.
+     */
+    @Test
+    fun `expect package-json and yarn-lock contain same dependencies`() {
+        val allPackageJsonDependencies =
+            buildList {
+                addAll(packageJson.dependencies.entries)
+                addAll(packageJson.devDependencies.entries)
+                addAll(packageJson.peerDependencies.entries)
+                addAll(packageJson.optionalDependencies.entries)
+            }
+                .map { (dep, ver) -> "$dep@$ver" }
+                .distinct()
+                .sorted()
+
+        val allYarnLockDeps =
+            yarnLock.entries.flatMap {
+                it.versions.map { ver -> "${it.name}@$ver" }
+            }.toSet()
+
+        val missing = allPackageJsonDependencies.filter { it !in allYarnLockDeps }
+
+        assertTrue(missing.isEmpty(), "Missing dependencies in yarn.lock: $missing")
+    }
 
     /**
      * The npm `package-lock.json` file must not have a version.
@@ -47,10 +103,7 @@ class KotlinNpmToolingLockFilesTest {
      */
     @Test
     fun `verify npm lockfile does not have project version`() {
-        val rootPackage = packageLockJson.packages[""]
-        assertNotNull(rootPackage) { "Missing root package in package-lock.json $rootPackage" }
-
-        assertNull(rootPackage.version)
+        assertNull(packageLockJsonRootPackage.version)
     }
 
     /**
@@ -143,6 +196,14 @@ class KotlinNpmToolingLockFilesTest {
     }
 
     companion object {
+
+        /** `package.json` for KGP's tooling dependencies. */
+        private val packageJson: PackageJson by lazy {
+            val file = System.getProperty("kgpNpmToolingPackageJson") ?: error("missing kgpNpmToolingPackageJson system property")
+            val content = Path(file).readText()
+            json.decodeFromString(PackageJson.serializer(), content)
+        }
+
         /** `package-lock.json` file for KGP's tooling dependencies. */
         private val packageLockJsonContent: String by lazy {
             loadResource("/org/jetbrains/kotlin/gradle/targets/js/npm/package-lock.json")
@@ -153,9 +214,21 @@ class KotlinNpmToolingLockFilesTest {
             json.decodeFromString(PackageLockJson.serializer(), packageLockJsonContent)
         }
 
+        private val packageLockJsonRootPackage: PackageLockJson.Package by lazy {
+            val rootPackage = packageLockJson.packages[""]
+            requireNotNull(rootPackage) {
+                "Missing root package in package-lock.json. All packages: ${packageLockJson.packages.keys}"
+            }
+        }
+
         /** `yarn.lock` file for KGP's tooling dependencies. */
         private val yarnLockContent: String by lazy {
             loadResource("/org/jetbrains/kotlin/gradle/targets/js/yarn/yarn.lock")
+        }
+
+        /** `yarn.lock` file for KGP's tooling dependencies. */
+        private val yarnLock: YarnLock by lazy {
+            YarnLock.decodeFrom(yarnLockContent)
         }
 
         /** All (non-nested) dependencies in [packageLockJson]. */
@@ -173,47 +246,10 @@ class KotlinNpmToolingLockFilesTest {
 
         /** All dependencies in [yarnLockContent]. */
         private val yarnLockPackages: List<String> by lazy {
-            yarnLockContent
-                // Yarn lock entries are separated by a blank line
-                .split("\n\n")
-                .asSequence()
-                // skip entries that are comments or whitespace only
-                .filter { entry ->
-                    entry.lines()
-                        .map { it.trim() }
-                        .any {
-                            !it.startsWith("#") && it.isNotBlank()
-                        }
-                }
-                .map { it.trim() }
-                .map { entry ->
-                    // the first line of an entry is all versions of the package
-                    val requestedPkgs = entry.lines().first()
-
-                    val requestedPkgNames =
-                        requestedPkgs
-                            .removeSuffix(":")
-                            .split(", ")
-                            .map {
-                                it
-                                    .removeSurrounding("\"")
-                                    // Remove the version.
-                                    .substringBeforeLast("@")
-                                    // Remove actual package source, if present, to get the alias name.
-                                    // We need to compare yarn.lock against package-lock.json,
-                                    // and package-lock.json only contains the aliased name.
-                                    .substringBeforeLast("@npm:")
-                            }
-                            .distinct()
-
-                    requestedPkgNames.singleOrNull()
-                        ?: error(
-                            "Expected a single package name, but got $requestedPkgNames. " +
-                                    "Entry:\n$entry"
-                        )
-                }
-                .sorted()
+            yarnLock.entries
+                .map { it.name }
                 .distinct()
+                .sorted()
                 .toList()
         }
 

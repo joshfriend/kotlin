@@ -33,7 +33,6 @@ object JsCodegenPipelinePhase : PipelinePhase<JsLoweredIrPipelineArtifact, JsBac
         val result = transformer.generateModule(
             input.allModules,
             configuration.artifactConfigurations,
-            relativeRequirePath = true,
             outJsProgram = false,
         )
         return JsBackendPipelineArtifact(result, configuration)

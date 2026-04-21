@@ -78,7 +78,6 @@ class JsIrLoweringFacade(
                         artifactConfiguration = createArtifactConfiguration(configuration, mode, module),
                         sourceMapsInfo = SourceMapsInfo.from(configuration),
                         caches = testServices.jsIrIncrementalDataProvider.getCaches(),
-                        relativeRequirePath = true,
                     )
                     jsExecutableProducer.buildExecutable(true).compilationOut
                 }
@@ -145,7 +144,7 @@ class JsIrLoweringFacade(
                 createArtifactConfiguration(loweredIr.configuration, it, module)
             }
         val compilationOut =
-            transformer.generateModule(loweredIr.allModules, artifactConfigurations, relativeRequirePath = true, outJsProgram = true)
+            transformer.generateModule(loweredIr.allModules, artifactConfigurations, outJsProgram = true)
         return BinaryArtifacts.Js.JsIrArtifact(outputFile, compilationOut).dump(module)
     }
 

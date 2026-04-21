@@ -144,12 +144,11 @@ class JsCodeGenerator(
     private val artifactConfiguration: WebArtifactConfiguration,
     private val sourceMapsInfo: SourceMapsInfo?
 ) {
-    fun generateJsCode(relativeRequirePath: Boolean, outJsProgram: Boolean): CompilationOutputsBuilt {
+    fun generateJsCode(outJsProgram: Boolean): CompilationOutputsBuilt {
         return generateWrappedModuleBody(
             artifactConfiguration,
             program,
             sourceMapsInfo,
-            relativeRequirePath,
             outJsProgram
         )
     }
@@ -207,7 +206,6 @@ class IrModuleToJsTransformer(
     fun generateModule(
         modules: Iterable<IrModuleFragment>,
         artifactConfigurations: List<WebArtifactConfiguration>,
-        relativeRequirePath: Boolean,
         outJsProgram: Boolean,
     ): CompilerResult {
         val exportData = associateIrAndExport(modules)
@@ -216,7 +214,7 @@ class IrModuleToJsTransformer(
         val result = EnumMap<TranslationMode, CompilationOutputs>(TranslationMode::class.java)
 
         artifactConfigurations.filter { !it.production }.forEach {
-            result[it.translationMode] = makeJsCodeGeneratorFromIr(exportData, it).generateJsCode(relativeRequirePath, outJsProgram)
+            result[it.translationMode] = makeJsCodeGeneratorFromIr(exportData, it).generateJsCode(outJsProgram)
         }
 
         if (artifactConfigurations.any { it.production }) {
@@ -224,7 +222,7 @@ class IrModuleToJsTransformer(
         }
 
         artifactConfigurations.filter { it.production }.forEach {
-            result[it.translationMode] = makeJsCodeGeneratorFromIr(exportData, it).generateJsCode(relativeRequirePath, outJsProgram)
+            result[it.translationMode] = makeJsCodeGeneratorFromIr(exportData, it).generateJsCode(outJsProgram)
         }
 
         return CompilerResult(result)
@@ -570,7 +568,6 @@ private fun generateWrappedModuleBody(
     artifactConfiguration: WebArtifactConfiguration,
     program: JsIrProgram,
     sourceMapsInfo: SourceMapsInfo?,
-    relativeRequirePath: Boolean,
     outJsProgram: Boolean
 ): CompilationOutputsBuilt {
     return when (artifactConfiguration.granularity) {
@@ -586,7 +583,6 @@ private fun generateWrappedModuleBody(
             artifactConfiguration,
             program,
             sourceMapsInfo,
-            relativeRequirePath,
             outJsProgram
         )
     }
@@ -596,13 +592,12 @@ private fun generateMultiWrappedModuleBody(
     artifactConfiguration: WebArtifactConfiguration,
     program: JsIrProgram,
     sourceMapsInfo: SourceMapsInfo?,
-    relativeRequirePath: Boolean,
     outJsProgram: Boolean
 ): CompilationOutputsBuilt {
     // mutable container allows explicitly remove elements from itself,
     // so we are able to help GC to free heavy JsIrModule objects
     // TODO: It makes sense to invent something better, because this logic can be easily broken
-    val moduleToRef = program.asCrossModuleDependencies(artifactConfiguration.moduleKind, relativeRequirePath).toMutableList()
+    val moduleToRef = program.asCrossModuleDependencies(artifactConfiguration.moduleKind).toMutableList()
 
     val mainModule = moduleToRef.removeLast().let { (main, mainRef) ->
         generateSingleWrappedModuleBody(

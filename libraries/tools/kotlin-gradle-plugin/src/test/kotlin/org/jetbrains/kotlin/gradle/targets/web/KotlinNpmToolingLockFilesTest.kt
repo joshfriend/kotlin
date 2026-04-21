@@ -169,9 +169,12 @@ class KotlinNpmToolingLockFilesTest {
         }
     }
 
+    /**
+     * Load `package-lock.json` and `yarn.lock` files and check all dependencies are the same
+     * (ignoring version).
+     */
     @Test
-    fun `verify transitive dependencies are the same`() {
-        // load package-lock.json and yarn.lock and check all transitive dependencies are the same (ignore version)
+    fun `verify yarn and npm lockfiles have same dependencies`() {
         assertEquals(
             yarnLockPackages.prettyPrinted,
             packageLockJsonPackages.prettyPrinted,

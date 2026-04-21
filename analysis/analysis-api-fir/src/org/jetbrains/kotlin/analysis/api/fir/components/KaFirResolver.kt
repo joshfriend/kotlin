@@ -14,6 +14,7 @@ import org.jetbrains.kotlin.analysis.api.diagnostics.KaDiagnostic
 import org.jetbrains.kotlin.analysis.api.fir.*
 import org.jetbrains.kotlin.analysis.api.fir.references.*
 import org.jetbrains.kotlin.analysis.api.fir.references.FirReferenceResolveHelper.fqNameSegments
+import org.jetbrains.kotlin.analysis.api.fir.references.FirReferenceResolveHelper.getQualifierSelected
 import org.jetbrains.kotlin.analysis.api.fir.symbols.KaFirArrayOfSymbolProvider.arrayOfSymbol
 import org.jetbrains.kotlin.analysis.api.fir.utils.firSymbol
 import org.jetbrains.kotlin.analysis.api.fir.utils.processEqualsFunctions
@@ -39,6 +40,7 @@ import org.jetbrains.kotlin.analysis.low.level.api.fir.resolver.AllCandidatesRes
 import org.jetbrains.kotlin.analysis.low.level.api.fir.util.errorWithFirSpecificEntries
 import org.jetbrains.kotlin.analysis.low.level.api.fir.util.findStringPlusSymbol
 import org.jetbrains.kotlin.fir.FirElement
+import org.jetbrains.kotlin.fir.FirPackageDirective
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.diagnostics.ConeDiagnostic
@@ -246,6 +248,7 @@ internal class KaFirResolver(
         is FirReference -> toKaSymbolResolutionAttempt(psi)
         is FirReturnExpression -> toKaSymbolResolutionAttempt(psi)
         is FirResolvedQualifier -> toKaSymbolResolutionAttempt(psi)
+        is FirPackageDirective -> toKaSymbolResolutionAttempt(psi)
         else -> null
     }
 
@@ -416,6 +419,14 @@ internal class KaFirResolver(
         }
 
         return referencedSymbol?.buildSymbol(firSymbolBuilder)?.let(::KaBaseSymbolResolutionSuccess)
+    }
+
+    @Suppress("UnusedReceiverParameter")
+    private fun FirPackageDirective.toKaSymbolResolutionAttempt(psi: KtElement): KaSymbolResolutionAttempt? {
+        if (psi !is KtSimpleNameExpression) return null
+
+        val packageFqName = getQualifierSelected(psi, forQualifiedType = false)
+        return firSymbolBuilder.createPackageSymbolIfOneExists(packageFqName)?.let(::KaBaseSymbolResolutionSuccess)
     }
 
     private fun FirDiagnosticHolder.toKaSymbolResolutionError(psi: KtElement): KaSymbolResolutionError =

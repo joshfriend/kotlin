@@ -8,10 +8,16 @@ KtDotQualifiedExpression(8,15): 'one.two'
   null
 
 KtNameReferenceExpression(8,11): 'one'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one
+    ]
 
 KtNameReferenceExpression(12,15): 'two'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one.two
+    ]
 
 KtImportList(17,70): 'import one.two.TopLevelClass.InnerClass as InnerAlias'
   null

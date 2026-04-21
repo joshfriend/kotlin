@@ -2,10 +2,8 @@ KtNameReferenceExpression(36,40): 'main'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package main
 
 KtNameReferenceExpression(49,58): 'JavaClass'

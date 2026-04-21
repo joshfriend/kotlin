@@ -2,10 +2,8 @@ KtNameReferenceExpression(67,70): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package foo
 
 KtNameReferenceExpression(114,120): 'Sealed'

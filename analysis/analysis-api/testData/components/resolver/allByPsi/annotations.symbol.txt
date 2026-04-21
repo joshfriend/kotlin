@@ -5,7 +5,10 @@ KtPackageDirective(16,27): 'package one'
   null
 
 KtNameReferenceExpression(24,27): 'one'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one
+    ]
 
 KtImportList(29,57): 'import kotlin.reflect.KClass'
   null

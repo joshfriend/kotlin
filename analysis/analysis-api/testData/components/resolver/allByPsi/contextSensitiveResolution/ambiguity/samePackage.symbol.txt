@@ -5,7 +5,10 @@ KtPackageDirective(59,70): 'package foo'
   null
 
 KtNameReferenceExpression(67,70): 'foo'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      foo
+    ]
 
 KtImportList(70,70): ''
   null

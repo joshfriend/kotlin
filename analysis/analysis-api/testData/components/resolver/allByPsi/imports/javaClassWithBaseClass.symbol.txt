@@ -5,7 +5,10 @@ KtPackageDirective(38,50): 'package main'
   null
 
 KtNameReferenceExpression(46,50): 'main'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      main
+    ]
 
 KtImportList(52,362): 'import one.two.BaseClass.baseFoo'
   null

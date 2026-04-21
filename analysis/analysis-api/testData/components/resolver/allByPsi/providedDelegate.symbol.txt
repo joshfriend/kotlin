@@ -5,7 +5,10 @@ KtPackageDirective(17,31): 'package myPack'
   null
 
 KtNameReferenceExpression(25,31): 'myPack'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      myPack
+    ]
 
 KtImportList(33,106): 'import kotlin.reflect.KProperty'
   null

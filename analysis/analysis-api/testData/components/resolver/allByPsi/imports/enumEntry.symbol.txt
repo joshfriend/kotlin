@@ -5,7 +5,10 @@ KtPackageDirective(22,34): 'package main'
   null
 
 KtNameReferenceExpression(30,34): 'main'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      main
+    ]
 
 KtImportList(36,133): 'import one.two.Color'
   null

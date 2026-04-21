@@ -5,7 +5,10 @@ KtPackageDirective(15,27): 'package main'
   null
 
 KtNameReferenceExpression(23,27): 'main'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      main
+    ]
 
 KtImportList(47,247): 'import kotlin.collections.MutableList'
   null

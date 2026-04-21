@@ -147,14 +147,12 @@ internal object FirReferenceResolveHelper {
         return symbolBuilder.createPackageSymbolIfOneExists(getQualifierSelected(expression, forQualifiedType))
     }
 
-    private fun getQualifierSelected(
-        expression: KtSimpleNameExpression,
-        forQualifiedType: Boolean,
-    ): FqName {
+    fun getQualifierSelected(expression: KtSimpleNameExpression, forQualifiedType: Boolean): FqName {
         val qualified = when {
             forQualifiedType -> expression.parent?.takeIf { it is KtUserType && it.referenceExpression === expression }
             else -> expression.getQualifiedExpressionForSelector()
         }
+
         return when (qualified) {
             null -> FqName(expression.getReferencedName())
             else -> {

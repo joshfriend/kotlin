@@ -5,7 +5,10 @@ KtPackageDirective(31,46): 'package another'
   null
 
 KtNameReferenceExpression(39,46): 'another'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      another
+    ]
 
 KtImportList(48,282): 'import one.two.TopLevelObject'
   null

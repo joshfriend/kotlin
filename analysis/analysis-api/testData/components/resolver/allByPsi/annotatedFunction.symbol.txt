@@ -5,7 +5,10 @@ KtPackageDirective(15,31): 'package lowlevel'
   null
 
 KtNameReferenceExpression(23,31): 'lowlevel'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      lowlevel
+    ]
 
 KtImportList(31,31): ''
   null

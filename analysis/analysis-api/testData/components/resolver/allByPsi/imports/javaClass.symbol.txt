@@ -5,7 +5,10 @@ KtPackageDirective(30,42): 'package main'
   null
 
 KtNameReferenceExpression(38,42): 'main'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      main
+    ]
 
 KtImportList(44,221): 'import one.two.JavaClass.foo'
   null

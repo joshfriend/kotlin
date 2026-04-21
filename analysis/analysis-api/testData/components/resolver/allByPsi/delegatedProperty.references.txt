@@ -2,10 +2,8 @@ KtNameReferenceExpression(24,30): 'myPack'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package myPack
 
 KtNameReferenceExpression(39,45): 'kotlin'

@@ -2,10 +2,8 @@ KtNameReferenceExpression(8,12): 'test'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package test
 
 KtNameReferenceExpression(73,76): 'Int'

@@ -2,10 +2,8 @@ KtNameReferenceExpression(23,29): 'myPack'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package myPack
 
 KtNameReferenceExpression(32,38): 'Target'

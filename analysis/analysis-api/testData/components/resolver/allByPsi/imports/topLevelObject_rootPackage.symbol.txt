@@ -5,7 +5,10 @@ KtPackageDirective(31,43): 'package main'
   null
 
 KtNameReferenceExpression(39,43): 'main'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      main
+    ]
 
 KtImportList(45,291): 'import TopLevelObject.NestedClass'
   null

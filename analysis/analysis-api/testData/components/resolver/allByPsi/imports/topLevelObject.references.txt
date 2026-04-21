@@ -2,10 +2,8 @@ KtNameReferenceExpression(41,45): 'main'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package main
 
 KtNameReferenceExpression(54,57): 'one'

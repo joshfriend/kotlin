@@ -106,25 +106,8 @@ class KotlinNpmToolingLockFilesTest {
         assertNull(packageLockJsonRootPackage.version)
     }
 
-    /**
-     * Verify all dependencies in [NpmVersions] are
-     */
     @Test
     fun `npm lockfile should contain all dependencies in NpmVersions`() {
-        val allNpmVersionsDependencies = NpmVersions().allDependencies.map { it.name }
-
-        val missingElements = allNpmVersionsDependencies
-            .filter { it !in packageLockJsonPackages }
-
-        assertTrue(missingElements.isEmpty()) {
-            buildString {
-                appendLine("Missing ${missingElements.size} dependencies in package-lock.json:")
-                appendLine(missingElements)
-                appendLine("NpmVersions dependencies: $allNpmVersionsDependencies")
-                appendLine("All dependencies in package-lock.json: $packageLockJsonPackages")
-            }
-        }
-
         assertLockfileContainsNpmVersionsDependencies(
             lockfileDependencies = packageLockJsonPackages,
             lockfileName = "package-lock.json",

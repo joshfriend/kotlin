@@ -57,7 +57,7 @@ internal data class YarnLock(
                     .map { it.removeSurrounding("\"") }
                     .map { entryPackage ->
                         fun invalid(reason: String): Nothing = error("invalid yarn lock entry: $reason. $entryPackage")
-                        val r = x.matchEntire(entryPackage)
+                        val r = yarnPackageEntryPattern.matchEntire(entryPackage)
                             ?: invalid("failed to parse")
                         val name = r.groups["name"]?.value ?: invalid("missing name")
                         val version = r.groups["version"]?.value ?: invalid("missing version")
@@ -75,7 +75,17 @@ internal data class YarnLock(
                 ?: error("Expected a single entry, but got ${entries.size}. Entry:\n$content")
         }
 
-        private val x = Regex(
+        /**
+         * Each entry in the yarn lock file is of the form:
+         * ```text
+         * <package>@<version>
+         * ```
+         * Or, if `package` is an alias:
+         * ```text
+         * <package>@<target>@<version>
+         * ```
+         */
+        private val yarnPackageEntryPattern = Regex(
             """
                     |^(?<name>@?[^@]+)@(?:(?<target>\w+:@?[^@]+)@)?(?<version>.+)$
                     """.trimMargin()

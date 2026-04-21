@@ -426,10 +426,8 @@ KtNameReferenceExpression(610,613): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package foo
 
 KtNameReferenceExpression(614,615): 'A'
@@ -484,10 +482,8 @@ KtNameReferenceExpression(669,672): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package foo
 
 KtNameReferenceExpression(673,683): 'CompanionA'
@@ -502,10 +498,8 @@ KtNameReferenceExpression(693,696): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package foo
 
 KtNameReferenceExpression(697,707): 'CompanionB'
@@ -1100,10 +1094,8 @@ KtNameReferenceExpression(1423,1426): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package foo
 
 KtNameReferenceExpression(1427,1428): 'A'
@@ -1302,10 +1294,8 @@ KtNameReferenceExpression(1654,1657): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package foo
 
 KtNameReferenceExpression(1658,1668): 'CompanionA'
@@ -1452,10 +1442,8 @@ KtNameReferenceExpression(1820,1823): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package foo
 
 KtNameReferenceExpression(1824,1825): 'F'

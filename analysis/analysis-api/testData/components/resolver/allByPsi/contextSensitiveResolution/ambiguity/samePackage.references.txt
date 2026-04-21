@@ -268,10 +268,8 @@ KtNameReferenceExpression(592,595): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package foo
 
 KtNameReferenceExpression(596,597): 'A'
@@ -846,10 +844,8 @@ KtNameReferenceExpression(1295,1298): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package foo
 
 KtNameReferenceExpression(1299,1300): 'A'

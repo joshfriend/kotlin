@@ -512,7 +512,10 @@ KtDotQualifiedExpression(592,597): 'foo.A'
   null
 
 KtNameReferenceExpression(592,595): 'foo'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      foo
+    ]
 
 KtNameReferenceExpression(596,597): 'A'
   KaSymbolResolutionSuccess:
@@ -1217,7 +1220,10 @@ KtDotQualifiedExpression(1295,1300): 'foo.A'
   null
 
 KtNameReferenceExpression(1295,1298): 'foo'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      foo
+    ]
 
 KtNameReferenceExpression(1299,1300): 'A'
   KaSymbolResolutionSuccess:

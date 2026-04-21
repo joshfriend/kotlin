@@ -548,7 +548,10 @@ KtDotQualifiedExpression(610,615): 'foo.A'
   null
 
 KtNameReferenceExpression(610,613): 'foo'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      foo
+    ]
 
 KtNameReferenceExpression(614,615): 'A'
   KaSymbolResolutionSuccess:
@@ -617,7 +620,10 @@ KtDotQualifiedExpression(669,683): 'foo.CompanionA'
   null
 
 KtNameReferenceExpression(669,672): 'foo'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      foo
+    ]
 
 KtNameReferenceExpression(673,683): 'CompanionA'
   KaSymbolResolutionSuccess:
@@ -641,7 +647,10 @@ KtDotQualifiedExpression(693,707): 'foo.CompanionB'
     ]
 
 KtNameReferenceExpression(693,696): 'foo'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      foo
+    ]
 
 KtNameReferenceExpression(697,707): 'CompanionB'
   KaSymbolResolutionSuccess:
@@ -1370,7 +1379,10 @@ KtDotQualifiedExpression(1423,1428): 'foo.A'
   null
 
 KtNameReferenceExpression(1423,1426): 'foo'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      foo
+    ]
 
 KtNameReferenceExpression(1427,1428): 'A'
   KaSymbolResolutionSuccess:
@@ -1601,7 +1613,10 @@ KtDotQualifiedExpression(1654,1668): 'foo.CompanionA'
   null
 
 KtNameReferenceExpression(1654,1657): 'foo'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      foo
+    ]
 
 KtNameReferenceExpression(1658,1668): 'CompanionA'
   KaSymbolResolutionSuccess:
@@ -1769,7 +1784,10 @@ KtDotQualifiedExpression(1820,1825): 'foo.F'
   null
 
 KtNameReferenceExpression(1820,1823): 'foo'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      foo
+    ]
 
 KtNameReferenceExpression(1824,1825): 'F'
   KaSymbolResolutionSuccess:

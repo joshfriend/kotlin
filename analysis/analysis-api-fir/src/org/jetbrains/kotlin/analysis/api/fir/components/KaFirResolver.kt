@@ -13,6 +13,7 @@ import org.jetbrains.kotlin.analysis.api.KaNonPublicApi
 import org.jetbrains.kotlin.analysis.api.diagnostics.KaDiagnostic
 import org.jetbrains.kotlin.analysis.api.fir.*
 import org.jetbrains.kotlin.analysis.api.fir.references.*
+import org.jetbrains.kotlin.analysis.api.fir.references.FirReferenceResolveHelper.fqNameSegments
 import org.jetbrains.kotlin.analysis.api.fir.symbols.KaFirArrayOfSymbolProvider.arrayOfSymbol
 import org.jetbrains.kotlin.analysis.api.fir.utils.firSymbol
 import org.jetbrains.kotlin.analysis.api.fir.utils.processEqualsFunctions
@@ -72,6 +73,7 @@ import org.jetbrains.kotlin.idea.references.KtReference
 import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
 import org.jetbrains.kotlin.kdoc.psi.impl.KDocName
 import org.jetbrains.kotlin.lexer.KtTokens
+import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.KtPsiUtil.deparenthesize
@@ -243,7 +245,7 @@ internal class KaFirResolver(
         is FirResolvable -> toKaSymbolResolutionAttempt(psi)
         is FirReference -> toKaSymbolResolutionAttempt(psi)
         is FirReturnExpression -> toKaSymbolResolutionAttempt(psi)
-        is FirResolvedQualifier -> toKaSymbolResolutionAttempt()
+        is FirResolvedQualifier -> toKaSymbolResolutionAttempt(psi)
         else -> null
     }
 
@@ -389,15 +391,28 @@ internal class KaFirResolver(
     }
 
     /**
-     * TODO: support corner cases such as packages
+     * TODO: support corner cases
      *
      * @see FirReferenceResolveHelper
      */
-    private fun FirResolvedQualifier.toKaSymbolResolutionAttempt(): KaSymbolResolutionAttempt? {
+    private fun FirResolvedQualifier.toKaSymbolResolutionAttempt(psi: KtElement): KaSymbolResolutionAttempt? {
         val referencedSymbol = when (val symbol = symbol) {
             // Note: we want to consider the companion object only for regular class qualifiers (and not for typealiased ones)
             is FirRegularClassSymbol if (resolvedToCompanionObject) -> symbol.companionObjectSymbol
             else -> symbol
+        }
+
+        if (referencedSymbol == null && psi is KtSimpleNameExpression) {
+            // If referencedSymbol is null, it means the reference goes to a package.
+            val parent = psi.parent as? KtDotQualifiedExpression ?: return null
+            val fqNameSegments = when (psi) {
+                parent.selectorExpression -> parent.fqNameSegments() ?: return null
+                parent.receiverExpression -> listOf(psi.getReferencedName())
+                else -> return null
+            }
+
+            return firSymbolBuilder.createPackageSymbolIfOneExists(FqName.fromSegments(fqNameSegments))
+                ?.let(::KaBaseSymbolResolutionSuccess)
         }
 
         return referencedSymbol?.buildSymbol(firSymbolBuilder)?.let(::KaBaseSymbolResolutionSuccess)

@@ -414,10 +414,8 @@ KtNameReferenceExpression(711,714): 'one'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package one
 
 KtCallExpression(715,742): 'AnnoWithArray([10, 11, 12])'

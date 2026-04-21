@@ -647,7 +647,10 @@ KtDotQualifiedExpression(711,742): 'one.AnnoWithArray([10, 11, 12])'
     ]
 
 KtNameReferenceExpression(711,714): 'one'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one
+    ]
 
 KtCallExpression(715,742): 'AnnoWithArray([10, 11, 12])'
   KaSymbolResolutionSuccess:

@@ -757,7 +757,7 @@ internal object FirReferenceResolveHelper {
      * Returns the segments of a qualified access PSI. For example, given `foo.bar.OuterClass.InnerClass`, this returns `["foo", "bar",
      * "OuterClass", "InnerClass"]`.
      */
-    private fun KtDotQualifiedExpression.fqNameSegments(): List<String>? {
+    fun KtDotQualifiedExpression.fqNameSegments(): List<String>? {
         val qualifiers = generateSequence(this as KtExpression) { (it as? KtDotQualifiedExpression)?.receiverExpression }
             .map { (it as? KtDotQualifiedExpression)?.selectorExpression ?: it }
             .toList()

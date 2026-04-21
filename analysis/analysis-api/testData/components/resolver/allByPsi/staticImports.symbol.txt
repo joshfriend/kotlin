@@ -179,10 +179,16 @@ KtDotQualifiedExpression(326,333): 'one.two'
   null
 
 KtNameReferenceExpression(326,329): 'one'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one
+    ]
 
 KtNameReferenceExpression(330,333): 'two'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one.two
+    ]
 
 KtNameReferenceExpression(334,348): 'TopLevelObject'
   KaSymbolResolutionSuccess:

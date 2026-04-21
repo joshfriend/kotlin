@@ -12,7 +12,10 @@ import org.jetbrains.kotlin.config.CommonConfigurationKeys
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.ir.backend.js.SourceMapsInfo
 import org.jetbrains.kotlin.ir.backend.js.ic.JsExecutableProducer
-import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.*
+import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.CompilationOutputs
+import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.CompilerResult
+import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.IrModuleToJsTransformer
+import org.jetbrains.kotlin.ir.backend.js.transformers.irToJs.TranslationMode
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.js.backend.ast.ESM_EXTENSION
 import org.jetbrains.kotlin.js.backend.ast.REGULAR_EXTENSION
@@ -27,11 +30,9 @@ import org.jetbrains.kotlin.test.model.*
 import org.jetbrains.kotlin.test.services.TestServices
 import org.jetbrains.kotlin.test.services.compilerConfigurationProvider
 import org.jetbrains.kotlin.test.services.configuration.JsEnvironmentConfigurator
-import org.jetbrains.kotlin.test.services.configuration.JsEnvironmentConfigurator.Companion.getJsModuleArtifactName
 import org.jetbrains.kotlin.test.services.configuration.finalizePath
 import org.jetbrains.kotlin.test.services.configuration.minifyPathForWindowsIfNeeded
 import org.jetbrains.kotlin.test.services.defaultsProvider
-import org.jetbrains.kotlin.utils.addToStdlib.runIf
 import org.jetbrains.kotlin.utils.fileUtils.withReplacedExtensionOrNull
 import java.io.File
 
@@ -77,7 +78,7 @@ class JsIrLoweringFacade(
                         artifactConfiguration = createArtifactConfiguration(configuration, mode, module),
                         sourceMapsInfo = SourceMapsInfo.from(configuration),
                         caches = testServices.jsIrIncrementalDataProvider.getCaches(),
-                        relativeRequirePath = false
+                        relativeRequirePath = true,
                     )
                     jsExecutableProducer.buildExecutable(true).compilationOut
                 }
@@ -130,7 +131,6 @@ class JsIrLoweringFacade(
         loweredIr: JsLoweredIrPipelineArtifact,
     ): BinaryArtifacts.Js {
         val moduleKind = JsEnvironmentConfigurator.getModuleKind(testServices, module)
-        val isEsModules = moduleKind == ModuleKind.ES
 
         val outputFile = File(
             JsEnvironmentConfigurator.getJsModuleArtifactPath(testServices, module.name, TranslationMode.FULL_DEV).finalizePath(moduleKind)
@@ -138,11 +138,6 @@ class JsIrLoweringFacade(
 
         val transformer = IrModuleToJsTransformer(
             loweredIr.context,
-            moduleToName = runIf(isEsModules) {
-                loweredIr.allModules.associateWith {
-                    "./${getJsModuleArtifactName(testServices, it.safeName)}".minifyPathForWindowsIfNeeded()
-                }
-            } ?: emptyMap(),
         )
         val artifactConfigurations = JsEnvironmentConfigurator
             .getTranslationModesForTest(testServices, module)
@@ -150,7 +145,7 @@ class JsIrLoweringFacade(
                 createArtifactConfiguration(loweredIr.configuration, it, module)
             }
         val compilationOut =
-            transformer.generateModule(loweredIr.allModules, artifactConfigurations, relativeRequirePath = isEsModules, outJsProgram = true)
+            transformer.generateModule(loweredIr.allModules, artifactConfigurations, relativeRequirePath = true, outJsProgram = true)
         return BinaryArtifacts.Js.JsIrArtifact(outputFile, compilationOut).dump(module)
     }
 
@@ -230,7 +225,7 @@ class JsIrLoweringFacade(
 
         dependencies.map { it.artifactConfiguration.moduleName }.zip(allJsFiles.dropLast(1)).forEach { (depModuleId, builtJsFilePath) ->
             val newFile = outputFile.augmentWithModuleName(depModuleId)
-            builtJsFilePath.fixJsFile(rootDir, newFile, depModuleId, artifactConfiguration.moduleKind)
+            builtJsFilePath.fixJsFile(rootDir, newFile, "./$depModuleId.js", artifactConfiguration.moduleKind)
         }
         artifactConfiguration.outputDirectory.deleteRecursively()
     }

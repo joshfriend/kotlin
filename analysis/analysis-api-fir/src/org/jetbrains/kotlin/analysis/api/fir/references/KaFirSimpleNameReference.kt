@@ -7,7 +7,6 @@ package org.jetbrains.kotlin.analysis.api.fir.references
 
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.analysis.api.KaSession
-import org.jetbrains.kotlin.analysis.api.fir.KaFirSession
 import org.jetbrains.kotlin.analysis.api.impl.base.references.KaBaseSimpleNameReference
 import org.jetbrains.kotlin.analysis.api.resolution.KaSingleOrMultiCall
 import org.jetbrains.kotlin.analysis.api.resolution.calls
@@ -21,7 +20,6 @@ import org.jetbrains.kotlin.psi.KtSimpleNameExpression
 import org.jetbrains.kotlin.references.KotlinPsiReferenceProviderContributor
 import org.jetbrains.kotlin.resolution.KtResolvableCall
 import org.jetbrains.kotlin.resolve.references.ReferenceAccess
-import org.jetbrains.kotlin.utils.addToStdlib.shouldNotBeCalled
 
 internal class KaFirSimpleNameReference(
     expression: KtSimpleNameExpression,
@@ -40,10 +38,6 @@ internal class KaFirSimpleNameReference(
             ?.flatMap(KaSingleOrMultiCall::symbols)
             ?.takeUnless(List<KaSymbol>::isEmpty)
             ?: element.tryResolveSymbols()?.symbols.orEmpty()
-    }
-
-    override fun KaFirSession.computeSymbols(): Collection<KaSymbol> {
-        shouldNotBeCalled("Only resolveToSymbols is supposed to be used directly")
     }
 
     override fun getResolvedToPsi(analysisSession: KaSession): Collection<PsiElement> = with(analysisSession) {

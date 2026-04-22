@@ -246,6 +246,7 @@ internal class KaFirResolver(
     }
 
     private fun FirElement.toKaSymbolResolutionAttempt(psi: KtElement): KaSymbolResolutionAttempt? = when (this) {
+        is FirResolvedTypeRef if psi is KtSimpleNameExpression -> toKaSymbolResolutionAttempt(psi)
         is FirDiagnosticHolder -> toKaSymbolResolutionError(psi)
         is FirResolvable -> toKaSymbolResolutionAttempt(psi)
         is FirReference -> toKaSymbolResolutionAttempt(psi)
@@ -254,7 +255,6 @@ internal class KaFirResolver(
         is FirTypeParameter -> toKaSymbolResolutionAttempt()
         is FirResolvedReifiedParameterReference -> toKaSymbolResolutionAttempt()
         is FirPackageDirective if psi is KtSimpleNameExpression -> toKaSymbolResolutionAttempt(psi)
-        is FirResolvedTypeRef if psi is KtSimpleNameExpression -> toKaSymbolResolutionAttempt(psi)
         is FirResolvedImport if psi is KtSimpleNameExpression -> toKaSymbolResolutionAttempt(psi)
         else -> null
     }
@@ -452,14 +452,21 @@ internal class KaFirResolver(
     }
 
     private fun FirResolvedTypeRef.toKaSymbolResolutionAttempt(psi: KtSimpleNameExpression): KaSymbolResolutionAttempt? {
-        return getSymbolsForResolvedTypeRef(
+        val resolvedTypeSymbols = getSymbolsForResolvedTypeRef(
             expression = psi,
             fir = this,
             session = analysisSession.firSession,
             symbolBuilder = firSymbolBuilder,
-        ).ifNotEmpty {
-            KaBaseSymbolResolutionSuccess(this)
+        )
+
+        val resolutionError = (this as? FirDiagnosticHolder)?.toKaSymbolResolutionError(psi)
+        // Resolved symbols might properly detect usages of nested elements,
+        // but at the same time, if they found error symbols, the error result has to be preserved
+        if (resolutionError?.candidateSymbols == resolvedTypeSymbols) {
+            return resolutionError
         }
+
+        return resolvedTypeSymbols.ifNotEmpty(::KaBaseSymbolResolutionSuccess) ?: resolutionError
     }
 
     private fun FirDiagnosticHolder.toKaSymbolResolutionError(psi: KtElement): KaSymbolResolutionError =

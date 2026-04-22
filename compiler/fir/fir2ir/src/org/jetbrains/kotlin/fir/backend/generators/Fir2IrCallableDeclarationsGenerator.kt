@@ -618,9 +618,10 @@ class Fir2IrCallableDeclarationsGenerator(private val c: Fir2IrComponents) : Fir
         contextParameters: List<FirValueParameter>,
         parent: IrFunction,
         result: MutableList<IrValueParameter>,
+        typeOrigin: ConversionTypeOrigin = ConversionTypeOrigin.DEFAULT,
     ) {
-        contextParameters.mapIndexedTo(result) { index, contextReceiver ->
-            this.declarationStorage.createAndCacheParameter(contextReceiver).apply {
+        contextParameters.mapTo(result) { contextReceiver ->
+            this.declarationStorage.createAndCacheParameter(contextReceiver, typeOrigin = typeOrigin).apply {
                 this.parent = parent
             }
         }
@@ -668,12 +669,12 @@ class Fir2IrCallableDeclarationsGenerator(private val c: Fir2IrComponents) : Fir
                 }
             }
 
+            val typeOrigin = if (forSetter) ConversionTypeOrigin.SETTER else ConversionTypeOrigin.DEFAULT
+
             // context parameters
             function
                 ?.contextParametersForFunctionOrContainingProperty()
-                ?.let { addContextParametersTo(it, parent, this) }
-
-            val typeOrigin = if (forSetter) ConversionTypeOrigin.SETTER else ConversionTypeOrigin.DEFAULT
+                ?.let { addContextParametersTo(it, parent, this, typeOrigin) }
 
             // extension receiver
             if (function?.isCompanionExtension != true && parentProperty?.isCompanionExtension != true) {

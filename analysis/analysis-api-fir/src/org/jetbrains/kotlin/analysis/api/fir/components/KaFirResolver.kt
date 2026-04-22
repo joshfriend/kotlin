@@ -519,6 +519,8 @@ internal class KaFirResolver(
         val resolveFragmentOfCall = psiToResolve == containingBinaryExpressionForLhs || psiToResolve == containingUnaryExpressionForIncOrDec
         return when (val fir = psiToResolve.getOrBuildFirWithAdjustments()) {
             null -> emptyList()
+            // Type references are not supposed to be covered by the call resolution. The symbol resolution will be used instead
+            is FirResolvedTypeRef if psiToResolve is KtSimpleNameExpression -> emptyList()
             is FirDiagnosticHolder -> fir.onError(psiToResolve, resolveFragmentOfCall)
             else -> {
                 fir.onSuccess(

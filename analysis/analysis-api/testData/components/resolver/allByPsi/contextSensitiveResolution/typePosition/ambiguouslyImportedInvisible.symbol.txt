@@ -330,7 +330,10 @@ KtUserType(287,291): 'Left'
 
 KtNameReferenceExpression(287,291): 'Left'
   KaSymbolResolutionError:
-    candidateSymbols = []
+    candidateSymbols = [
+      a/Left,
+      b/Left
+    ]
     diagnostic = ERROR<NONE_APPLICABLE: None of the following candidates is applicable:
 
     class Left : Any:

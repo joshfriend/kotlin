@@ -982,9 +982,7 @@ KtUserType(892,908): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(892,908): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtDotQualifiedExpression(913,931): 'i.prop1.hashCode()'
   KaCallResolutionSuccess:
@@ -1458,9 +1456,7 @@ KtUserType(1084,1100): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(1084,1100): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtDotQualifiedExpression(1105,1123): 'v.prop1.hashCode()'
   KaCallResolutionError:
@@ -1549,9 +1545,7 @@ KtUserType(1156,1172): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(1156,1172): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtDotQualifiedExpression(1177,1196): 'v2.prop1.hashCode()'
   KaCallResolutionError:
@@ -1608,9 +1602,7 @@ KtUserType(1210,1226): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(1210,1226): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtBinaryExpressionWithTypeRHS(1229,1250): 'i as SealedInheritor1'
   null
@@ -1642,9 +1634,7 @@ KtUserType(1234,1250): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(1234,1250): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtDotQualifiedExpression(1255,1274): 'v3.prop1.hashCode()'
   KaCallResolutionError:
@@ -1818,9 +1808,7 @@ KtUserType(1306,1322): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(1306,1322): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtCallExpression(1328,1388): 'consume<SealedClass.SealedInheritor1>(i as SealedInheritor1)'
   KaCallResolutionError:
@@ -1955,9 +1943,7 @@ KtUserType(1371,1387): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(1371,1387): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtNamedFunction(1393,1934): 'fun testSafeTypeCast(i: SealedClass) {'
   null
@@ -2455,9 +2441,7 @@ KtUserType(1679,1695): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(1679,1695): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtBinaryExpressionWithTypeRHS(1699,1721): 'i as? SealedInheritor1'
   null

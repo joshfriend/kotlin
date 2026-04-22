@@ -109,8 +109,6 @@ KtNameReferenceExpression(272,276): 'Left'
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<INVISIBLE_REFERENCE: Cannot access 'class Left : Any': it is private in file.>
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in a) private class Left
 
 KtNameReferenceExpression(280,281): 'x'

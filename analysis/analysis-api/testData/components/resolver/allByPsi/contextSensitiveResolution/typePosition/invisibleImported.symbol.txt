@@ -321,7 +321,9 @@ KtUserType(272,276): 'Left'
 
 KtNameReferenceExpression(272,276): 'Left'
   KaSymbolResolutionError:
-    candidateSymbols = []
+    candidateSymbols = [
+      a/Left
+    ]
     diagnostic = ERROR<INVISIBLE_REFERENCE: Cannot access 'class Left : Any': it is private in file.>
 
 KtNameReferenceExpression(280,281): 'x'

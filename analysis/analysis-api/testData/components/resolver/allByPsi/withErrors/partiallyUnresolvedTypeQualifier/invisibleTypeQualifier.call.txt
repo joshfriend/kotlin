@@ -20,14 +20,10 @@ KtUserType(27,33): 'Hidden'
   null
 
 KtNameReferenceExpression(27,33): 'Hidden'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<INVISIBLE_REFERENCE: Cannot access 'class Nested : Any': it is private in 'Hidden'.>
+  null
 
 KtNameReferenceExpression(34,40): 'Nested'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<INVISIBLE_REFERENCE: Cannot access 'class Nested : Any': it is private in 'Hidden'.>
+  null
 
 KtPostfixExpression(43,49): 'null!!'
   null

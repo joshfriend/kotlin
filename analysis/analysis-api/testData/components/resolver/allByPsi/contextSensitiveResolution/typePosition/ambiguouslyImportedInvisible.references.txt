@@ -123,6 +123,9 @@ KtNameReferenceExpression(287,291): 'Left'
     class Left : Any:
       Cannot access 'class Left : Any': it is private in file.>
     symbols:
+      0: (in a) private class Left
+      1: (in b) private class Left
+    resolveToSymbols:
       Nothing (Unresolved reference)
 
 KtNameReferenceExpression(295,296): 'x'

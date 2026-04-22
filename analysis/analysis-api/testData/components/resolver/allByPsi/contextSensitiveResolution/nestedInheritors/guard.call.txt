@@ -566,9 +566,7 @@ KtUserType(722,748): 'SealedInheritorOfOpenClass'
   null
 
 KtNameReferenceExpression(722,748): 'SealedInheritorOfOpenClass'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritorOfOpenClass'.>
+  null
 
 KtWhenEntryGuard(749,798): 'if instance is IndirectSealedInheritorOfOpenClass'
   null
@@ -603,9 +601,7 @@ KtUserType(764,798): 'IndirectSealedInheritorOfOpenClass'
   null
 
 KtNameReferenceExpression(764,798): 'IndirectSealedInheritorOfOpenClass'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'IndirectSealedInheritorOfOpenClass'.>
+  null
 
 KtDotQualifiedExpression(802,815): 'instance.prop'
   KaCallResolutionError:

@@ -1092,9 +1092,7 @@ KtUserType(1032,1039): 'Nested1'
   null
 
 KtNameReferenceExpression(1032,1039): 'Nested1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'Nested1'.>
+  null
 
 KtContainerNodeForControlStructureBody(1041,1073): '{'
   null

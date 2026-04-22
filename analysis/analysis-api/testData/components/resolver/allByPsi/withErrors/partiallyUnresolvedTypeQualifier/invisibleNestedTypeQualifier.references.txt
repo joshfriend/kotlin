@@ -13,8 +13,6 @@ KtNameReferenceExpression(34,40): 'Nested'
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<INVISIBLE_REFERENCE: Cannot access 'class Nested : Any': it is private in 'Hidden'.>
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in Hidden) private class Nested
 
 KtOperationReferenceExpression(47,49): '!!'

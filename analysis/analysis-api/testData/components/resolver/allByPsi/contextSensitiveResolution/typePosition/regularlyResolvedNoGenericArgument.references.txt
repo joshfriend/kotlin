@@ -61,8 +61,6 @@ KtNameReferenceExpression(279,283): 'Left'
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<NO_TYPE_ARGUMENTS_ON_RHS: One type argument expected. Use 'Left<*>' if you do not intend to pass type arguments.>
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in ROOT) interface Left<T>
 
 KtNameReferenceExpression(287,288): 'z'

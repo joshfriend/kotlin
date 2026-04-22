@@ -216,7 +216,9 @@ KtUserType(279,283): 'Left'
 
 KtNameReferenceExpression(279,283): 'Left'
   KaSymbolResolutionError:
-    candidateSymbols = []
+    candidateSymbols = [
+      /Left
+    ]
     diagnostic = ERROR<NO_TYPE_ARGUMENTS_ON_RHS: One type argument expected. Use 'Left<*>' if you do not intend to pass type arguments.>
 
 KtNameReferenceExpression(287,288): 'z'

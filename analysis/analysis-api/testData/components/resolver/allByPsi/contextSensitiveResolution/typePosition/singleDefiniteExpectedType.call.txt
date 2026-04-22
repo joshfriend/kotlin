@@ -885,9 +885,7 @@ KtUserType(869,885): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(869,885): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtDotQualifiedExpression(889,903): 'instance.prop1'
   KaCallResolutionError:
@@ -929,9 +927,7 @@ KtUserType(912,928): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(912,928): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtWhenEntryGuard(929,960): 'if instance is SealedInheritor2'
   null
@@ -966,9 +962,7 @@ KtUserType(944,960): 'SealedInheritor2'
   null
 
 KtNameReferenceExpression(944,960): 'SealedInheritor2'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor2'.>
+  null
 
 KtDotQualifiedExpression(964,989): 'instance.prop2.toString()'
   KaCallResolutionSuccess:
@@ -2019,9 +2013,7 @@ KtUserType(1918,1939): 'NestedNestedInheritor'
   null
 
 KtNameReferenceExpression(1918,1939): 'NestedNestedInheritor'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'NestedNestedInheritor'.>
+  null
 
 KtDotQualifiedExpression(1943,1962): 'instance.propNested'
   KaCallResolutionError:
@@ -2258,9 +2250,7 @@ KtUserType(2224,2245): 'NestedNestedInheritor'
   null
 
 KtNameReferenceExpression(2224,2245): 'NestedNestedInheritor'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'NestedNestedInheritor'.>
+  null
 
 KtDotQualifiedExpression(2249,2268): 'instance.propNested'
   KaCallResolutionError:
@@ -2406,9 +2396,7 @@ KtUserType(2452,2467): 'NestedInheritor'
   null
 
 KtNameReferenceExpression(2452,2467): 'NestedInheritor'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'NestedInheritor'.>
+  null
 
 KtDotQualifiedExpression(2471,2484): 'instance.prop'
   KaCallResolutionError:
@@ -2450,9 +2438,7 @@ KtUserType(2492,2508): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(2492,2508): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtDotQualifiedExpression(2512,2526): 'instance.prop1'
   KaCallResolutionError:
@@ -2915,9 +2901,7 @@ KtUserType(2858,2874): 'SealedInheritor1'
   null
 
 KtNameReferenceExpression(2858,2874): 'SealedInheritor1'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor1'.>
+  null
 
 KtStringTemplateExpression(2878,2883): '"100"'
   null
@@ -2938,9 +2922,7 @@ KtUserType(2891,2907): 'SealedInheritor2'
   null
 
 KtNameReferenceExpression(2891,2907): 'SealedInheritor2'
-  KaCallResolutionError:
-    candidateCalls = []
-    diagnostic = ERROR<UNRESOLVED_REFERENCE: Unresolved reference 'SealedInheritor2'.>
+  null
 
 KtStringTemplateExpression(2911,2916): '"201"'
   null

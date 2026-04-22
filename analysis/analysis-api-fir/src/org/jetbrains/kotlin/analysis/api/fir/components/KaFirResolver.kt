@@ -1150,7 +1150,13 @@ internal class KaFirResolver(
                 )
             }
 
-            is FirPropertyAccessExpression, is FirCallableReferenceAccess, is FirFunctionCall, is FirErrorExpression -> when (partiallyAppliedSymbol.symbol) {
+            is FirPropertyAccessExpression,
+            is FirCallableReferenceAccess,
+            is FirFunctionCall,
+            is FirErrorExpression,
+            is FirResolvedErrorReference,
+                -> when (partiallyAppliedSymbol.symbol) {
+
                 is KaVariableSymbol -> {
                     @Suppress("UNCHECKED_CAST") // safe because of the above check on targetKtSymbol
                     KaBaseSimpleVariableAccessCall(

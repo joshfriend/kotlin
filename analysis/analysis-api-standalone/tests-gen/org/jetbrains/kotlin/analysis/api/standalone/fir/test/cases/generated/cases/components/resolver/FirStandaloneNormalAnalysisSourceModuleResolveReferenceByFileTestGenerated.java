@@ -1261,6 +1261,24 @@ public class FirStandaloneNormalAnalysisSourceModuleResolveReferenceByFileTestGe
       public void testGenericClassNameBeforeOneUnresolvedClass() {
         run("GenericClassNameBeforeOneUnresolvedClass.kt");
       }
+
+      @Test
+      @TestMetadata("invisibleNestedTypeQualifier.kt")
+      public void testInvisibleNestedTypeQualifier() {
+        run("invisibleNestedTypeQualifier.kt");
+      }
+
+      @Test
+      @TestMetadata("invisibleTypeQualifier.kt")
+      public void testInvisibleTypeQualifier() {
+        run("invisibleTypeQualifier.kt");
+      }
+
+      @Test
+      @TestMetadata("partiallyInvisibleTypeQualifier.kt")
+      public void testPartiallyInvisibleTypeQualifier() {
+        run("partiallyInvisibleTypeQualifier.kt");
+      }
     }
   }
 }

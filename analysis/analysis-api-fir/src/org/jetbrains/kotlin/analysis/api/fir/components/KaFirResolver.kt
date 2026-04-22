@@ -252,6 +252,7 @@ internal class KaFirResolver(
         is FirResolvedQualifier -> toKaSymbolResolutionAttempt(psi)
         is FirPackageDirective if psi is KtSimpleNameExpression -> toKaSymbolResolutionAttempt(psi)
         is FirTypeParameter -> toKaSymbolResolutionAttempt()
+        is FirResolvedReifiedParameterReference -> toKaSymbolResolutionAttempt()
         is FirResolvedImport if psi is KtSimpleNameExpression -> toKaSymbolResolutionAttempt(psi)
         else -> null
     }
@@ -432,6 +433,10 @@ internal class KaFirResolver(
     }
 
     private fun FirTypeParameter.toKaSymbolResolutionAttempt(): KaSymbolResolutionAttempt {
+        return KaBaseSymbolResolutionSuccess(firSymbolBuilder.buildSymbol(symbol))
+    }
+
+    private fun FirResolvedReifiedParameterReference.toKaSymbolResolutionAttempt(): KaSymbolResolutionAttempt {
         return KaBaseSymbolResolutionSuccess(firSymbolBuilder.buildSymbol(symbol))
     }
 

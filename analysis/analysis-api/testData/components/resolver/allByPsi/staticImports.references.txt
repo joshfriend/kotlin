@@ -458,8 +458,6 @@ KtOperationReferenceExpression(903,904): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in one.two.TopLevelObject.NestedObject) var doo: kotlin.String
-    resolveToSymbols:
       Nothing (Unresolved reference)

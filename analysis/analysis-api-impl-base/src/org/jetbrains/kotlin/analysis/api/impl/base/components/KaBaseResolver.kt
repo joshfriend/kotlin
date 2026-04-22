@@ -76,7 +76,10 @@ abstract class KaBaseResolver<T : KaSession> : KaBaseSessionComponent<T>(), KaRe
     private fun KtOperationReferenceExpression.tryResolveSymbolsForOperationReference(): KaSymbolResolutionAttempt? {
         val resolvableCall = parent as? KtResolvableCall ?: return null
         return when (val callAttempt = resolvableCall.tryResolveCall()) {
-            is KaSingleCallResolutionAttempt -> callAttempt.toSingleSymbolResolutionAttempt()
+            is KaCallResolutionError -> callAttempt.toSingleSymbolResolutionAttempt()
+
+            // Single variable access is not expected to be a result of the symbol resolve (the assignment use case)
+            is KaCallResolutionSuccess if callAttempt.call !is KaVariableAccessCall -> callAttempt.toSingleSymbolResolutionAttempt()
             is KaMultiCallResolutionAttempt -> when (callAttempt) {
                 is KaCompoundArrayAccessCallResolutionAttempt -> mergeSymbolAttempts(
                     listOf(

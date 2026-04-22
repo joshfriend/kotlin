@@ -656,10 +656,8 @@ KtOperationReferenceExpression(1121,1122): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in <local>: usage) var a: A
-    resolveToSymbols:
       Nothing (Unresolved reference)
 
 KtNameReferenceExpression(1123,1124): 'a'

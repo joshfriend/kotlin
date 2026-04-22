@@ -114,8 +114,6 @@ KtOperationReferenceExpression(242,243): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in <local>: test) var x: kotlin.Int
-    resolveToSymbols:
       Nothing (Unresolved reference)

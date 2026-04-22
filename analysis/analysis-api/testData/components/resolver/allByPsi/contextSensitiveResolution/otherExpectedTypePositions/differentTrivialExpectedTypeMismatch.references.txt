@@ -194,10 +194,8 @@ KtOperationReferenceExpression(500,501): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in <local>: main) var m: MyClass?
-    resolveToSymbols:
       Nothing (Unresolved reference)
 
 KtNameReferenceExpression(502,503): 'Y'
@@ -220,10 +218,8 @@ KtOperationReferenceExpression(510,511): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in <local>: main) var m: MyClass?
-    resolveToSymbols:
       Nothing (Unresolved reference)
 
 KtNameReferenceExpression(512,513): 'X'

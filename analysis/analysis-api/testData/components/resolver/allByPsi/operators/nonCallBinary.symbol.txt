@@ -152,10 +152,7 @@ KtNameReferenceExpression(240,241): 'x'
     ]
 
 KtOperationReferenceExpression(242,243): '='
-  KaSymbolResolutionSuccess:
-    symbols = [
-      var x: kotlin.Int
-    ]
+  null
 
 KtConstantExpression(244,245): '2'
   null

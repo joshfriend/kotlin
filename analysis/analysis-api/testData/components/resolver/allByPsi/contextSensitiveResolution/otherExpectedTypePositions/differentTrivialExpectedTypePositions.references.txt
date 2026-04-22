@@ -154,10 +154,8 @@ KtOperationReferenceExpression(352,353): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in <local>: main) var m: MyEnum
-    resolveToSymbols:
       Nothing (Unresolved reference)
 
 KtNameReferenceExpression(354,355): 'Y'
@@ -180,10 +178,8 @@ KtOperationReferenceExpression(362,363): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in <local>: main) var m: MyEnum
-    resolveToSymbols:
       Nothing (Unresolved reference)
 
 KtNameReferenceExpression(364,365): 'L'

@@ -154,10 +154,8 @@ KtOperationReferenceExpression(548,549): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in <local>: testReassignment) var m: MyEnum
-    resolveToSymbols:
       Nothing (Unresolved reference)
 
 KtNameReferenceExpression(550,557): 'Option1'
@@ -180,10 +178,8 @@ KtOperationReferenceExpression(564,565): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in <local>: testReassignment) var m: MyEnum
-    resolveToSymbols:
       Nothing (Unresolved reference)
 
 KtNameReferenceExpression(566,577): 'OptionAlias'
@@ -206,10 +202,8 @@ KtOperationReferenceExpression(584,585): '='
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: null
     symbols:
-      (in <local>: testReassignment) var m: MyEnum
-    resolveToSymbols:
       Nothing (Unresolved reference)
 
 KtNameReferenceExpression(586,596): 'stringProp'

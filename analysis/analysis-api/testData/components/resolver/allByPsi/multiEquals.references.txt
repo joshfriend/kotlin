@@ -109,8 +109,6 @@ KtNameReferenceExpression(388,400): 'ItemCallback'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) abstract class ItemCallback<T>
-    resolveToSymbols:
-      (in ItemCallback) constructor <T>()
 
 KtNameReferenceExpression(401,402): 'T'
   KtSimpleNameReference:
@@ -223,8 +221,6 @@ KtNameReferenceExpression(615,627): 'ItemCallback'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) abstract class ItemCallback<T>
-    resolveToSymbols:
-      (in ItemCallback) constructor <T>()
 
 KtNameReferenceExpression(628,629): 'T'
   KtSimpleNameReference:
@@ -297,8 +293,6 @@ KtNameReferenceExpression(784,796): 'ItemCallback'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) abstract class ItemCallback<T>
-    resolveToSymbols:
-      (in ItemCallback) constructor <T>()
 
 KtNameReferenceExpression(797,798): 'T'
   KtSimpleNameReference:

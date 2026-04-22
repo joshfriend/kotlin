@@ -5,5 +5,3 @@ KtNameReferenceExpression(556,560): 'Test'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) open class Test
-    resolveToSymbols:
-      (in Test) constructor()

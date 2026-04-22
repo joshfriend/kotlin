@@ -5,5 +5,3 @@ KtNameReferenceExpression(51,60): 'JavaClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) open class JavaClass
-    resolveToSymbols:
-      (in JavaClass) constructor(s: kotlin.String)

@@ -29,8 +29,6 @@ KtNameReferenceExpression(102,111): 'Container'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) class Container
-    resolveToSymbols:
-      (in Container) constructor()
 
 KtOperationReferenceExpression(120,122): 'in'
   KtSimpleNameReference:

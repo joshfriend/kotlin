@@ -13,8 +13,6 @@ KtNameReferenceExpression(163,174): 'SealedClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedClass
-    resolveToSymbols:
-      (in SealedClass) constructor()
 
 KtNameReferenceExpression(215,218): 'Int'
   KtSimpleNameReference:
@@ -31,8 +29,6 @@ KtNameReferenceExpression(225,236): 'SealedClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedClass
-    resolveToSymbols:
-      (in SealedClass) constructor()
 
 KtNameReferenceExpression(291,298): 'Boolean'
   KtSimpleNameReference:
@@ -49,8 +45,6 @@ KtNameReferenceExpression(308,319): 'SealedClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedClass
-    resolveToSymbols:
-      (in SealedClass) constructor()
 
 KtNameReferenceExpression(358,374): 'SealedInheritor1'
   KtSimpleNameReference:
@@ -59,8 +53,6 @@ KtNameReferenceExpression(358,374): 'SealedInheritor1'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in SealedClass) open class SealedInheritor1(prop1: kotlin.String) : SealedClass()
-    resolveToSymbols:
-      (in SealedClass.SealedInheritor1) constructor(prop1: kotlin.String)
 
 KtNameReferenceExpression(438,449): 'SealedClass'
   KtSimpleNameReference:
@@ -69,8 +61,6 @@ KtNameReferenceExpression(438,449): 'SealedClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedClass
-    resolveToSymbols:
-      (in SealedClass) constructor()
 
 KtNameReferenceExpression(501,517): 'SealedInheritor1'
   KtSimpleNameReference:
@@ -79,8 +69,6 @@ KtNameReferenceExpression(501,517): 'SealedInheritor1'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in SealedClass) open class SealedInheritor1(prop1: kotlin.String) : SealedClass()
-    resolveToSymbols:
-      (in SealedClass.SealedInheritor1) constructor(prop1: kotlin.String)
 
 KtNameReferenceExpression(564,570): 'String'
   KtSimpleNameReference:
@@ -97,8 +85,6 @@ KtNameReferenceExpression(588,599): 'SealedClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedClass
-    resolveToSymbols:
-      (in SealedClass) constructor()
 
 KtNameReferenceExpression(724,725): 'T'
   KtSimpleNameReference:

@@ -29,8 +29,6 @@ KtNameReferenceExpression(91,92): 'A'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) class A
-    resolveToSymbols:
-      (in A) constructor()
 
 KtCallExpression(107,110): 'A()'
   KtInvokeFunctionReference:
@@ -47,8 +45,6 @@ KtNameReferenceExpression(107,108): 'A'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) class A
-    resolveToSymbols:
-      (in A) constructor()
 
 KtNameReferenceExpression(115,116): 'a'
   KtSimpleNameReference:

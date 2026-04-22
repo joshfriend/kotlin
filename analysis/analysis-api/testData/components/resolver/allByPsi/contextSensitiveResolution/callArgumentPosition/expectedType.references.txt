@@ -21,8 +21,6 @@ KtNameReferenceExpression(269,276): 'MyClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) open class MyClass
-    resolveToSymbols:
-      (in MyClass) constructor()
 
 KtNameReferenceExpression(296,297): 'X'
   KtSimpleNameReference:

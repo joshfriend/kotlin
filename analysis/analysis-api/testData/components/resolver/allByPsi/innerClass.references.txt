@@ -29,8 +29,6 @@ KtNameReferenceExpression(86,90): 'Base'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in r.A) open inner class Base(x: kotlin.Int)
-    resolveToSymbols:
-      (in r.A.Base) constructor(x: kotlin.Int)
 
 KtNameReferenceExpression(91,92): 'x'
   KtSimpleNameReference:

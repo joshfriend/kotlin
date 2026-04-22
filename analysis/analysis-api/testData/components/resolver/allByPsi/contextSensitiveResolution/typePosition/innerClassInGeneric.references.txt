@@ -5,8 +5,6 @@ KtNameReferenceExpression(119,120): 'A'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class A<T>
-    resolveToSymbols:
-      (in A) constructor <T>()
 
 KtNameReferenceExpression(121,127): 'String'
   KtSimpleNameReference:
@@ -47,8 +45,6 @@ KtNameReferenceExpression(191,192): 'A'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class A<T>
-    resolveToSymbols:
-      (in A) constructor <T>()
 
 KtNameReferenceExpression(193,199): 'String'
   KtSimpleNameReference:
@@ -89,8 +85,6 @@ KtNameReferenceExpression(255,256): 'A'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class A<T>
-    resolveToSymbols:
-      (in A) constructor <T>()
 
 KtNameReferenceExpression(257,260): 'Int'
   KtSimpleNameReference:

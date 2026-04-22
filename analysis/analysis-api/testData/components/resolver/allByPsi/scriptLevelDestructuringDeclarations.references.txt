@@ -21,8 +21,6 @@ KtNameReferenceExpression(102,106): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(107,125): '"a type $constant"'
   KtDefaultAnnotationArgumentReference:
@@ -55,8 +53,6 @@ KtNameReferenceExpression(133,137): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(138,163): '"a nested type $constant"'
   KtDefaultAnnotationArgumentReference:
@@ -89,8 +85,6 @@ KtNameReferenceExpression(177,181): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(182,214): '"a nested nested type $constant"'
   KtDefaultAnnotationArgumentReference:
@@ -123,8 +117,6 @@ KtNameReferenceExpression(235,239): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(240,258): '"b type $constant"'
   KtDefaultAnnotationArgumentReference:
@@ -157,8 +149,6 @@ KtNameReferenceExpression(267,271): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(272,297): '"b nested type $constant"'
   KtDefaultAnnotationArgumentReference:
@@ -191,8 +181,6 @@ KtNameReferenceExpression(305,309): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(310,342): '"b nested nested type $constant"'
   KtDefaultAnnotationArgumentReference:
@@ -225,8 +213,6 @@ KtNameReferenceExpression(377,381): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(382,397): '"destr 1 $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -262,8 +248,6 @@ KtNameReferenceExpression(405,409): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(410,419): '"a $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -299,8 +283,6 @@ KtNameReferenceExpression(425,429): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(430,439): '"b $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -333,8 +315,6 @@ KtNameReferenceExpression(446,450): 'Pair'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) data class Pair(a: @util.Anno(str = "a type s") kotlin.collections.List<@util.Anno(str = "a nested type s") kotlin.collections.Collection<@util.Anno(str = "a nested nested type s") kotlin.String>>?, b: @util.Anno(str = "b type s") kotlin.Array<@util.Anno(str = "b nested type s") kotlin.collections.List<@util.Anno(str = "b nested nested type s") kotlin.Int>>?)
-    resolveToSymbols:
-      (in util.Pair) constructor(a: @util.Anno(str = "a type s") kotlin.collections.List<@util.Anno(str = "a nested type s") kotlin.collections.Collection<@util.Anno(str = "a nested nested type s") kotlin.String>>?, b: @util.Anno(str = "b type s") kotlin.Array<@util.Anno(str = "b nested type s") kotlin.collections.List<@util.Anno(str = "b nested nested type s") kotlin.Int>>?)
 
 KtNameReferenceExpression(465,469): 'Anno'
   KtSimpleNameReference:
@@ -343,8 +323,6 @@ KtNameReferenceExpression(465,469): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(470,485): '"destr 1 $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -380,8 +358,6 @@ KtNameReferenceExpression(493,497): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(498,507): '"c $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -417,8 +393,6 @@ KtNameReferenceExpression(513,517): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) annotation class Anno(str: kotlin.String)
-    resolveToSymbols:
-      (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(518,527): '"d $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -451,5 +425,3 @@ KtNameReferenceExpression(534,538): 'Pair'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in util) data class Pair(a: @util.Anno(str = "a type s") kotlin.collections.List<@util.Anno(str = "a nested type s") kotlin.collections.Collection<@util.Anno(str = "a nested nested type s") kotlin.String>>?, b: @util.Anno(str = "b type s") kotlin.Array<@util.Anno(str = "b nested type s") kotlin.collections.List<@util.Anno(str = "b nested nested type s") kotlin.Int>>?)
-    resolveToSymbols:
-      (in util.Pair) constructor(a: @util.Anno(str = "a type s") kotlin.collections.List<@util.Anno(str = "a nested type s") kotlin.collections.Collection<@util.Anno(str = "a nested nested type s") kotlin.String>>?, b: @util.Anno(str = "b type s") kotlin.Array<@util.Anno(str = "b nested type s") kotlin.collections.List<@util.Anno(str = "b nested nested type s") kotlin.Int>>?)

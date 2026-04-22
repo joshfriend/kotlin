@@ -109,5 +109,3 @@ KtNameReferenceExpression(251,261): 'InnerClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in one.two.TopLevelClass) inner class InnerClass
-    resolveToSymbols:
-      (in one.two.TopLevelClass.InnerClass) constructor()

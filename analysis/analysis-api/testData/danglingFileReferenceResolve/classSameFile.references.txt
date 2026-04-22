@@ -5,5 +5,3 @@ KtNameReferenceExpression(28,31): 'Foo'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) class Foo [fake.kt]
-    resolveToSymbols:
-      (in Foo) constructor() [fake.kt]

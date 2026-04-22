@@ -5,5 +5,3 @@ KtNameReferenceExpression(62,63): 'A'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) class A
-    resolveToSymbols:
-      (in A) constructor(i: kotlin.Int)

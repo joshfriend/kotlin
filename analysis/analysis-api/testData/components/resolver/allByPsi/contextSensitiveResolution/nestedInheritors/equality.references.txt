@@ -181,8 +181,6 @@ KtNameReferenceExpression(540,552): 'OpenSettings'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) open class OpenSettings
-    resolveToSymbols:
-      (in OpenSettings) constructor()
 
 KtNameReferenceExpression(594,606): 'OpenSettings'
   KtSimpleNameReference:
@@ -191,8 +189,6 @@ KtNameReferenceExpression(594,606): 'OpenSettings'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) open class OpenSettings
-    resolveToSymbols:
-      (in OpenSettings) constructor()
 
 KtNameReferenceExpression(636,648): 'OpenSettings'
   KtSimpleNameReference:

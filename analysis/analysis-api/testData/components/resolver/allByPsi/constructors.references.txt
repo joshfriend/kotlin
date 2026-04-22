@@ -125,8 +125,6 @@ KtNameReferenceExpression(294,303): 'BaseClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in r) abstract class BaseClass
-    resolveToSymbols:
-      (in r.BaseClass) constructor(i: kotlin.Int)
 
 KtNameReferenceExpression(329,335): 'String'
   KtSimpleNameReference:

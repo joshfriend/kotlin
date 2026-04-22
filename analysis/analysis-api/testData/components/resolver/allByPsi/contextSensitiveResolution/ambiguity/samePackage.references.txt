@@ -13,8 +13,6 @@ KtNameReferenceExpression(114,120): 'Sealed'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in foo) sealed class Sealed
-    resolveToSymbols:
-      (in foo.Sealed) constructor()
 
 KtNameReferenceExpression(147,150): 'Int'
   KtSimpleNameReference:
@@ -31,8 +29,6 @@ KtNameReferenceExpression(154,160): 'Sealed'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in foo) sealed class Sealed
-    resolveToSymbols:
-      (in foo.Sealed) constructor()
 
 KtNameReferenceExpression(183,189): 'Sealed'
   KtSimpleNameReference:
@@ -41,8 +37,6 @@ KtNameReferenceExpression(183,189): 'Sealed'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in foo) sealed class Sealed
-    resolveToSymbols:
-      (in foo.Sealed) constructor()
 
 KtNameReferenceExpression(216,219): 'Int'
   KtSimpleNameReference:
@@ -59,8 +53,6 @@ KtNameReferenceExpression(223,229): 'Sealed'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in foo) sealed class Sealed
-    resolveToSymbols:
-      (in foo.Sealed) constructor()
 
 KtNameReferenceExpression(261,267): 'kotlin'
   KtSimpleNameReference:
@@ -85,8 +77,6 @@ KtNameReferenceExpression(278,284): 'Sealed'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in foo) sealed class Sealed
-    resolveToSymbols:
-      (in foo.Sealed) constructor()
 
 KtNameReferenceExpression(322,328): 'Sealed'
   KtSimpleNameReference:

@@ -5,5 +5,3 @@ KtNameReferenceExpression(93,95): 'AA'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) class AA
-    resolveToSymbols:
-      (in AA) constructor()

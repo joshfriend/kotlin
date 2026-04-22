@@ -5,8 +5,6 @@ KtNameReferenceExpression(122,130): 'MySealed'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class MySealed
-    resolveToSymbols:
-      (in MySealed) constructor()
 
 KtNameReferenceExpression(178,186): 'MySealed'
   KtSimpleNameReference:
@@ -15,8 +13,6 @@ KtNameReferenceExpression(178,186): 'MySealed'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class MySealed
-    resolveToSymbols:
-      (in MySealed) constructor()
 
 KtNameReferenceExpression(206,207): 'X'
   KtSimpleNameReference:

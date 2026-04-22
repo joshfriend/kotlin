@@ -5,5 +5,3 @@ KtNameReferenceExpression(92,100): 'Conflict'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in <local>: test) class Conflict
-    resolveToSymbols:
-      (in <local>: test.Conflict) constructor()

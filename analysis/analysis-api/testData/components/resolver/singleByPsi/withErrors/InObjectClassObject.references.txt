@@ -5,5 +5,3 @@ KtNameReferenceExpression(69,70): 'A'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in test) class A
-    resolveToSymbols:
-      (in test.A) constructor()

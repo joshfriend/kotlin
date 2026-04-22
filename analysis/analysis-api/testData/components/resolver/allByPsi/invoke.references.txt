@@ -53,8 +53,6 @@ KtNameReferenceExpression(124,131): 'MyClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in r) class MyClass
-    resolveToSymbols:
-      (in r.MyClass) constructor()
 
 KtCallExpression(156,165): 'MyClass()'
   KtInvokeFunctionReference:
@@ -71,8 +69,6 @@ KtNameReferenceExpression(156,163): 'MyClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in r) class MyClass
-    resolveToSymbols:
-      (in r.MyClass) constructor()
 
 KtCallExpression(186,191): 'foo()'
   KtInvokeFunctionReference:

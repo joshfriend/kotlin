@@ -13,8 +13,6 @@ KtNameReferenceExpression(197,204): 'MyClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) open class MyClass
-    resolveToSymbols:
-      (in MyClass) constructor()
 
 KtNameReferenceExpression(237,244): 'MyClass'
   KtSimpleNameReference:
@@ -23,8 +21,6 @@ KtNameReferenceExpression(237,244): 'MyClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) open class MyClass
-    resolveToSymbols:
-      (in MyClass) constructor()
 
 KtNameReferenceExpression(298,305): 'MySuper'
   KtSimpleNameReference:
@@ -33,8 +29,6 @@ KtNameReferenceExpression(298,305): 'MySuper'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) open class MySuper
-    resolveToSymbols:
-      (in MySuper) constructor()
 
 KtNameReferenceExpression(335,342): 'MyClass'
   KtSimpleNameReference:
@@ -83,8 +77,6 @@ KtNameReferenceExpression(401,415): 'InheritorClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in MyClass) class InheritorClass : MyClass()
-    resolveToSymbols:
-      (in MyClass.InheritorClass) constructor()
 
 KtNameReferenceExpression(451,466): 'InheritorObject'
   KtSimpleNameReference:

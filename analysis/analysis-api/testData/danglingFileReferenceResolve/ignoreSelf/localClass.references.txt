@@ -5,5 +5,3 @@ KtNameReferenceExpression(103,108): 'Local'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in <local>: Foo.foo) class Local [fake.kt]
-    resolveToSymbols:
-      (in <local>: Foo.foo.Local) constructor() [fake.kt]

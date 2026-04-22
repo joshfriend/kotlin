@@ -29,8 +29,6 @@ KtNameReferenceExpression(118,125): 'MyClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in pack) open class MyClass
-    resolveToSymbols:
-      (in pack.MyClass) constructor()
 
 KtNameReferenceExpression(187,188): 'T'
   KtSimpleNameReference:
@@ -55,8 +53,6 @@ KtNameReferenceExpression(258,271): 'ClassWithType'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in pack) open class ClassWithType<T>
-    resolveToSymbols:
-      (in pack.ClassWithType) constructor <T>()
 
 KtNameReferenceExpression(272,279): 'MyClass'
   KtSimpleNameReference:
@@ -161,8 +157,6 @@ KtNameReferenceExpression(528,535): 'MyClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in pack) open class MyClass
-    resolveToSymbols:
-      (in pack.MyClass) constructor()
 
 KtNameReferenceExpression(543,550): 'MyClass'
   KtSimpleNameReference:
@@ -235,8 +229,6 @@ KtNameReferenceExpression(606,611): 'Child'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in pack) class Child : pack.MyClass()
-    resolveToSymbols:
-      (in pack.Child) constructor()
 
 KtNameReferenceExpression(619,624): 'Child'
   KtSimpleNameReference:
@@ -417,8 +409,6 @@ KtNameReferenceExpression(897,910): 'ChildWithType'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in pack) class ChildWithType : pack.ClassWithType<pack.MyClass>()
-    resolveToSymbols:
-      (in pack.ChildWithType) constructor()
 
 KtNameReferenceExpression(921,937): 'topLevelFunction'
   KtSimpleNameReference:

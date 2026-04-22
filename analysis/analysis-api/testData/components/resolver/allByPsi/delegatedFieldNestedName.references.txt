@@ -13,8 +13,6 @@ KtNameReferenceExpression(32,38): 'Target'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin.annotation) annotation class Target(vararg allowedTargets: kotlin.annotation.AnnotationTarget)
-    resolveToSymbols:
-      (in kotlin.annotation.Target) constructor(vararg allowedTargets: kotlin.annotation.AnnotationTarget)
 
 KtValueArgument(39,60): 'AnnotationTarget.TYPE'
   KtDefaultAnnotationArgumentReference:
@@ -55,8 +53,6 @@ KtNameReferenceExpression(226,230): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(231,240): '0 + outer'
   KtDefaultAnnotationArgumentReference:
@@ -97,8 +93,6 @@ KtNameReferenceExpression(248,252): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(253,262): '1 + outer'
   KtDefaultAnnotationArgumentReference:
@@ -139,8 +133,6 @@ KtNameReferenceExpression(270,274): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(275,284): '2 + outer'
   KtDefaultAnnotationArgumentReference:
@@ -189,8 +181,6 @@ KtNameReferenceExpression(311,315): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(316,325): '4 + outer'
   KtDefaultAnnotationArgumentReference:
@@ -231,8 +221,6 @@ KtNameReferenceExpression(335,339): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(340,349): '5 + outer'
   KtDefaultAnnotationArgumentReference:
@@ -281,8 +269,6 @@ KtNameReferenceExpression(401,405): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(406,415): '6 + inner'
   KtDefaultAnnotationArgumentReference:
@@ -347,8 +333,6 @@ KtNameReferenceExpression(423,427): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(428,437): '7 + inner'
   KtDefaultAnnotationArgumentReference:
@@ -413,8 +397,6 @@ KtNameReferenceExpression(445,449): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(450,459): '8 + inner'
   KtDefaultAnnotationArgumentReference:
@@ -479,8 +461,6 @@ KtNameReferenceExpression(560,564): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(565,574): '9 + inner'
   KtDefaultAnnotationArgumentReference:
@@ -521,8 +501,6 @@ KtNameReferenceExpression(584,588): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in second) annotation class Anno(i: kotlin.Int)
-    resolveToSymbols:
-      (in second.Anno) constructor(i: kotlin.Int)
 
 KtValueArgument(589,599): '10 + inner'
   KtDefaultAnnotationArgumentReference:

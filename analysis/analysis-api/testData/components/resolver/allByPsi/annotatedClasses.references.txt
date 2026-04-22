@@ -5,8 +5,6 @@ KtNameReferenceExpression(16,22): 'Target'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin.annotation) annotation class Target(vararg allowedTargets: kotlin.annotation.AnnotationTarget)
-    resolveToSymbols:
-      (in kotlin.annotation.Target) constructor(vararg allowedTargets: kotlin.annotation.AnnotationTarget)
 
 KtValueArgument(23,44): 'AnnotationTarget.TYPE'
   KtDefaultAnnotationArgumentReference:
@@ -47,8 +45,6 @@ KtNameReferenceExpression(149,153): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(154,176): '"parameter type $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -81,8 +77,6 @@ KtNameReferenceExpression(184,188): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(189,218): '"nested parameter type $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -115,8 +109,6 @@ KtNameReferenceExpression(232,236): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(237,273): '"nested nested parameter type $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -149,8 +141,6 @@ KtNameReferenceExpression(287,291): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(292,312): '"defaultValue $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -175,8 +165,6 @@ KtNameReferenceExpression(322,326): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(327,367): '"anonymousFunction parameter type $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -209,8 +197,6 @@ KtNameReferenceExpression(376,380): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(381,418): '"anonymousFunction return type $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -251,8 +237,6 @@ KtNameReferenceExpression(481,485): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(486,509): '"super type call $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -277,8 +261,6 @@ KtNameReferenceExpression(511,524): 'AbstractClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) abstract class AbstractClass<T>
-    resolveToSymbols:
-      (in AbstractClass) constructor <T>()
 
 KtNameReferenceExpression(526,530): 'Anno'
   KtSimpleNameReference:
@@ -287,8 +269,6 @@ KtNameReferenceExpression(526,530): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(531,560): '"nested super type ref $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -321,8 +301,6 @@ KtNameReferenceExpression(568,572): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(573,609): '"nested nested super type ref $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -355,8 +333,6 @@ KtNameReferenceExpression(654,658): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(659,682): '"super type call $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -381,8 +357,6 @@ KtNameReferenceExpression(684,697): 'AbstractClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) abstract class AbstractClass<T>
-    resolveToSymbols:
-      (in AbstractClass) constructor <T>()
 
 KtNameReferenceExpression(699,703): 'Anno'
   KtSimpleNameReference:
@@ -391,8 +365,6 @@ KtNameReferenceExpression(699,703): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(704,733): '"nested super type ref $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -425,8 +397,6 @@ KtNameReferenceExpression(741,745): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(746,782): '"nested nested super type ref $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -459,8 +429,6 @@ KtNameReferenceExpression(841,845): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(846,868): '"super type ref $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -493,8 +461,6 @@ KtNameReferenceExpression(876,880): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(881,910): '"nested super type ref $prop"'
   KtDefaultAnnotationArgumentReference:
@@ -527,8 +493,6 @@ KtNameReferenceExpression(918,922): 'Anno'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class Anno(position: kotlin.String)
-    resolveToSymbols:
-      (in Anno) constructor(position: kotlin.String)
 
 KtValueArgument(923,959): '"nested nested super type ref $prop"'
   KtDefaultAnnotationArgumentReference:

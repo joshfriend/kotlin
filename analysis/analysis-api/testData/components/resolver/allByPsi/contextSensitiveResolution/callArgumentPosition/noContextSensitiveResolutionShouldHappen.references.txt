@@ -70,8 +70,6 @@ KtNameReferenceExpression(216,225): 'DslMarker'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) annotation class DslMarker
-    resolveToSymbols:
-      (in kotlin.DslMarker) constructor()
 
 KtNameReferenceExpression(251,256): 'MyDsl'
   KtSimpleNameReference:
@@ -80,8 +78,6 @@ KtNameReferenceExpression(251,256): 'MyDsl'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class MyDsl
-    resolveToSymbols:
-      (in MyDsl) constructor()
 
 KtNameReferenceExpression(267,272): 'MyDsl'
   KtSimpleNameReference:
@@ -90,8 +86,6 @@ KtNameReferenceExpression(267,272): 'MyDsl'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) annotation class MyDsl
-    resolveToSymbols:
-      (in MyDsl) constructor()
 
 KtNameReferenceExpression(286,287): 'A'
   KtSimpleNameReference:

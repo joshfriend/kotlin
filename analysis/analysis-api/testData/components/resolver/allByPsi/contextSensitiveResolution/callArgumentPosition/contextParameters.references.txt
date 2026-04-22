@@ -5,8 +5,6 @@ KtNameReferenceExpression(189,197): 'MySealed'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class MySealed
-    resolveToSymbols:
-      (in MySealed) constructor()
 
 KtNameReferenceExpression(217,223): 'MyEnum'
   KtSimpleNameReference:

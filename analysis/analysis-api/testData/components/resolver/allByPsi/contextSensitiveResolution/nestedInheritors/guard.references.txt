@@ -13,8 +13,6 @@ KtNameReferenceExpression(161,172): 'SealedClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedClass
-    resolveToSymbols:
-      (in SealedClass) constructor()
 
 KtNameReferenceExpression(210,225): 'SealedInheritor'
   KtSimpleNameReference:
@@ -23,8 +21,6 @@ KtNameReferenceExpression(210,225): 'SealedInheritor'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in SealedClass) open class SealedInheritor(prop: kotlin.String) : SealedClass()
-    resolveToSymbols:
-      (in SealedClass.SealedInheritor) constructor(prop: kotlin.String)
 
 KtNameReferenceExpression(274,285): 'SealedClass'
   KtSimpleNameReference:
@@ -113,8 +109,6 @@ KtNameReferenceExpression(530,539): 'OpenClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) open class OpenClass
-    resolveToSymbols:
-      (in OpenClass) constructor()
 
 KtNameReferenceExpression(588,614): 'SealedInheritorOfOpenClass'
   KtSimpleNameReference:
@@ -123,8 +117,6 @@ KtNameReferenceExpression(588,614): 'SealedInheritorOfOpenClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in OpenClass) open class SealedInheritorOfOpenClass(prop: kotlin.String) : OpenClass()
-    resolveToSymbols:
-      (in OpenClass.SealedInheritorOfOpenClass) constructor(prop: kotlin.String)
 
 KtNameReferenceExpression(661,670): 'OpenClass'
   KtSimpleNameReference:

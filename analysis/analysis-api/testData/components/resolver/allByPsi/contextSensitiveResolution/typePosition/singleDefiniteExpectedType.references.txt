@@ -45,8 +45,6 @@ KtNameReferenceExpression(291,302): 'SealedClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedClass
-    resolveToSymbols:
-      (in SealedClass) constructor()
 
 KtNameReferenceExpression(343,346): 'Int'
   KtSimpleNameReference:
@@ -63,8 +61,6 @@ KtNameReferenceExpression(353,364): 'SealedClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedClass
-    resolveToSymbols:
-      (in SealedClass) constructor()
 
 KtNameReferenceExpression(436,439): 'Int'
   KtSimpleNameReference:
@@ -81,8 +77,6 @@ KtNameReferenceExpression(442,455): 'SealedGeneric'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedGeneric<T>
-    resolveToSymbols:
-      (in SealedGeneric) constructor <T>()
 
 KtNameReferenceExpression(456,457): 'T'
   KtSimpleNameReference:
@@ -107,8 +101,6 @@ KtNameReferenceExpression(501,514): 'SealedGeneric'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) sealed class SealedGeneric<T>
-    resolveToSymbols:
-      (in SealedGeneric) constructor <T>()
 
 KtNameReferenceExpression(515,516): 'T'
   KtSimpleNameReference:
@@ -1108,8 +1100,6 @@ KtNameReferenceExpression(2752,2766): 'UnsafeVariance'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) annotation class UnsafeVariance
-    resolveToSymbols:
-      (in kotlin.UnsafeVariance) constructor()
 
 KtNameReferenceExpression(2767,2768): 'T'
   KtSimpleNameReference:

@@ -101,8 +101,6 @@ KtNameReferenceExpression(186,190): 'Base'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in one.two) open class Base<B : one.two.Base.NestedClass>
-    resolveToSymbols:
-      (in one.two.Base) constructor <B : one.two.Base.NestedClass>()
 
 KtNameReferenceExpression(191,192): 'C'
   KtSimpleNameReference:
@@ -223,8 +221,6 @@ KtNameReferenceExpression(392,403): 'NestedClass'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in one.two.Base) open class NestedClass
-    resolveToSymbols:
-      (in one.two.Base.NestedClass) constructor()
 
 KtNameReferenceExpression(422,424): 'c1'
   KtSimpleNameReference:
@@ -249,5 +245,3 @@ KtNameReferenceExpression(425,430): 'Inner'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in one.two.Base) inner class Inner
-    resolveToSymbols:
-      (in one.two.Base.Inner) constructor()

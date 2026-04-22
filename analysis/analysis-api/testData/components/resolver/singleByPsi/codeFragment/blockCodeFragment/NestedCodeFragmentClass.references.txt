@@ -5,5 +5,3 @@ KtNameReferenceExpression(149,154): 'Local'
     attempt: KaSymbolResolutionSuccess
     symbols:
       class Local
-    resolveToSymbols:
-      (in <local>: Local) constructor()

@@ -92,8 +92,6 @@ KtNameReferenceExpression(136,144): 'Suppress'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) annotation class Suppress(vararg names: kotlin.String)
-    resolveToSymbols:
-      (in kotlin.Suppress) constructor(vararg names: kotlin.String)
 
 KtValueArgument(145,157): '"SOME_ERROR"'
   KtDefaultAnnotationArgumentReference:

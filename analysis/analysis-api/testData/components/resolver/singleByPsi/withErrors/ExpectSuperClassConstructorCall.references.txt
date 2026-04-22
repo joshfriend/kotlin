@@ -5,5 +5,3 @@ KtNameReferenceExpression(149,152): 'Foo'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in ROOT) expect open class Foo expect constructor
-    resolveToSymbols:
-      (in Foo) expect constructor()

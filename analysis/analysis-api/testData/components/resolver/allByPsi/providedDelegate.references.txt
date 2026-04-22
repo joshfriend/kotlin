@@ -109,8 +109,6 @@ KtNameReferenceExpression(246,256): 'MyDelegate'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in myPack) class MyDelegate<T> : kotlin.properties.ReadOnlyProperty<kotlin.Any?, T>
-    resolveToSymbols:
-      (in myPack.MyDelegate) constructor <T>()
 
 KtNameReferenceExpression(290,306): 'ReadOnlyProperty'
   KtSimpleNameReference:
@@ -200,8 +198,6 @@ KtNameReferenceExpression(446,456): 'ResourceID'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in myPack) class ResourceID<T>
-    resolveToSymbols:
-      (in myPack.ResourceID) constructor <T>()
 
 KtNameReferenceExpression(457,460): 'Int'
   KtSimpleNameReference:

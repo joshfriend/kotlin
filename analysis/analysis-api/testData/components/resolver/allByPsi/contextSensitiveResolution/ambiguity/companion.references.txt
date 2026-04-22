@@ -21,8 +21,6 @@ KtNameReferenceExpression(188,191): 'Any'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) open class Any
-    resolveToSymbols:
-      (in kotlin.Any) constructor()
 
 KtNameReferenceExpression(223,229): 'MyEnum'
   KtSimpleNameReference:

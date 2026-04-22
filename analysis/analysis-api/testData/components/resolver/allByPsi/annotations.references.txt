@@ -262,8 +262,6 @@ KtNameReferenceExpression(573,576): 'one'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
-      (in one) annotation class AnnoWithKClass(k: kotlin.reflect.KClass<*>)
-    resolveToSymbols:
       package one
 
 KtNameReferenceExpression(577,591): 'AnnoWithKClass'
@@ -312,8 +310,6 @@ KtNameReferenceExpression(648,651): 'one'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
-      (in one) annotation class AnnoWithKClass(k: kotlin.reflect.KClass<*>)
-    resolveToSymbols:
       package one
 
 KtNameReferenceExpression(652,666): 'AnnoWithKClass'

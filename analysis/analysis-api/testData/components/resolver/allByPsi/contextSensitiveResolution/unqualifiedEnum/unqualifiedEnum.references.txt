@@ -148,8 +148,6 @@ KtNameReferenceExpression(429,433): 'test'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
-      (in test) enum class Sample
-    resolveToSymbols:
       package test
 
 KtNameReferenceExpression(434,440): 'Sample'
@@ -190,8 +188,6 @@ KtNameReferenceExpression(504,508): 'test'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
-      (in test) enum class Sample
-    resolveToSymbols:
       package test
 
 KtNameReferenceExpression(509,515): 'Sample'
@@ -240,8 +236,6 @@ KtNameReferenceExpression(607,611): 'test'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
-      (in test) enum class Sample
-    resolveToSymbols:
       package test
 
 KtNameReferenceExpression(612,618): 'Sample'

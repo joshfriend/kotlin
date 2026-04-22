@@ -331,7 +331,7 @@ KtDotQualifiedExpression(352,362): 'bar.Sealed'
 KtNameReferenceExpression(352,355): 'bar'
   KaSymbolResolutionSuccess:
     symbols = [
-      bar/Sealed
+      bar
     ]
 
 KtNameReferenceExpression(356,362): 'Sealed'
@@ -445,7 +445,7 @@ KtDotQualifiedExpression(429,439): 'bar.Sealed'
 KtNameReferenceExpression(429,432): 'bar'
   KaSymbolResolutionSuccess:
     symbols = [
-      bar/Sealed.Companion
+      bar
     ]
 
 KtNameReferenceExpression(433,439): 'Sealed'
@@ -481,7 +481,7 @@ KtDotQualifiedExpression(460,470): 'bar.Sealed'
 KtNameReferenceExpression(460,463): 'bar'
   KaSymbolResolutionSuccess:
     symbols = [
-      bar/Sealed.Companion
+      bar
     ]
 
 KtNameReferenceExpression(464,470): 'Sealed'

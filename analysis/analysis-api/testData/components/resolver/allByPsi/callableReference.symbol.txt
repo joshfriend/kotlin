@@ -526,7 +526,7 @@ KtDotQualifiedExpression(659,671): 'pack.MyClass'
 KtNameReferenceExpression(659,663): 'pack'
   KaSymbolResolutionSuccess:
     symbols = [
-      pack/MyClass
+      pack
     ]
 
 KtNameReferenceExpression(664,671): 'MyClass'
@@ -598,7 +598,7 @@ KtDotQualifiedExpression(782,792): 'pack.Child'
 KtNameReferenceExpression(782,786): 'pack'
   KaSymbolResolutionSuccess:
     symbols = [
-      pack/Child
+      pack
     ]
 
 KtNameReferenceExpression(787,792): 'Child'

@@ -556,7 +556,7 @@ KtDotQualifiedExpression(573,591): 'one.AnnoWithKClass'
 KtNameReferenceExpression(573,576): 'one'
   KaSymbolResolutionSuccess:
     symbols = [
-      one/AnnoWithKClass
+      one
     ]
 
 KtNameReferenceExpression(577,591): 'AnnoWithKClass'
@@ -619,7 +619,7 @@ KtDotQualifiedExpression(648,666): 'one.AnnoWithKClass'
 KtNameReferenceExpression(648,651): 'one'
   KaSymbolResolutionSuccess:
     symbols = [
-      one/AnnoWithKClass
+      one
     ]
 
 KtNameReferenceExpression(652,666): 'AnnoWithKClass'

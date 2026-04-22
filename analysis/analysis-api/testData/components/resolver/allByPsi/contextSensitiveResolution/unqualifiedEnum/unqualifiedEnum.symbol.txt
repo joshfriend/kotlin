@@ -298,7 +298,7 @@ KtDotQualifiedExpression(429,440): 'test.Sample'
 KtNameReferenceExpression(429,433): 'test'
   KaSymbolResolutionSuccess:
     symbols = [
-      test/Sample
+      test
     ]
 
 KtNameReferenceExpression(434,440): 'Sample'
@@ -364,7 +364,7 @@ KtDotQualifiedExpression(504,515): 'test.Sample'
 KtNameReferenceExpression(504,508): 'test'
   KaSymbolResolutionSuccess:
     symbols = [
-      test/Sample
+      test
     ]
 
 KtNameReferenceExpression(509,515): 'Sample'
@@ -442,7 +442,7 @@ KtDotQualifiedExpression(607,618): 'test.Sample'
 KtNameReferenceExpression(607,611): 'test'
   KaSymbolResolutionSuccess:
     symbols = [
-      test/Sample
+      test
     ]
 
 KtNameReferenceExpression(612,618): 'Sample'

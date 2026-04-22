@@ -66,10 +66,8 @@ KtNameReferenceExpression(116,117): 'i'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       i: T
 
 KtNameReferenceExpression(123,124): 'i'
@@ -124,10 +122,8 @@ KtNameReferenceExpression(227,228): 'i'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       i: T
 
 KtNameReferenceExpression(233,238): 'value'
@@ -158,10 +154,8 @@ KtNameReferenceExpression(282,283): 'i'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       i: T
 
 KtOperationReferenceExpression(292,294): 'as'

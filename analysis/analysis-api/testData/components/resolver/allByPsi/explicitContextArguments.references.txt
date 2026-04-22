@@ -131,10 +131,8 @@ KtNameReferenceExpression(423,430): 'regular'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       regular: kotlin.String
 
 KtCallExpression(445,488): 'named/*explicit regular*/(regular = "str2")'
@@ -158,10 +156,8 @@ KtNameReferenceExpression(471,478): 'regular'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       regular: kotlin.String
 
 KtCallExpression(494,558): 'unnamed/*all explicit*/(explicit = Explicit(), regular = "str3")'
@@ -185,10 +181,8 @@ KtNameReferenceExpression(518,526): 'explicit'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       explicit: Explicit
 
 KtCallExpression(529,539): 'Explicit()'
@@ -211,10 +205,8 @@ KtNameReferenceExpression(541,548): 'regular'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       regular: kotlin.String
 
 KtCallExpression(563,625): 'named/*all explicit*/(explicit = Explicit(), regular = "str3")'
@@ -238,10 +230,8 @@ KtNameReferenceExpression(585,593): 'explicit'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       explicit: Explicit
 
 KtCallExpression(596,606): 'Explicit()'
@@ -264,10 +254,8 @@ KtNameReferenceExpression(608,615): 'regular'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       regular: kotlin.String
 
 KtNameReferenceExpression(633,641): 'Implicit'
@@ -331,10 +319,8 @@ KtNameReferenceExpression(719,726): 'regular'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       regular: kotlin.String
 
 KtCallExpression(745,788): 'named/*explicit regular*/(regular = "str2")'
@@ -358,10 +344,8 @@ KtNameReferenceExpression(771,778): 'regular'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       regular: kotlin.String
 
 KtCallExpression(800,864): 'unnamed/*all explicit*/(explicit = Explicit(), regular = "str3")'
@@ -385,10 +369,8 @@ KtNameReferenceExpression(824,832): 'explicit'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       explicit: Explicit
 
 KtCallExpression(835,845): 'Explicit()'
@@ -411,10 +393,8 @@ KtNameReferenceExpression(847,854): 'regular'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       regular: kotlin.String
 
 KtCallExpression(869,931): 'named/*all explicit*/(explicit = Explicit(), regular = "str3")'
@@ -438,10 +418,8 @@ KtNameReferenceExpression(891,899): 'explicit'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       explicit: Explicit
 
 KtCallExpression(902,912): 'Explicit()'
@@ -464,8 +442,6 @@ KtNameReferenceExpression(914,921): 'regular'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       regular: kotlin.String

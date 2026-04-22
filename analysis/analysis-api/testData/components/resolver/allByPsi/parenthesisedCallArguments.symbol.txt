@@ -242,7 +242,10 @@ KtValueArgumentName(232,233): 'x'
   null
 
 KtNameReferenceExpression(232,233): 'x'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      x: kotlin.Int
+    ]
 
 KtParenthesizedExpression(236,241): '((5))'
   null
@@ -323,7 +326,10 @@ KtValueArgumentName(275,276): 'x'
   null
 
 KtNameReferenceExpression(275,276): 'x'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      x: kotlin.Int
+    ]
 
 KtParenthesizedExpression(279,293): '(((5 as Int)))'
   null
@@ -579,7 +585,10 @@ KtValueArgumentName(473,474): 'x'
   null
 
 KtNameReferenceExpression(473,474): 'x'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      vararg x: kotlin.Int
+    ]
 
 KtParenthesizedExpression(477,492): '(intArrayOf(5))'
   null

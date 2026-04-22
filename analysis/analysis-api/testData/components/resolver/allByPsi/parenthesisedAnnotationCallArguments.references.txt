@@ -70,10 +70,8 @@ KtNameReferenceExpression(207,212): 'value'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       value: kotlin.String
 
 KtNameReferenceExpression(240,246): 'MyAnno'
@@ -152,10 +150,8 @@ KtNameReferenceExpression(371,376): 'value'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       vararg value: kotlin.String
 
 KtCallExpression(381,400): 'arrayOf(("A"), "B")'

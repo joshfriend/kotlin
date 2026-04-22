@@ -319,10 +319,8 @@ KtNameReferenceExpression(621,622): 'a'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       a: A
 
 KtCallExpression(625,628): 'A()'

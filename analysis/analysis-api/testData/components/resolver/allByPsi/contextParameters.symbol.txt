@@ -536,7 +536,10 @@ KtValueArgumentName(621,622): 'a'
   null
 
 KtNameReferenceExpression(621,622): 'a'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      a: A
+    ]
 
 KtCallExpression(625,628): 'A()'
   KaSymbolResolutionSuccess:

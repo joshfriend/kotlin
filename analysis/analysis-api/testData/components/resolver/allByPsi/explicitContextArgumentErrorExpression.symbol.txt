@@ -68,4 +68,7 @@ KtValueArgumentName(53,54): 's'
   null
 
 KtNameReferenceExpression(53,54): 's'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      s: kotlin.String
+    ]

@@ -209,7 +209,10 @@ KtValueArgumentName(207,212): 'value'
   null
 
 KtNameReferenceExpression(207,212): 'value'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      value: kotlin.String
+    ]
 
 KtParenthesizedExpression(215,222): '(("A"))'
   null
@@ -461,7 +464,10 @@ KtValueArgumentName(371,376): 'value'
   null
 
 KtNameReferenceExpression(371,376): 'value'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      vararg value: kotlin.String
+    ]
 
 KtParenthesizedExpression(379,402): '((arrayOf(("A"), "B")))'
   null

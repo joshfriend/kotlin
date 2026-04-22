@@ -156,10 +156,8 @@ KtNameReferenceExpression(464,467): 'arr'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       arr: kotlin.IntArray
 
 KtCollectionLiteralExpression(470,479): '[4, 5, 6]'

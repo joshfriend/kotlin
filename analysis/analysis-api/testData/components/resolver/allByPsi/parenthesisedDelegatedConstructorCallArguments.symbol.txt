@@ -170,7 +170,10 @@ KtValueArgumentName(116,117): 'i'
   null
 
 KtNameReferenceExpression(116,117): 'i'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      i: T
+    ]
 
 KtParenthesizedExpression(120,127): '(((i)))'
   null
@@ -305,7 +308,10 @@ KtValueArgumentName(227,228): 'i'
   null
 
 KtNameReferenceExpression(227,228): 'i'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      i: T
+    ]
 
 KtParenthesizedExpression(231,240): '((value))'
   null
@@ -362,7 +368,10 @@ KtValueArgumentName(282,283): 'i'
   null
 
 KtNameReferenceExpression(282,283): 'i'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      i: T
+    ]
 
 KtBinaryExpressionWithTypeRHS(286,298): '((5)) as Int'
   null

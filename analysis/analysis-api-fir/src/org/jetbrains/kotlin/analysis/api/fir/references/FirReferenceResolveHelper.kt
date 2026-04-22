@@ -367,11 +367,11 @@ internal object FirReferenceResolveHelper {
         return emptyList()
     }
 
-    private fun getSymbolsByNameArgumentExpression(
+    fun getSymbolsByNameArgumentExpression(
         expression: KtSimpleNameExpression,
         analysisSession: KaFirSession,
         symbolBuilder: KaSymbolByFirBuilder,
-    ): Collection<KaSymbol> {
+    ): List<KaSymbol> {
         val ktValueArgumentName = expression.parent as? KtValueArgumentName ?: return emptyList()
         val ktValueArgument = ktValueArgumentName.parent as? KtValueArgument ?: return emptyList()
         val ktValueArgumentList = ktValueArgument.parent as? KtValueArgumentList ?: return emptyList()

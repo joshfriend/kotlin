@@ -392,7 +392,10 @@ KtValueArgumentName(464,467): 'arr'
   null
 
 KtNameReferenceExpression(464,467): 'arr'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      arr: kotlin.IntArray
+    ]
 
 KtCollectionLiteralExpression(470,479): '[4, 5, 6]'
   KaSymbolResolutionSuccess:

@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.analysis.api.fir.*
 import org.jetbrains.kotlin.analysis.api.fir.references.*
 import org.jetbrains.kotlin.analysis.api.fir.references.FirReferenceResolveHelper.fqNameSegments
 import org.jetbrains.kotlin.analysis.api.fir.references.FirReferenceResolveHelper.getQualifierSelected
+import org.jetbrains.kotlin.analysis.api.fir.references.FirReferenceResolveHelper.getSymbolsByNameArgumentExpression
 import org.jetbrains.kotlin.analysis.api.fir.references.FirReferenceResolveHelper.getSymbolsByResolvedImport
 import org.jetbrains.kotlin.analysis.api.fir.references.FirReferenceResolveHelper.getSymbolsForResolvedTypeRef
 import org.jetbrains.kotlin.analysis.api.fir.symbols.KaFirArrayOfSymbolProvider.arrayOfSymbol
@@ -226,6 +227,10 @@ internal class KaFirResolver(
 
     private fun resolveSymbol(psi: KtElement): KaSymbolResolutionAttempt? = when (psi) {
         is KDocName -> resolveKDocName(psi)
+        is KtNameReferenceExpression if psi.parent is KtValueArgumentName -> {
+            getSymbolsByNameArgumentExpression(psi, analysisSession, firSymbolBuilder).ifNotEmpty(::KaBaseSymbolResolutionSuccess)
+        }
+
         else -> psi.getOrBuildFirWithAdjustments()?.unwrapSafeCall()?.toKaSymbolResolutionAttempt(psi)
     }
 

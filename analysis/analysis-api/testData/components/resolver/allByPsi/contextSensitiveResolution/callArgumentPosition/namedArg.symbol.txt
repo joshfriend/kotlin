@@ -485,7 +485,10 @@ KtValueArgumentName(944,947): 'arg'
   null
 
 KtNameReferenceExpression(944,947): 'arg'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      arg: MyClass
+    ]
 
 KtNameReferenceExpression(950,965): 'InheritorObject'
   KaSymbolResolutionSuccess:
@@ -500,7 +503,10 @@ KtValueArgumentName(975,982): 'enumArg'
   null
 
 KtNameReferenceExpression(975,982): 'enumArg'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      enumArg: MyEnum
+    ]
 
 KtNameReferenceExpression(985,995): 'EnumValue1'
   KaSymbolResolutionSuccess:
@@ -530,7 +536,10 @@ KtValueArgumentName(1036,1043): 'enumArg'
   null
 
 KtNameReferenceExpression(1036,1043): 'enumArg'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      enumArg: MyEnum
+    ]
 
 KtNameReferenceExpression(1046,1056): 'EnumValue3'
   KaSymbolResolutionSuccess:
@@ -545,7 +554,10 @@ KtValueArgumentName(1066,1069): 'arg'
   null
 
 KtNameReferenceExpression(1066,1069): 'arg'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      arg: MyClass
+    ]
 
 KtNameReferenceExpression(1072,1081): 'propClass'
   KaSymbolResolutionSuccess:
@@ -577,7 +589,10 @@ KtValueArgumentName(1112,1115): 'arg'
   null
 
 KtNameReferenceExpression(1112,1115): 'arg'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      arg: MyClass
+    ]
 
 KtNameReferenceExpression(1118,1122): 'prop'
   KaSymbolResolutionSuccess:
@@ -609,7 +624,10 @@ KtValueArgumentName(1148,1151): 'arg'
   null
 
 KtNameReferenceExpression(1148,1151): 'arg'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      arg: MyClass
+    ]
 
 KtNameReferenceExpression(1154,1163): 'superProp'
   KaSymbolResolutionSuccess:
@@ -639,7 +657,10 @@ KtValueArgumentName(1189,1192): 'arg'
   null
 
 KtNameReferenceExpression(1189,1192): 'arg'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      arg: MyClass
+    ]
 
 KtCallExpression(1195,1201): 'func()'
   KaSymbolResolutionError:
@@ -676,7 +697,10 @@ KtValueArgumentName(1227,1230): 'arg'
   null
 
 KtNameReferenceExpression(1227,1230): 'arg'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      arg: MyClass
+    ]
 
 KtCallExpression(1233,1244): 'superFunc()'
   KaSymbolResolutionError:
@@ -715,7 +739,10 @@ KtValueArgumentName(1270,1273): 'arg'
   null
 
 KtNameReferenceExpression(1270,1273): 'arg'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      arg: MyClass
+    ]
 
 KtNameReferenceExpression(1276,1284): 'lazyProp'
   KaSymbolResolutionSuccess:

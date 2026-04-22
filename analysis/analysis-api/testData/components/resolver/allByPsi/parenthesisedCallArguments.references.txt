@@ -98,10 +98,8 @@ KtNameReferenceExpression(232,233): 'x'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       x: kotlin.Int
 
 KtCallExpression(247,266): 'foo((((5 as Int))))'
@@ -156,10 +154,8 @@ KtNameReferenceExpression(275,276): 'x'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       x: kotlin.Int
 
 KtOperationReferenceExpression(284,286): 'as'
@@ -332,10 +328,8 @@ KtNameReferenceExpression(473,474): 'x'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       vararg x: kotlin.Int
 
 KtCallExpression(478,491): 'intArrayOf(5)'

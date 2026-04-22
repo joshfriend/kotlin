@@ -191,7 +191,10 @@ KtTypeConstraint(333,356): 'T : InterfaceWithEquals'
   null
 
 KtNameReferenceExpression(333,334): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(337,356): 'InterfaceWithEquals'
   null
@@ -206,7 +209,10 @@ KtTypeConstraint(358,376): 'T : MessagePreview'
   null
 
 KtNameReferenceExpression(358,359): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(362,376): 'MessagePreview'
   null
@@ -380,7 +386,10 @@ KtTypeConstraint(560,578): 'T : MessagePreview'
   null
 
 KtNameReferenceExpression(560,561): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(564,578): 'MessagePreview'
   null
@@ -395,7 +404,10 @@ KtTypeConstraint(580,603): 'T : InterfaceWithEquals'
   null
 
 KtNameReferenceExpression(580,581): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(584,603): 'InterfaceWithEquals'
   null

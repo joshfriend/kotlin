@@ -294,10 +294,8 @@ KtNameReferenceExpression(814,815): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testTypeParams) T
 
 KtNameReferenceExpression(818,829): 'SealedClass'
@@ -314,10 +312,8 @@ KtNameReferenceExpression(831,832): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testTypeParams) T
 
 KtNameReferenceExpression(835,841): 'OtherI'
@@ -1047,10 +1043,8 @@ KtNameReferenceExpression(2389,2390): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testRegularIntersection) T
 
 KtNameReferenceExpression(2393,2408): 'SealedInterface'
@@ -1067,10 +1061,8 @@ KtNameReferenceExpression(2410,2411): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testRegularIntersection) T
 
 KtNameReferenceExpression(2414,2425): 'SealedClass'

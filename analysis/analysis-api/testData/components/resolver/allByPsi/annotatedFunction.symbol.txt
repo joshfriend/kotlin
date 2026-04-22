@@ -1049,7 +1049,10 @@ KtTypeConstraint(867,956): 'T : @Anno("constraint type $prop") Collection<@Anno(
   null
 
 KtNameReferenceExpression(867,868): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(871,956): '@Anno("constraint type $prop") Collection<@Anno("nested constraint type $prop") Int>?'
   null

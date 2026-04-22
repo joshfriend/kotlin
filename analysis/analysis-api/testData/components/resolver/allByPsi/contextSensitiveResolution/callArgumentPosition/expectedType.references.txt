@@ -136,10 +136,8 @@ KtNameReferenceExpression(477,478): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testTypeParamWithMultipleBound) T
 
 KtNameReferenceExpression(481,488): 'MyClass'
@@ -156,10 +154,8 @@ KtNameReferenceExpression(490,491): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testTypeParamWithMultipleBound) T
 
 KtNameReferenceExpression(494,500): 'OtherI'
@@ -304,10 +300,8 @@ KtNameReferenceExpression(709,710): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testFakeIntersection) T
 
 KtNameReferenceExpression(713,728): 'SealedInterface'
@@ -324,10 +318,8 @@ KtNameReferenceExpression(730,731): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testFakeIntersection) T
 
 KtNameReferenceExpression(734,749): 'SealedInterface'
@@ -390,10 +382,8 @@ KtNameReferenceExpression(838,839): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testReverseFakeIntersection) T
 
 KtNameReferenceExpression(842,857): 'SealedInterface'
@@ -420,10 +410,8 @@ KtNameReferenceExpression(875,876): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testReverseFakeIntersection) T
 
 KtNameReferenceExpression(879,894): 'SealedInterface'
@@ -476,10 +464,8 @@ KtNameReferenceExpression(963,964): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testRegularIntersection) T
 
 KtNameReferenceExpression(967,982): 'SealedInterface'
@@ -496,10 +482,8 @@ KtNameReferenceExpression(984,985): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: testRegularIntersection) T
 
 KtNameReferenceExpression(988,995): 'MyClass'

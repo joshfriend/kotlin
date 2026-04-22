@@ -572,7 +572,10 @@ KtTypeConstraint(814,829): 'T : SealedClass'
   null
 
 KtNameReferenceExpression(814,815): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(818,829): 'SealedClass'
   null
@@ -587,7 +590,10 @@ KtTypeConstraint(831,841): 'T : OtherI'
   null
 
 KtNameReferenceExpression(831,832): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(835,841): 'OtherI'
   null
@@ -1620,7 +1626,10 @@ KtTypeConstraint(2389,2408): 'T : SealedInterface'
   null
 
 KtNameReferenceExpression(2389,2390): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(2393,2408): 'SealedInterface'
   null
@@ -1635,7 +1644,10 @@ KtTypeConstraint(2410,2425): 'T : SealedClass'
   null
 
 KtNameReferenceExpression(2410,2411): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(2414,2425): 'SealedClass'
   null

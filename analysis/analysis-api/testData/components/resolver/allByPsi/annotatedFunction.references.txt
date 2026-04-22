@@ -594,10 +594,8 @@ KtNameReferenceExpression(867,868): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: function) T
 
 KtNameReferenceExpression(872,876): 'Anno'

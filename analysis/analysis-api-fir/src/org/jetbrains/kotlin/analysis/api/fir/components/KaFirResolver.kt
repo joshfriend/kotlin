@@ -249,6 +249,7 @@ internal class KaFirResolver(
         is FirReturnExpression -> toKaSymbolResolutionAttempt(psi)
         is FirResolvedQualifier -> toKaSymbolResolutionAttempt(psi)
         is FirPackageDirective -> toKaSymbolResolutionAttempt(psi)
+        is FirTypeParameter -> toKaSymbolResolutionAttempt()
         else -> null
     }
 
@@ -427,6 +428,10 @@ internal class KaFirResolver(
 
         val packageFqName = getQualifierSelected(psi, forQualifiedType = false)
         return firSymbolBuilder.createPackageSymbolIfOneExists(packageFqName)?.let(::KaBaseSymbolResolutionSuccess)
+    }
+
+    private fun FirTypeParameter.toKaSymbolResolutionAttempt(): KaSymbolResolutionAttempt {
+        return KaBaseSymbolResolutionSuccess(firSymbolBuilder.buildSymbol(symbol))
     }
 
     private fun FirDiagnosticHolder.toKaSymbolResolutionError(psi: KtElement): KaSymbolResolutionError =

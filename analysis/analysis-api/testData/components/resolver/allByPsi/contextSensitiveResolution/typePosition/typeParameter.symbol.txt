@@ -243,7 +243,10 @@ KtTypeConstraint(307,319): 'T : MySealed'
   null
 
 KtNameReferenceExpression(307,308): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(311,319): 'MySealed'
   null
@@ -258,7 +261,10 @@ KtTypeConstraint(321,337): 'T : CharSequence'
   null
 
 KtNameReferenceExpression(321,322): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(325,337): 'CharSequence'
   null

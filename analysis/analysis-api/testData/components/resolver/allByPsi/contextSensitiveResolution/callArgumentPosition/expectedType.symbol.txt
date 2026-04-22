@@ -275,7 +275,10 @@ KtTypeConstraint(477,488): 'T : MyClass'
   null
 
 KtNameReferenceExpression(477,478): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(481,488): 'MyClass'
   null
@@ -290,7 +293,10 @@ KtTypeConstraint(490,500): 'T : OtherI'
   null
 
 KtNameReferenceExpression(490,491): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(494,500): 'OtherI'
   null
@@ -476,7 +482,10 @@ KtTypeConstraint(709,728): 'T : SealedInterface'
   null
 
 KtNameReferenceExpression(709,710): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(713,728): 'SealedInterface'
   null
@@ -491,7 +500,10 @@ KtTypeConstraint(730,765): 'T : SealedInterface.NestedInheritor'
   null
 
 KtNameReferenceExpression(730,731): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(734,765): 'SealedInterface.NestedInheritor'
   null
@@ -563,7 +575,10 @@ KtTypeConstraint(838,873): 'T : SealedInterface.NestedInheritor'
   null
 
 KtNameReferenceExpression(838,839): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(842,873): 'SealedInterface.NestedInheritor'
   null
@@ -584,7 +599,10 @@ KtTypeConstraint(875,894): 'T : SealedInterface'
   null
 
 KtNameReferenceExpression(875,876): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(879,894): 'SealedInterface'
   null
@@ -650,7 +668,10 @@ KtTypeConstraint(963,982): 'T : SealedInterface'
   null
 
 KtNameReferenceExpression(963,964): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(967,982): 'SealedInterface'
   null
@@ -665,7 +686,10 @@ KtTypeConstraint(984,995): 'T : MyClass'
   null
 
 KtNameReferenceExpression(984,985): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(988,995): 'MyClass'
   null

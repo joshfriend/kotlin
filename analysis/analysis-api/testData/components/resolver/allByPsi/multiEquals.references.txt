@@ -92,10 +92,8 @@ KtNameReferenceExpression(333,334): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: interfaceAndClass) T
 
 KtNameReferenceExpression(337,356): 'InterfaceWithEquals'
@@ -112,10 +110,8 @@ KtNameReferenceExpression(358,359): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: interfaceAndClass) T
 
 KtNameReferenceExpression(362,376): 'MessagePreview'
@@ -226,10 +222,8 @@ KtNameReferenceExpression(560,561): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: classAndInterface) T
 
 KtNameReferenceExpression(564,578): 'MessagePreview'
@@ -246,10 +240,8 @@ KtNameReferenceExpression(580,581): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: classAndInterface) T
 
 KtNameReferenceExpression(584,603): 'InterfaceWithEquals'

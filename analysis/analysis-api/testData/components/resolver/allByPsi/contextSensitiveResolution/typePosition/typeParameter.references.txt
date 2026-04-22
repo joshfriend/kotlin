@@ -116,10 +116,8 @@ KtNameReferenceExpression(307,308): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: getOrElse2) T
 
 KtNameReferenceExpression(311,319): 'MySealed'
@@ -136,10 +134,8 @@ KtNameReferenceExpression(321,322): 'T'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in <local>: getOrElse2) T
 
 KtNameReferenceExpression(325,337): 'CharSequence'

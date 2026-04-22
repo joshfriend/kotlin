@@ -59,7 +59,7 @@ KtCallExpression(77,87): 'Delegate()'
 KtNameReferenceExpression(77,85): 'Delegate'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): myPack.Delegate
+      myPack/Delegate
     ]
 
 KtValueArgumentList(85,87): '()'

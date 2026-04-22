@@ -535,7 +535,7 @@ KtCallExpression(468,477): 'Another()'
 KtNameReferenceExpression(468,475): 'Another'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Another
+      /Another
     ]
 
 KtValueArgumentList(475,477): '()'
@@ -604,7 +604,7 @@ KtCallExpression(541,550): 'Another()'
 KtNameReferenceExpression(541,548): 'Another'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Another
+      /Another
     ]
 
 KtValueArgumentList(548,550): '()'
@@ -637,7 +637,7 @@ KtCallExpression(566,575): 'Another()'
 KtNameReferenceExpression(566,573): 'Another'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Another
+      /Another
     ]
 
 KtValueArgumentList(573,575): '()'
@@ -682,7 +682,7 @@ KtCallExpression(595,604): 'Another()'
 KtNameReferenceExpression(595,602): 'Another'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Another
+      /Another
     ]
 
 KtValueArgumentList(602,604): '()'
@@ -700,7 +700,7 @@ KtCallExpression(623,630): 'Child()'
 KtNameReferenceExpression(623,628): 'Child'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Child
+      /Child
     ]
 
 KtValueArgumentList(628,630): '()'
@@ -718,7 +718,7 @@ KtCallExpression(649,658): 'MyClass()'
 KtNameReferenceExpression(649,656): 'MyClass'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): MyClass
+      /MyClass
     ]
 
 KtValueArgumentList(656,658): '()'

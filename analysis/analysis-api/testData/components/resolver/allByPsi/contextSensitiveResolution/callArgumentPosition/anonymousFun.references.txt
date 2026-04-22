@@ -98,6 +98,8 @@ KtNameReferenceExpression(529,543): 'InheritorClass'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in MyClass) class InheritorClass : MyClass()
+    resolveToSymbols:
       (in MyClass.InheritorClass) constructor()
 
 KtNameReferenceExpression(579,594): 'InheritorObject'
@@ -297,8 +299,11 @@ KtNameReferenceExpression(1047,1064): 'anonymousConsumer'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: KaSymbolResolutionError
+    diagnostic: ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
     symbols:
+      (in kotlin.Function1) operator fun invoke(p1: P1): R
+    resolveToSymbols:
       (in ROOT) val anonymousConsumer: (MyClass) -> kotlin.Unit
 
 KtNameReferenceExpression(1065,1069): 'prop'
@@ -322,8 +327,11 @@ KtNameReferenceExpression(1075,1092): 'anonymousConsumer'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: KaSymbolResolutionError
+    diagnostic: ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
     symbols:
+      (in kotlin.Function1) operator fun invoke(p1: P1): R
+    resolveToSymbols:
       (in ROOT) val anonymousConsumer: (MyClass) -> kotlin.Unit
 
 KtNameReferenceExpression(1093,1102): 'constProp'
@@ -347,8 +355,11 @@ KtNameReferenceExpression(1108,1125): 'anonymousConsumer'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: KaSymbolResolutionError
+    diagnostic: ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
     symbols:
+      (in kotlin.Function1) operator fun invoke(p1: P1): R
+    resolveToSymbols:
       (in ROOT) val anonymousConsumer: (MyClass) -> kotlin.Unit
 
 KtNameReferenceExpression(1126,1134): 'lazyProp'
@@ -372,8 +383,11 @@ KtNameReferenceExpression(1140,1157): 'anonymousConsumer'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: KaSymbolResolutionError
+    diagnostic: ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is '() -> MyClass.InheritorObject', but 'MyClass' was expected.>
     symbols:
+      (in kotlin.Function1) operator fun invoke(p1: P1): R
+    resolveToSymbols:
       (in ROOT) val anonymousConsumer: (MyClass) -> kotlin.Unit
 
 KtNameReferenceExpression(1158,1168): 'lambdaProp'
@@ -397,8 +411,11 @@ KtNameReferenceExpression(1174,1191): 'anonymousConsumer'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: KaSymbolResolutionError
+    diagnostic: ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
     symbols:
+      (in kotlin.Function1) operator fun invoke(p1: P1): R
+    resolveToSymbols:
       (in ROOT) val anonymousConsumer: (MyClass) -> kotlin.Unit
 
 KtNameReferenceExpression(1192,1201): 'superProp'
@@ -488,8 +505,11 @@ KtNameReferenceExpression(1273,1290): 'anonymousConsumer'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: KaSymbolResolutionError
+    diagnostic: ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is '() -> MyClass.InheritorObject', but 'MyClass' was expected.>
     symbols:
+      (in kotlin.Function1) operator fun invoke(p1: P1): R
+    resolveToSymbols:
       (in ROOT) val anonymousConsumer: (MyClass) -> kotlin.Unit
 
 KtNameReferenceExpression(1291,1301): 'lambdaProp'

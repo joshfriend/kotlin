@@ -84,6 +84,8 @@ KtNameReferenceExpression(222,223): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtOperationReferenceExpression(230,231): '+'

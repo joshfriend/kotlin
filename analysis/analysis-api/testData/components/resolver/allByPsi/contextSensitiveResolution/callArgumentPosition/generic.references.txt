@@ -82,6 +82,8 @@ KtNameReferenceExpression(401,415): 'InheritorClass'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in MyClass) class InheritorClass : MyClass()
+    resolveToSymbols:
       (in MyClass.InheritorClass) constructor()
 
 KtNameReferenceExpression(451,466): 'InheritorObject'

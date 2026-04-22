@@ -802,7 +802,7 @@ KtCallExpression(805,808): 'A()'
 KtNameReferenceExpression(805,806): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(806,808): '()'
@@ -820,7 +820,7 @@ KtCallExpression(821,838): 'SimpleOperators()'
 KtNameReferenceExpression(821,836): 'SimpleOperators'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): SimpleOperators
+      /SimpleOperators
     ]
 
 KtValueArgumentList(836,838): '()'
@@ -853,7 +853,7 @@ KtCallExpression(848,851): 'A()'
 KtNameReferenceExpression(848,849): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(849,851): '()'
@@ -1081,7 +1081,7 @@ KtCallExpression(1001,1004): 'A()'
 KtNameReferenceExpression(1001,1002): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(1002,1004): '()'
@@ -1126,7 +1126,7 @@ KtCallExpression(1020,1023): 'A()'
 KtNameReferenceExpression(1020,1021): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(1021,1023): '()'
@@ -1356,7 +1356,7 @@ KtCallExpression(1181,1184): 'A()'
 KtNameReferenceExpression(1181,1182): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(1182,1184): '()'
@@ -1438,7 +1438,7 @@ KtCallExpression(1268,1271): 'A()'
 KtNameReferenceExpression(1268,1269): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(1269,1271): '()'
@@ -1456,7 +1456,7 @@ KtCallExpression(1284,1301): 'SimpleOperators()'
 KtNameReferenceExpression(1284,1299): 'SimpleOperators'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): SimpleOperators
+      /SimpleOperators
     ]
 
 KtValueArgumentList(1299,1301): '()'
@@ -1566,7 +1566,7 @@ KtCallExpression(1340,1343): 'A()'
 KtNameReferenceExpression(1340,1341): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(1341,1343): '()'
@@ -1580,10 +1580,11 @@ KtCallExpression(1348,1351): 'a()'
     diagnostic = ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
 
 KtNameReferenceExpression(1348,1349): 'a'
-  KaSymbolResolutionSuccess:
-    symbols = [
-      var a: A
+  KaSymbolResolutionError:
+    candidateSymbols = [
+      /invoke(<extension receiver>: A): kotlin.Unit
     ]
+    diagnostic = ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
 
 KtValueArgumentList(1349,1351): '()'
   null
@@ -1742,7 +1743,7 @@ KtCallExpression(1409,1412): 'A()'
 KtNameReferenceExpression(1409,1410): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(1410,1412): '()'
@@ -1756,10 +1757,11 @@ KtCallExpression(1417,1420): 'b()'
     diagnostic = ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
 
 KtNameReferenceExpression(1417,1418): 'b'
-  KaSymbolResolutionSuccess:
-    symbols = [
-      var b: SimpleOperators
+  KaSymbolResolutionError:
+    candidateSymbols = [
+      /SimpleOperators.invoke(<dispatch receiver>: SimpleOperators): kotlin.Unit
     ]
+    diagnostic = ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
 
 KtValueArgumentList(1418,1420): '()'
   null

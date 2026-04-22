@@ -124,6 +124,8 @@ KtNameReferenceExpression(224,225): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A : kotlin.Comparable<A>
+    resolveToSymbols:
       (in A) constructor()
 
 KtCallExpression(240,243): 'A()'
@@ -140,6 +142,8 @@ KtNameReferenceExpression(240,241): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A : kotlin.Comparable<A>
+    resolveToSymbols:
       (in A) constructor()
 
 KtNameReferenceExpression(248,249): 'a'

@@ -412,7 +412,7 @@ KtCallExpression(297,318): 'IntProgression(1, 10)'
 KtNameReferenceExpression(297,311): 'IntProgression'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(start: kotlin.Int, end: kotlin.Int): f.IntProgression
+      f/IntProgression
     ]
 
 KtValueArgumentList(311,318): '(1, 10)'

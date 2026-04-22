@@ -4,4 +4,6 @@ KtNameReferenceExpression(75,83): 'Conflict'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in test) class Conflict
+    resolveToSymbols:
       (in test.Conflict) constructor()

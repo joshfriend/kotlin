@@ -55,7 +55,7 @@ KtCallExpression(188,193): 'Any()'
 KtNameReferenceExpression(188,191): 'Any'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): kotlin.Any
+      kotlin/Any
     ]
 
 KtValueArgumentList(191,193): '()'

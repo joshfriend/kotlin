@@ -390,6 +390,8 @@ KtNameReferenceExpression(468,475): 'Another'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) open class Another
+    resolveToSymbols:
       (in Another) constructor()
 
 KtNameReferenceExpression(482,489): 'another'
@@ -470,6 +472,8 @@ KtNameReferenceExpression(541,548): 'Another'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) open class Another
+    resolveToSymbols:
       (in Another) constructor()
 
 KtNameReferenceExpression(555,562): 'another'
@@ -502,6 +506,8 @@ KtNameReferenceExpression(566,573): 'Another'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) open class Another
+    resolveToSymbols:
       (in Another) constructor()
 
 KtNameReferenceExpression(580,587): 'another'
@@ -542,6 +548,8 @@ KtNameReferenceExpression(595,602): 'Another'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) open class Another
+    resolveToSymbols:
       (in Another) constructor()
 
 KtCallExpression(623,630): 'Child()'
@@ -558,6 +566,8 @@ KtNameReferenceExpression(623,628): 'Child'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Child : Another()
+    resolveToSymbols:
       (in Child) constructor()
 
 KtCallExpression(649,658): 'MyClass()'
@@ -574,6 +584,8 @@ KtNameReferenceExpression(649,656): 'MyClass'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class MyClass
+    resolveToSymbols:
       (in MyClass) constructor()
 
 KtNameReferenceExpression(663,668): 'child'

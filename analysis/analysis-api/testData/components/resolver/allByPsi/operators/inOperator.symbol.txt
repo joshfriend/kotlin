@@ -73,7 +73,7 @@ KtCallExpression(102,113): 'Container()'
 KtNameReferenceExpression(102,111): 'Container'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Container
+      /Container
     ]
 
 KtValueArgumentList(111,113): '()'

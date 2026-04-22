@@ -20,6 +20,8 @@ KtNameReferenceExpression(188,191): 'Any'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in kotlin) open class Any
+    resolveToSymbols:
       (in kotlin.Any) constructor()
 
 KtNameReferenceExpression(223,229): 'MyEnum'

@@ -376,7 +376,7 @@ KtCallExpression(446,452): 'Base()'
 KtNameReferenceExpression(446,450): 'Base'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Base
+      /Base
     ]
 
 KtValueArgumentList(450,452): '()'
@@ -421,7 +421,7 @@ KtCallExpression(469,472): 'A()'
 KtNameReferenceExpression(469,470): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(470,472): '()'
@@ -496,7 +496,7 @@ KtCallExpression(593,599): 'Base()'
 KtNameReferenceExpression(593,597): 'Base'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Base
+      /Base
     ]
 
 KtValueArgumentList(597,599): '()'
@@ -550,7 +550,7 @@ KtCallExpression(625,628): 'A()'
 KtNameReferenceExpression(625,626): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(626,628): '()'

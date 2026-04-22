@@ -4,4 +4,6 @@ KtNameReferenceExpression(125,126): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in test) class A
+    resolveToSymbols:
       (in test.A) constructor()

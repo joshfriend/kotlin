@@ -4,4 +4,6 @@ KtNameReferenceExpression(153,158): 'Local'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      class Local
+    resolveToSymbols:
       (in <local>: Local) constructor()

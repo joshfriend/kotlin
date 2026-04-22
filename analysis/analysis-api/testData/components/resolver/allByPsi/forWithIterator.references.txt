@@ -176,4 +176,6 @@ KtNameReferenceExpression(297,311): 'IntProgression'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in f) class IntProgression(start: kotlin.Int, end: kotlin.Int)
+    resolveToSymbols:
       (in f.IntProgression) constructor(start: kotlin.Int, end: kotlin.Int)

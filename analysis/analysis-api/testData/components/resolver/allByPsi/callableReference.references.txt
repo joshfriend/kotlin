@@ -160,6 +160,8 @@ KtNameReferenceExpression(528,535): 'MyClass'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in pack) open class MyClass
+    resolveToSymbols:
       (in pack.MyClass) constructor()
 
 KtNameReferenceExpression(543,550): 'MyClass'
@@ -232,6 +234,8 @@ KtNameReferenceExpression(606,611): 'Child'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in pack) class Child : pack.MyClass()
+    resolveToSymbols:
       (in pack.Child) constructor()
 
 KtNameReferenceExpression(619,624): 'Child'
@@ -412,6 +416,8 @@ KtNameReferenceExpression(897,910): 'ChildWithType'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in pack) class ChildWithType : pack.ClassWithType<pack.MyClass>()
+    resolveToSymbols:
       (in pack.ChildWithType) constructor()
 
 KtNameReferenceExpression(921,937): 'topLevelFunction'

@@ -400,7 +400,7 @@ KtCallExpression(529,539): 'Explicit()'
 KtNameReferenceExpression(529,537): 'Explicit'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Explicit
+      /Explicit
     ]
 
 KtValueArgumentList(537,539): '()'
@@ -460,7 +460,7 @@ KtCallExpression(596,606): 'Explicit()'
 KtNameReferenceExpression(596,604): 'Explicit'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Explicit
+      /Explicit
     ]
 
 KtValueArgumentList(604,606): '()'
@@ -532,7 +532,7 @@ KtCallExpression(669,679): 'Explicit()'
 KtNameReferenceExpression(669,677): 'Explicit'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Explicit
+      /Explicit
     ]
 
 KtValueArgumentList(677,679): '()'
@@ -652,7 +652,7 @@ KtCallExpression(835,845): 'Explicit()'
 KtNameReferenceExpression(835,843): 'Explicit'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Explicit
+      /Explicit
     ]
 
 KtValueArgumentList(843,845): '()'
@@ -712,7 +712,7 @@ KtCallExpression(902,912): 'Explicit()'
 KtNameReferenceExpression(902,910): 'Explicit'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): Explicit
+      /Explicit
     ]
 
 KtValueArgumentList(910,912): '()'

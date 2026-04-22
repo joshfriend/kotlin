@@ -397,7 +397,7 @@ KtCallExpression(392,405): 'NestedClass()'
 KtNameReferenceExpression(392,403): 'NestedClass'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): one.two.Base.NestedClass
+      one/two/Base.NestedClass
     ]
 
 KtValueArgumentList(403,405): '()'
@@ -427,7 +427,7 @@ KtCallExpression(425,432): 'Inner()'
 KtNameReferenceExpression(425,430): 'Inner'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(<dispatch receiver>: one.two.Base<B>): one.two.Base.Inner<B>
+      one/two/Base.Inner
     ]
 
 KtValueArgumentList(430,432): '()'

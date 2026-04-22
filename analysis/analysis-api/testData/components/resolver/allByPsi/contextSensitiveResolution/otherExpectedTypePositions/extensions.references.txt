@@ -36,6 +36,8 @@ KtNameReferenceExpression(168,175): 'MyClass'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class MyClass
+    resolveToSymbols:
       (in MyClass) constructor()
 
 KtNameReferenceExpression(198,205): 'MyClass'
@@ -143,6 +145,8 @@ KtNameReferenceExpression(347,355): 'MyClass2'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class MyClass2
+    resolveToSymbols:
       (in MyClass2) constructor()
 
 KtNameReferenceExpression(371,379): 'MyClass2'

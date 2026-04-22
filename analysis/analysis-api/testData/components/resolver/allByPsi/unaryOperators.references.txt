@@ -68,6 +68,8 @@ KtNameReferenceExpression(88,95): 'MyClass'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class MyClass
+    resolveToSymbols:
       (in MyClass) constructor()
 
 KtCallExpression(98,110): 'unaryMinus()'

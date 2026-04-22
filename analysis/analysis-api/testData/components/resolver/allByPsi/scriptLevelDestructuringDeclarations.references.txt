@@ -332,6 +332,8 @@ KtNameReferenceExpression(446,450): 'Pair'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in util) data class Pair(a: @util.Anno(str = "a type s") kotlin.collections.List<@util.Anno(str = "a nested type s") kotlin.collections.Collection<@util.Anno(str = "a nested nested type s") kotlin.String>>?, b: @util.Anno(str = "b type s") kotlin.Array<@util.Anno(str = "b nested type s") kotlin.collections.List<@util.Anno(str = "b nested nested type s") kotlin.Int>>?)
+    resolveToSymbols:
       (in util.Pair) constructor(a: @util.Anno(str = "a type s") kotlin.collections.List<@util.Anno(str = "a nested type s") kotlin.collections.Collection<@util.Anno(str = "a nested nested type s") kotlin.String>>?, b: @util.Anno(str = "b type s") kotlin.Array<@util.Anno(str = "b nested type s") kotlin.collections.List<@util.Anno(str = "b nested nested type s") kotlin.Int>>?)
 
 KtNameReferenceExpression(465,469): 'Anno'
@@ -448,4 +450,6 @@ KtNameReferenceExpression(534,538): 'Pair'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in util) data class Pair(a: @util.Anno(str = "a type s") kotlin.collections.List<@util.Anno(str = "a nested type s") kotlin.collections.Collection<@util.Anno(str = "a nested nested type s") kotlin.String>>?, b: @util.Anno(str = "b type s") kotlin.Array<@util.Anno(str = "b nested type s") kotlin.collections.List<@util.Anno(str = "b nested nested type s") kotlin.Int>>?)
+    resolveToSymbols:
       (in util.Pair) constructor(a: @util.Anno(str = "a type s") kotlin.collections.List<@util.Anno(str = "a nested type s") kotlin.collections.Collection<@util.Anno(str = "a nested nested type s") kotlin.String>>?, b: @util.Anno(str = "b type s") kotlin.Array<@util.Anno(str = "b nested type s") kotlin.collections.List<@util.Anno(str = "b nested nested type s") kotlin.Int>>?)

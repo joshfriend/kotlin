@@ -300,6 +300,8 @@ KtNameReferenceExpression(805,806): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtCallExpression(821,838): 'SimpleOperators()'
@@ -316,6 +318,8 @@ KtNameReferenceExpression(821,836): 'SimpleOperators'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class SimpleOperators
+    resolveToSymbols:
       (in SimpleOperators) constructor()
 
 KtCallExpression(843,1229): 'with(A()){'
@@ -348,6 +352,8 @@ KtNameReferenceExpression(848,849): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtNameReferenceExpression(877,881): 'this'
@@ -500,6 +506,8 @@ KtNameReferenceExpression(1001,1002): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtArrayAccessExpression(1013,1017): 'a[1]'
@@ -542,6 +550,8 @@ KtNameReferenceExpression(1020,1021): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtCallExpression(1032,1042): 'thisProp()'
@@ -785,6 +795,8 @@ KtNameReferenceExpression(1181,1182): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtCallExpression(1193,1196): 'b()'
@@ -867,6 +879,8 @@ KtNameReferenceExpression(1268,1269): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtCallExpression(1284,1301): 'SimpleOperators()'
@@ -883,6 +897,8 @@ KtNameReferenceExpression(1284,1299): 'SimpleOperators'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class SimpleOperators
+    resolveToSymbols:
       (in SimpleOperators) constructor()
 
 KtOperationReferenceExpression(1307,1308): '+'
@@ -981,6 +997,8 @@ KtNameReferenceExpression(1340,1341): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtCallExpression(1348,1351): 'a()'
@@ -997,8 +1015,12 @@ KtNameReferenceExpression(1348,1349): 'a'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: KaSymbolResolutionError
+    diagnostic: ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
     symbols:
+      (in ROOT) context(a@A)
+      operator fun A.invoke()
+    resolveToSymbols:
       (in <local>: withoutContext) var a: A
 
 KtNameReferenceExpression(1356,1357): 'a'
@@ -1149,6 +1171,8 @@ KtNameReferenceExpression(1409,1410): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtCallExpression(1417,1420): 'b()'
@@ -1165,8 +1189,12 @@ KtNameReferenceExpression(1417,1418): 'b'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionSuccess
+    attempt: KaSymbolResolutionError
+    diagnostic: ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
     symbols:
+      (in SimpleOperators) context(a@A)
+      operator fun invoke()
+    resolveToSymbols:
       (in <local>: withoutContext) var b: SimpleOperators
 
 KtNameReferenceExpression(1425,1426): 'b'

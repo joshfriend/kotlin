@@ -4,4 +4,6 @@ KtNameReferenceExpression(45,48): 'Foo'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Foo<T>(x: T)
+    resolveToSymbols:
       (in Foo) constructor <T>(x: T)

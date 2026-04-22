@@ -388,7 +388,7 @@ KtCallExpression(528,537): 'MyClass()'
 KtNameReferenceExpression(528,535): 'MyClass'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): pack.MyClass
+      pack/MyClass
     ]
 
 KtValueArgumentList(535,537): '()'
@@ -475,7 +475,7 @@ KtCallExpression(606,613): 'Child()'
 KtNameReferenceExpression(606,611): 'Child'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): pack.Child
+      pack/Child
     ]
 
 KtValueArgumentList(611,613): '()'
@@ -694,7 +694,7 @@ KtCallExpression(897,912): 'ChildWithType()'
 KtNameReferenceExpression(897,910): 'ChildWithType'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): pack.ChildWithType
+      pack/ChildWithType
     ]
 
 KtValueArgumentList(910,912): '()'

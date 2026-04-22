@@ -292,6 +292,8 @@ KtNameReferenceExpression(494,498): 'Test'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Test
+    resolveToSymbols:
       (in Test) constructor()
 
 KtNameReferenceExpression(505,508): 'foo'

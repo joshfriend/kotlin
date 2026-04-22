@@ -211,7 +211,7 @@ KtCallExpression(401,417): 'InheritorClass()'
 KtNameReferenceExpression(401,415): 'InheritorClass'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): MyClass.InheritorClass
+      /MyClass.InheritorClass
     ]
 
 KtValueArgumentList(415,417): '()'

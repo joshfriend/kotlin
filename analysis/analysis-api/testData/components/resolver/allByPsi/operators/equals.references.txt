@@ -28,6 +28,8 @@ KtNameReferenceExpression(91,92): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtCallExpression(107,110): 'A()'
@@ -44,6 +46,8 @@ KtNameReferenceExpression(107,108): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtNameReferenceExpression(115,116): 'a'

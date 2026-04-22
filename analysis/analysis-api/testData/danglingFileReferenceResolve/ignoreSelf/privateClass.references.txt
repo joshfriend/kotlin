@@ -4,4 +4,6 @@ KtNameReferenceExpression(97,100): 'Bar'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in Foo) private class Bar [privateClass.kt]
+    resolveToSymbols:
       (in Foo.Bar) constructor() [privateClass.kt]

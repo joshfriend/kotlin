@@ -4,6 +4,8 @@ KtNameReferenceExpression(131,141): 'Annotation'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) annotation class Annotation(vararg strings: kotlin.String)
+    resolveToSymbols:
       (in Annotation) constructor(vararg strings: kotlin.String)
 
 KtValueArgument(131,156): 'Annotation(*["v1", "v2"])'

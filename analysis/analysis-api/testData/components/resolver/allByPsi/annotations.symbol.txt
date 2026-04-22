@@ -697,7 +697,7 @@ KtCallExpression(715,742): 'AnnoWithArray([10, 11, 12])'
 KtNameReferenceExpression(715,728): 'AnnoWithArray'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(arr: kotlin.IntArray): one.AnnoWithArray
+      one/AnnoWithArray
     ]
 
 KtValueArgumentList(728,742): '([10, 11, 12])'
@@ -733,7 +733,7 @@ KtCallExpression(744,781): 'AnnoWithArray(intArrayOf(13, 14, 15))'
 KtNameReferenceExpression(744,757): 'AnnoWithArray'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(arr: kotlin.IntArray): one.AnnoWithArray
+      one/AnnoWithArray
     ]
 
 KtValueArgumentList(757,781): '(intArrayOf(13, 14, 15))'

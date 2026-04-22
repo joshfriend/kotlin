@@ -222,6 +222,8 @@ KtNameReferenceExpression(392,403): 'NestedClass'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in one.two.Base) open class NestedClass
+    resolveToSymbols:
       (in one.two.Base.NestedClass) constructor()
 
 KtNameReferenceExpression(422,424): 'c1'
@@ -246,4 +248,6 @@ KtNameReferenceExpression(425,430): 'Inner'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in one.two.Base) inner class Inner
+    resolveToSymbols:
       (in one.two.Base.Inner) constructor()

@@ -206,6 +206,8 @@ KtNameReferenceExpression(446,450): 'Base'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Base
+    resolveToSymbols:
       (in Base) constructor()
 
 KtCallExpression(464,536): 'with(A()) {'
@@ -238,6 +240,8 @@ KtNameReferenceExpression(469,470): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()
 
 KtCallExpression(488,499): 'funMember()'
@@ -296,6 +300,8 @@ KtNameReferenceExpression(593,597): 'Base'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Base
+    resolveToSymbols:
       (in Base) constructor()
 
 KtCallExpression(611,629): 'funMember(a = A())'
@@ -337,4 +343,6 @@ KtNameReferenceExpression(625,626): 'A'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class A
+    resolveToSymbols:
       (in A) constructor()

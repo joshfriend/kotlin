@@ -53,6 +53,8 @@ KtNameReferenceExpression(77,85): 'Delegate'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in myPack) class Delegate
+    resolveToSymbols:
       (in myPack.Delegate) constructor()
 
 KtNameReferenceExpression(141,144): 'Any'

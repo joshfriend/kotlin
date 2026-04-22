@@ -408,6 +408,8 @@ KtNameReferenceExpression(715,728): 'AnnoWithArray'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in one) annotation class AnnoWithArray(arr: kotlin.IntArray)
+    resolveToSymbols:
       (in one.AnnoWithArray) constructor(arr: kotlin.IntArray)
 
 KtValueArgument(729,741): '[10, 11, 12]'
@@ -448,6 +450,8 @@ KtNameReferenceExpression(744,757): 'AnnoWithArray'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in one) annotation class AnnoWithArray(arr: kotlin.IntArray)
+    resolveToSymbols:
       (in one.AnnoWithArray) constructor(arr: kotlin.IntArray)
 
 KtValueArgument(758,780): 'intArrayOf(13, 14, 15)'

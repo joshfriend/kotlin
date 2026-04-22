@@ -46,7 +46,7 @@ KtCallExpression(142,151): 'MyClass()'
 KtNameReferenceExpression(142,149): 'MyClass'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): MyClass
+      /MyClass
     ]
 
 KtValueArgumentList(149,151): '()'

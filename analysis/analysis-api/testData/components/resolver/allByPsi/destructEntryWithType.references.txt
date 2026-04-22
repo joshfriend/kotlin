@@ -72,8 +72,6 @@ KtNameReferenceExpression(160,164): 'Anno'
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'Int', but 'String' was expected.>
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(165,177): '0 + constant'
@@ -115,8 +113,6 @@ KtNameReferenceExpression(185,189): 'Anno'
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'Int', but 'String' was expected.>
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(190,202): '1 + constant'
@@ -158,8 +154,6 @@ KtNameReferenceExpression(210,214): 'Anno'
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'Int', but 'String' was expected.>
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in util.Anno) constructor(str: kotlin.String)
 
 KtValueArgument(215,227): '2 + constant'

@@ -199,6 +199,8 @@ KtNameReferenceExpression(529,537): 'Explicit'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Explicit
+    resolveToSymbols:
       (in Explicit) constructor()
 
 KtNameReferenceExpression(541,548): 'regular'
@@ -248,6 +250,8 @@ KtNameReferenceExpression(596,604): 'Explicit'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Explicit
+    resolveToSymbols:
       (in Explicit) constructor()
 
 KtNameReferenceExpression(608,615): 'regular'
@@ -296,6 +300,8 @@ KtNameReferenceExpression(669,677): 'Explicit'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Explicit
+    resolveToSymbols:
       (in Explicit) constructor()
 
 KtCallExpression(691,736): 'unnamed/*explicit regular*/(regular = "str2")'
@@ -387,6 +393,8 @@ KtNameReferenceExpression(835,843): 'Explicit'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Explicit
+    resolveToSymbols:
       (in Explicit) constructor()
 
 KtNameReferenceExpression(847,854): 'regular'
@@ -436,6 +444,8 @@ KtNameReferenceExpression(902,910): 'Explicit'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class Explicit
+    resolveToSymbols:
       (in Explicit) constructor()
 
 KtNameReferenceExpression(914,921): 'regular'

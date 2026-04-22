@@ -20,6 +20,8 @@ KtNameReferenceExpression(142,149): 'MyClass'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
+      (in ROOT) class MyClass
+    resolveToSymbols:
       (in MyClass) constructor()
 
 KtNameReferenceExpression(167,173): 'String'

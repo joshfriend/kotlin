@@ -247,7 +247,7 @@ KtCallExpression(224,227): 'A()'
 KtNameReferenceExpression(224,225): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(225,227): '()'
@@ -265,7 +265,7 @@ KtCallExpression(240,243): 'A()'
 KtNameReferenceExpression(240,241): 'A'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(): A
+      /A
     ]
 
 KtValueArgumentList(241,243): '()'

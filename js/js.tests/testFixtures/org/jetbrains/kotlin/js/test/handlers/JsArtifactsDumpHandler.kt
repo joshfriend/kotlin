@@ -40,7 +40,7 @@ object JsArtifactsDumpHandler {
             return failedAssertions.map {
                 val cause = it.cause as? ScriptExecutionException ?: return@map it
                 it.withReplacedCause(
-                    ScriptExecutionException(cause.stdout, cause.stderr.replacePaths(testServices)).apply {
+                    ScriptExecutionException(cause.stdout.replacePaths(testServices), cause.stderr.replacePaths(testServices)).apply {
                         stackTrace = cause.stackTrace
                     }
                 )

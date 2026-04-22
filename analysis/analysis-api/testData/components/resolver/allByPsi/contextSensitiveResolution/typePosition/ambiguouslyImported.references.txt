@@ -73,8 +73,6 @@ KtNameReferenceExpression(212,216): 'Left'
     symbols:
       0: (in a) class Left
       1: (in b) class Left
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtNameReferenceExpression(220,221): 'x'
   KtSimpleNameReference:
@@ -128,8 +126,6 @@ KtNameReferenceExpression(287,291): 'Left'
     symbols:
       0: (in a) class Left
       1: (in b) class Left
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtNameReferenceExpression(295,296): 'x'
   KtSimpleNameReference:

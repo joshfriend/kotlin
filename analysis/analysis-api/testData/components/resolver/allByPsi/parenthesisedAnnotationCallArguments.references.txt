@@ -125,8 +125,6 @@ KtNameReferenceExpression(316,323): 'arrayOf'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) inline fun <reified T> arrayOf(vararg elements: T): kotlin.Array<T>
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtNameReferenceExpression(358,370): 'MyAnnoVararg'
   KtSimpleNameReference:
@@ -159,8 +157,6 @@ KtNameReferenceExpression(381,388): 'arrayOf'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) inline fun <reified T> arrayOf(vararg elements: T): kotlin.Array<T>
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtValueArgument(389,394): '("A")'
   KtDefaultAnnotationArgumentReference:

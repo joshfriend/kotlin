@@ -298,6 +298,7 @@ KtNameReferenceExpression(505,508): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['plus', 'plusAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.plus(i: Int): Test
@@ -305,12 +306,11 @@ KtNameReferenceExpression(505,508): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.plus(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.plusAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['plus', 'plusAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.plus(i: Int): Test
@@ -318,8 +318,6 @@ KtNameReferenceExpression(505,508): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.plus(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.plusAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtOperationReferenceExpression(509,511): '+='
   KtSimpleNameReference:
@@ -337,6 +335,7 @@ KtNameReferenceExpression(518,521): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['minus', 'minusAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.minus(i: Int): Test
@@ -344,12 +343,11 @@ KtNameReferenceExpression(518,521): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.minus(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.minusAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['minus', 'minusAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.minus(i: Int): Test
@@ -357,8 +355,6 @@ KtNameReferenceExpression(518,521): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.minus(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.minusAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtOperationReferenceExpression(522,524): '-='
   KtSimpleNameReference:
@@ -376,6 +372,7 @@ KtNameReferenceExpression(531,534): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['div', 'divAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.div(i: Int): Test
@@ -383,12 +380,11 @@ KtNameReferenceExpression(531,534): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.div(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.divAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['div', 'divAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.div(i: Int): Test
@@ -396,8 +392,6 @@ KtNameReferenceExpression(531,534): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.div(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.divAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtOperationReferenceExpression(535,537): '/='
   KtSimpleNameReference:
@@ -415,6 +409,7 @@ KtNameReferenceExpression(544,547): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['times', 'timesAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.times(i: Int): Test
@@ -422,12 +417,11 @@ KtNameReferenceExpression(544,547): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.times(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.timesAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['times', 'timesAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.times(i: Int): Test
@@ -435,8 +429,6 @@ KtNameReferenceExpression(544,547): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.times(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.timesAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtOperationReferenceExpression(548,550): '*='
   KtSimpleNameReference:
@@ -454,6 +446,7 @@ KtNameReferenceExpression(557,560): 'foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['rem', 'remAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.rem(i: Int): Test
@@ -461,12 +454,11 @@ KtNameReferenceExpression(557,560): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.rem(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.remAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
+    resolvesByNamesViolations: ['rem', 'remAssign'] !in [foo]
     attempt: KaSymbolResolutionError
     diagnostic: ERROR<ASSIGN_OPERATOR_AMBIGUITY: Ambiguity between assign operator candidates:
     fun Test.rem(i: Int): Test
@@ -474,8 +466,6 @@ KtNameReferenceExpression(557,560): 'foo'
     symbols:
       0: (in ROOT) operator fun Test.rem(i: kotlin.Int): Test
       1: (in ROOT) operator fun Test.remAssign(i: kotlin.Int)
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtOperationReferenceExpression(561,563): '%='
   KtSimpleNameReference:

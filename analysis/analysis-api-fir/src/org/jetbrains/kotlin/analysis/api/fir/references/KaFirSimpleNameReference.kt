@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Copyright 2010-2026 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
@@ -9,17 +9,22 @@ import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.analysis.api.fir.KaFirSession
 import org.jetbrains.kotlin.analysis.api.fir.symbols.KaFirNamedClassSymbol
-import org.jetbrains.kotlin.analysis.api.fir.symbols.KaFirSyntheticJavaPropertySymbol
 import org.jetbrains.kotlin.analysis.api.impl.base.references.KaBaseSimpleNameReference
+import org.jetbrains.kotlin.analysis.api.resolution.KaSingleOrMultiCall
+import org.jetbrains.kotlin.analysis.api.resolution.calls
+import org.jetbrains.kotlin.analysis.api.resolution.symbols
 import org.jetbrains.kotlin.analysis.api.symbols.KaClassKind
 import org.jetbrains.kotlin.analysis.api.symbols.KaSymbol
+import org.jetbrains.kotlin.analysis.api.symbols.KaSyntheticJavaPropertySymbol
 import org.jetbrains.kotlin.analysis.low.level.api.fir.api.getOrBuildFir
 import org.jetbrains.kotlin.fir.expressions.FirLoopJump
 import org.jetbrains.kotlin.fir.psi
 import org.jetbrains.kotlin.idea.references.readWriteAccess
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.references.KotlinPsiReferenceProviderContributor
+import org.jetbrains.kotlin.resolution.KtResolvableCall
 import org.jetbrains.kotlin.resolve.references.ReferenceAccess
+import org.jetbrains.kotlin.utils.addToStdlib.ifNotEmpty
 
 internal class KaFirSimpleNameReference(
     expression: KtSimpleNameExpression,
@@ -47,10 +52,21 @@ internal class KaFirSimpleNameReference(
         return super<KaFirReference>.isReferenceToImportAlias(alias)
     }
 
+    @OptIn(KtExperimentalApi::class)
     override fun KaFirSession.computeSymbols(): Collection<KaSymbol> {
         val results = FirReferenceResolveHelper.resolveSimpleNameReference(this@KaFirSimpleNameReference, this)
         //This fix-up needed to resolve annotation call into annotation constructor (but not into the annotation type)
-        return fixUpAnnotationCallResolveToCtor(results)
+        fixUpAnnotationCallResolveToCtor(results).ifNotEmpty {
+            return this
+        }
+
+        // Resolved calls are preferable for navigation since they provide a more precise location.
+        // For instance, it is the case for constructor calls
+        return (element as? KtResolvableCall)?.tryResolveCall()
+            ?.calls
+            ?.flatMap(KaSingleOrMultiCall::symbols)
+            ?.takeUnless(List<KaSymbol>::isEmpty)
+            ?: element.tryResolveSymbols()?.symbols.orEmpty()
     }
 
     override fun getResolvedToPsi(analysisSession: KaSession): Collection<PsiElement> = with(analysisSession) {
@@ -65,7 +81,7 @@ internal class KaFirSimpleNameReference(
         if (psiOfReferenceTarget.isNotEmpty()) return psiOfReferenceTarget
         referenceTargetSymbols.flatMap { symbol ->
             when (symbol) {
-                is KaFirSyntheticJavaPropertySymbol ->
+                is KaSyntheticJavaPropertySymbol ->
                     if (isRead) {
                         listOfNotNull(symbol.javaGetterSymbol.psi)
                     } else {

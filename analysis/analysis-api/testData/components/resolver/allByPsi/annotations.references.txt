@@ -189,8 +189,6 @@ KtNameReferenceExpression(496,506): 'intArrayOf'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) fun intArrayOf(vararg elements: kotlin.Int): kotlin.IntArray
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtValueArgument(507,508): '7'
   KtDefaultAnnotationArgumentReference:
@@ -351,8 +349,6 @@ KtNameReferenceExpression(703,710): 'arrayOf'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) inline fun <reified T> arrayOf(vararg elements: T): kotlin.Array<T>
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtValueArgument(711,742): 'one.AnnoWithArray([10, 11, 12])'
   KtDefaultAnnotationArgumentReference:
@@ -449,8 +445,6 @@ KtNameReferenceExpression(758,768): 'intArrayOf'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) fun intArrayOf(vararg elements: kotlin.Int): kotlin.IntArray
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtValueArgument(769,771): '13'
   KtDefaultAnnotationArgumentReference:

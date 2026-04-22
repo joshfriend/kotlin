@@ -181,8 +181,6 @@ KtNameReferenceExpression(371,378): 'arrayOf'
     attempt: KaSymbolResolutionSuccess
     symbols:
       (in kotlin) inline fun <reified T> arrayOf(vararg elements: T): kotlin.Array<T>
-    resolveToSymbols:
-      Nothing (Unresolved reference)
 
 KtValueArgument(379,380): 'X'
   KtDefaultAnnotationArgumentReference:

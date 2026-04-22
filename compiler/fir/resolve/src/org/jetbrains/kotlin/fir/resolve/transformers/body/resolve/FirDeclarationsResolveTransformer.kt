@@ -1633,7 +1633,7 @@ open class FirDeclarationsResolveTransformer(
                     approximateLocalTypes = variable.isReplSnippetDeclaration == true
                 )
             } ?: buildErrorTypeRef {
-                diagnostic = ConeLocalVariableNoTypeOrInitializer(variable)
+                diagnostic = ConeLocalVariableNoTypeOrInitializer(variable.symbol)
                 source = variable.source
             }
             variable.transformReturnTypeRef(transformer, ResolutionMode.UpdateImplicitTypeRef(newTypeRef))

@@ -33,6 +33,7 @@ import org.jetbrains.kotlin.analysis.api.signatures.KaCallableSignature
 import org.jetbrains.kotlin.analysis.api.signatures.KaFunctionSignature
 import org.jetbrains.kotlin.analysis.api.signatures.KaVariableSignature
 import org.jetbrains.kotlin.analysis.api.symbols.*
+import org.jetbrains.kotlin.analysis.api.symbols.markers.KaNamedSymbol
 import org.jetbrains.kotlin.analysis.api.types.KaSubstitutor
 import org.jetbrains.kotlin.analysis.api.types.KaType
 import org.jetbrains.kotlin.analysis.low.level.api.fir.api.getOrBuildFir
@@ -459,7 +460,17 @@ internal class KaFirResolver(
             symbolBuilder = firSymbolBuilder,
         )
 
-        val resolutionError = (this as? FirDiagnosticHolder)?.toKaSymbolResolutionError(psi)
+        val resolutionError = (this as? FirDiagnosticHolder)?.toKaSymbolResolutionError(psi)?.let { resolutionError ->
+            val name = psi.getReferencedNameAsName()
+            KaBaseSymbolResolutionError(
+                backingDiagnostic = resolutionError.diagnostic,
+                // TODO(KT-85949): replace filtering with a proper error/symbols once the issue is fixed.
+                // For now it is used to get rid of unrelated classifiers from the result.
+                // No need to check packages since they cannot be candidates
+                backingCandidateSymbols = resolutionError.candidateSymbols.filter { it is KaNamedSymbol && it.name == name },
+            )
+        }
+
         // Resolved symbols might properly detect usages of nested elements,
         // but at the same time, if they found error symbols, the error result has to be preserved
         if (resolutionError?.candidateSymbols == resolvedTypeSymbols) {

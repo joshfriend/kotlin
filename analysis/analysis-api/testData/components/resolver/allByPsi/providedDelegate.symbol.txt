@@ -23,13 +23,22 @@ KtDotQualifiedExpression(40,54): 'kotlin.reflect'
   null
 
 KtNameReferenceExpression(40,46): 'kotlin'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin
+    ]
 
 KtNameReferenceExpression(47,54): 'reflect'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin.reflect
+    ]
 
 KtNameReferenceExpression(55,64): 'KProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KProperty
+    ]
 
 KtImportDirective(65,106): 'import kotlin.properties.ReadOnlyProperty'
   null
@@ -41,13 +50,22 @@ KtDotQualifiedExpression(72,89): 'kotlin.properties'
   null
 
 KtNameReferenceExpression(72,78): 'kotlin'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin
+    ]
 
 KtNameReferenceExpression(79,89): 'properties'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin.properties
+    ]
 
 KtNameReferenceExpression(90,106): 'ReadOnlyProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/properties/ReadOnlyProperty
+    ]
 
 KtClass(108,266): 'class ResourceID<T> {'
   null

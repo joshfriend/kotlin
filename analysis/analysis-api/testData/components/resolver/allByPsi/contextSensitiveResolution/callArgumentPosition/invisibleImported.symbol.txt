@@ -17,7 +17,10 @@ KtImportDirective(35,45): 'import a.*'
   null
 
 KtNameReferenceExpression(42,43): 'a'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      a
+    ]
 
 KtClass(47,80): 'enum class MyEnum {'
   null

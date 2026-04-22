@@ -17,13 +17,22 @@ KtDotQualifiedExpression(85,99): 'kotlin.reflect'
   null
 
 KtNameReferenceExpression(85,91): 'kotlin'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin
+    ]
 
 KtNameReferenceExpression(92,99): 'reflect'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin.reflect
+    ]
 
 KtNameReferenceExpression(100,109): 'KProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KProperty
+    ]
 
 KtClass(111,301): 'enum class MyEnum {'
   null

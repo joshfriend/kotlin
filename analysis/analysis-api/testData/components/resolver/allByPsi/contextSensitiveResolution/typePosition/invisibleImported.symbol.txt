@@ -11,7 +11,10 @@ KtImportDirective(24,34): 'import a.*'
   null
 
 KtNameReferenceExpression(31,32): 'a'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      a
+    ]
 
 KtClass(36,146): 'sealed interface MySealed {'
   null

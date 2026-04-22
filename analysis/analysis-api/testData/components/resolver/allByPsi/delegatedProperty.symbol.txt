@@ -23,13 +23,22 @@ KtDotQualifiedExpression(39,53): 'kotlin.reflect'
   null
 
 KtNameReferenceExpression(39,45): 'kotlin'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin
+    ]
 
 KtNameReferenceExpression(46,53): 'reflect'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin.reflect
+    ]
 
 KtNameReferenceExpression(54,63): 'KProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KProperty
+    ]
 
 KtProperty(65,87): 'var prop by Delegate()'
   null

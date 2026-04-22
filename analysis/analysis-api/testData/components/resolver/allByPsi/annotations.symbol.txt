@@ -23,13 +23,22 @@ KtDotQualifiedExpression(36,50): 'kotlin.reflect'
   null
 
 KtNameReferenceExpression(36,42): 'kotlin'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin
+    ]
 
 KtNameReferenceExpression(43,50): 'reflect'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin.reflect
+    ]
 
 KtNameReferenceExpression(51,57): 'KClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KClass
+    ]
 
 KtClass(59,120): '@Repeatable'
   null

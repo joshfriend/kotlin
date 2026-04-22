@@ -35,16 +35,28 @@ KtDotQualifiedExpression(24,31): 'one.two'
   null
 
 KtNameReferenceExpression(24,27): 'one'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one
+    ]
 
 KtNameReferenceExpression(28,31): 'two'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one.two
+    ]
 
 KtNameReferenceExpression(32,45): 'TopLevelClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/TopLevelClass
+    ]
 
 KtNameReferenceExpression(46,56): 'InnerClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/TopLevelClass.InnerClass
+    ]
 
 KtImportAlias(57,70): 'as InnerAlias'
   null

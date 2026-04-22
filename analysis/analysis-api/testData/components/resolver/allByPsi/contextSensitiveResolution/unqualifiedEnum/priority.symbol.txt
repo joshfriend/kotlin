@@ -20,10 +20,16 @@ KtDotQualifiedExpression(52,63): 'first.First'
   null
 
 KtNameReferenceExpression(52,57): 'first'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      first
+    ]
 
 KtNameReferenceExpression(58,63): 'First'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      first/First
+    ]
 
 KtImportDirective(64,82): 'import first.THREE'
   null
@@ -32,10 +38,16 @@ KtDotQualifiedExpression(71,82): 'first.THREE'
   null
 
 KtNameReferenceExpression(71,76): 'first'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      first
+    ]
 
 KtNameReferenceExpression(77,82): 'THREE'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      val THREE: first.First
+    ]
 
 KtClass(84,122): 'enum class Second {'
   null

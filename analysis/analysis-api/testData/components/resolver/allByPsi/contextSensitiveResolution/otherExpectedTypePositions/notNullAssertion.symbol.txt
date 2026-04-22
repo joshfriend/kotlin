@@ -17,13 +17,22 @@ KtDotQualifiedExpression(100,114): 'kotlin.reflect'
   null
 
 KtNameReferenceExpression(100,106): 'kotlin'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin
+    ]
 
 KtNameReferenceExpression(107,114): 'reflect'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin.reflect
+    ]
 
 KtNameReferenceExpression(115,124): 'KProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KProperty
+    ]
 
 KtClass(126,349): 'open class MyClass {'
   null

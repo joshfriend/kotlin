@@ -10,10 +10,8 @@ KtNameReferenceExpression(42,43): 'a'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       package a
 
 KtNameReferenceExpression(93,99): 'MyEnum'

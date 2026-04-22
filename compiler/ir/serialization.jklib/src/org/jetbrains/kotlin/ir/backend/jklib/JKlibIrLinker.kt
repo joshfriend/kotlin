@@ -22,7 +22,6 @@ import org.jetbrains.kotlin.ir.declarations.impl.IrModuleFragmentImpl
 import org.jetbrains.kotlin.ir.symbols.IrClassSymbol
 import org.jetbrains.kotlin.ir.symbols.IrFieldSymbol
 import org.jetbrains.kotlin.ir.symbols.IrSymbol
-import org.jetbrains.kotlin.ir.types.IrTypeSystemContextImpl
 import org.jetbrains.kotlin.ir.util.DeclarationStubGenerator
 import org.jetbrains.kotlin.ir.util.IdSignature
 import org.jetbrains.kotlin.ir.util.KotlinMangler
@@ -68,7 +67,6 @@ class JKlibIrLinker(
         linker = this,
         symbolTable = symbolTable,
         mangler = irMangler,
-        typeSystem = IrTypeSystemContextImpl(builtIns),
         friendModules = emptyMap(),
         partialLinkageSupport = partialLinkageSupport,
     )

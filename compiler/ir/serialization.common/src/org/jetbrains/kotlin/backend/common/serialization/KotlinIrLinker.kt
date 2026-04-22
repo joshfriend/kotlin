@@ -21,6 +21,7 @@ import org.jetbrains.kotlin.ir.symbols.IrPropertySymbol
 import org.jetbrains.kotlin.ir.symbols.IrSimpleFunctionSymbol
 import org.jetbrains.kotlin.ir.symbols.IrSymbol
 import org.jetbrains.kotlin.ir.symbols.isPublicApi
+import org.jetbrains.kotlin.ir.types.IrTypeSystemContextImpl
 import org.jetbrains.kotlin.ir.util.IdSignature
 import org.jetbrains.kotlin.ir.util.KotlinMangler
 import org.jetbrains.kotlin.ir.util.SymbolTable
@@ -220,7 +221,7 @@ abstract class KotlinIrLinker(
         }
 
         // Fake override generator creates new IR declarations. This may have effect of binding for certain symbols.
-        fakeOverrideBuilder.provideFakeOverrides()
+        fakeOverrideBuilder.provideFakeOverrides(IrTypeSystemContextImpl(builtIns))
         triedToDeserializeDeclarationForSymbol.clear()
 
         if (inOrAfterLinkageStep) {

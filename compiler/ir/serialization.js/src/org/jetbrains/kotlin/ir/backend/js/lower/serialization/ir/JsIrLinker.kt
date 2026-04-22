@@ -16,7 +16,6 @@ import org.jetbrains.kotlin.ir.IrBuiltIns
 import org.jetbrains.kotlin.ir.IrDiagnosticReporter
 import org.jetbrains.kotlin.ir.declarations.IrFile
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
-import org.jetbrains.kotlin.ir.types.IrTypeSystemContextImpl
 import org.jetbrains.kotlin.ir.util.IdSignature
 import org.jetbrains.kotlin.ir.util.KotlinMangler
 import org.jetbrains.kotlin.ir.util.SymbolTable
@@ -63,7 +62,6 @@ class JsIrLinker(
         linker = this,
         symbolTable = symbolTable,
         mangler = irMangler,
-        typeSystem = IrTypeSystemContextImpl(builtIns),
         friendModules = friendModules,
         partialLinkageSupport = partialLinkageSupport
     )

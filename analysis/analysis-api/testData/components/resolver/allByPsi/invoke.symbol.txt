@@ -71,7 +71,10 @@ KtUserType(97,100): 'Int'
   null
 
 KtNameReferenceExpression(97,100): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtConstantExpression(103,104): '1'
   null
@@ -86,7 +89,10 @@ KtUserType(114,121): 'MyClass'
   null
 
 KtNameReferenceExpression(114,121): 'MyClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      r/MyClass
+    ]
 
 KtCallExpression(124,133): 'MyClass()'
   KaSymbolResolutionSuccess:

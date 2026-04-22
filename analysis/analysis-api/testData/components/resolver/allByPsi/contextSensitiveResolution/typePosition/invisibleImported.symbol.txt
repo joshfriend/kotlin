@@ -44,7 +44,10 @@ KtUserType(86,92): 'String'
   null
 
 KtNameReferenceExpression(86,92): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtSuperTypeList(95,103): 'MySealed'
   null
@@ -59,7 +62,10 @@ KtUserType(95,103): 'MySealed'
   null
 
 KtNameReferenceExpression(95,103): 'MySealed'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /MySealed
+    ]
 
 KtClass(108,144): 'class Right(val y: String): MySealed'
   null
@@ -80,7 +86,10 @@ KtUserType(127,133): 'String'
   null
 
 KtNameReferenceExpression(127,133): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtSuperTypeList(136,144): 'MySealed'
   null
@@ -95,7 +104,10 @@ KtUserType(136,144): 'MySealed'
   null
 
 KtNameReferenceExpression(136,144): 'MySealed'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /MySealed
+    ]
 
 KtNamedFunction(148,226): 'fun MySealed.getOrElse1() = when (this) {'
   null
@@ -107,7 +119,10 @@ KtUserType(152,160): 'MySealed'
   null
 
 KtNameReferenceExpression(152,160): 'MySealed'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /MySealed
+    ]
 
 KtParameterList(171,173): '()'
   null
@@ -182,7 +197,10 @@ KtUserType(197,201): 'Left'
   null
 
 KtNameReferenceExpression(197,201): 'Left'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /MySealed.Left
+    ]
 
 KtNameReferenceExpression(205,206): 'x'
   KaSymbolResolutionSuccess:
@@ -203,7 +221,10 @@ KtUserType(214,219): 'Right'
   null
 
 KtNameReferenceExpression(214,219): 'Right'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /MySealed.Right
+    ]
 
 KtNameReferenceExpression(223,224): 'y'
   KaSymbolResolutionSuccess:
@@ -221,7 +242,10 @@ KtUserType(232,235): 'Any'
   null
 
 KtNameReferenceExpression(232,235): 'Any'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Any
+    ]
 
 KtParameterList(246,248): '()'
   null

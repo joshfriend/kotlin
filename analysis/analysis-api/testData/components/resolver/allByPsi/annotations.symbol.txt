@@ -86,7 +86,10 @@ KtUserType(111,119): 'IntArray'
   null
 
 KtNameReferenceExpression(111,119): 'IntArray'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/IntArray
+    ]
 
 KtClass(122,183): '@Repeatable'
   null
@@ -134,7 +137,10 @@ KtUserType(173,182): 'KClass<*>'
   null
 
 KtNameReferenceExpression(173,179): 'KClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KClass
+    ]
 
 KtTypeArgumentList(179,182): '<*>'
   null
@@ -188,7 +194,10 @@ KtUserType(243,259): 'Array<KClass<*>>'
   null
 
 KtNameReferenceExpression(243,248): 'Array'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Array
+    ]
 
 KtTypeArgumentList(248,259): '<KClass<*>>'
   null
@@ -203,7 +212,10 @@ KtUserType(249,258): 'KClass<*>'
   null
 
 KtNameReferenceExpression(249,255): 'KClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KClass
+    ]
 
 KtTypeArgumentList(255,258): '<*>'
   null
@@ -233,7 +245,10 @@ KtUserType(318,338): 'Array<AnnoWithArray>'
   null
 
 KtNameReferenceExpression(318,323): 'Array'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Array
+    ]
 
 KtTypeArgumentList(323,338): '<AnnoWithArray>'
   null
@@ -248,7 +263,10 @@ KtUserType(324,337): 'AnnoWithArray'
   null
 
 KtNameReferenceExpression(324,337): 'AnnoWithArray'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/AnnoWithArray
+    ]
 
 KtClass(341,389): 'annotation class AnnoWithString(val str: String)'
   null
@@ -272,7 +290,10 @@ KtUserType(382,388): 'String'
   null
 
 KtNameReferenceExpression(382,388): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtProperty(391,421): 'const val stringConstant = "s"'
   null

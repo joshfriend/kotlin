@@ -41,7 +41,10 @@ KtUserType(45,51): 'String'
   null
 
 KtNameReferenceExpression(45,51): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtProperty(53,77): 'const val constant = "s"'
   null
@@ -128,7 +131,10 @@ KtUserType(127,224): 'List<@Anno("a nested type $constant") Collection<@Anno("a 
   null
 
 KtNameReferenceExpression(127,131): 'List'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/collections/List
+    ]
 
 KtTypeArgumentList(131,224): '<@Anno("a nested type $constant") Collection<@Anno("a nested nested type $constant") String>>'
   null
@@ -191,7 +197,10 @@ KtUserType(165,223): 'Collection<@Anno("a nested nested type $constant") String>
   null
 
 KtNameReferenceExpression(165,175): 'Collection'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/collections/Collection
+    ]
 
 KtTypeArgumentList(175,223): '<@Anno("a nested nested type $constant") String>'
   null
@@ -254,7 +263,10 @@ KtUserType(216,222): 'String'
   null
 
 KtNameReferenceExpression(216,222): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtParameter(227,350): 'val b: @Anno("b type $constant") Array<@Anno("b nested type $constant") List<@Anno("b nested nested type $constant") Int>>?'
   null
@@ -317,7 +329,10 @@ KtUserType(260,349): 'Array<@Anno("b nested type $constant") List<@Anno("b neste
   null
 
 KtNameReferenceExpression(260,265): 'Array'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Array
+    ]
 
 KtTypeArgumentList(265,349): '<@Anno("b nested type $constant") List<@Anno("b nested nested type $constant") Int>>'
   null
@@ -380,7 +395,10 @@ KtUserType(299,348): 'List<@Anno("b nested nested type $constant") Int>'
   null
 
 KtNameReferenceExpression(299,303): 'List'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/collections/List
+    ]
 
 KtTypeArgumentList(303,348): '<@Anno("b nested nested type $constant") Int>'
   null
@@ -443,7 +461,10 @@ KtUserType(344,347): 'Int'
   null
 
 KtNameReferenceExpression(344,347): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtProperty(352,374): 'const val prop = "str"'
   null

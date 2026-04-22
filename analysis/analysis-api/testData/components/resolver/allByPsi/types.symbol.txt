@@ -92,13 +92,22 @@ KtUserType(150,153): 'one'
   null
 
 KtNameReferenceExpression(150,153): 'one'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one
+    ]
 
 KtNameReferenceExpression(154,157): 'two'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one.two
+    ]
 
 KtNameReferenceExpression(158,171): 'TopLevelClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/TopLevelClass
+    ]
 
 KtParameterList(175,215): '(nestedClass: TopLevelClass.NestedClass)'
   null
@@ -116,10 +125,16 @@ KtUserType(189,202): 'TopLevelClass'
   null
 
 KtNameReferenceExpression(189,202): 'TopLevelClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/TopLevelClass
+    ]
 
 KtNameReferenceExpression(203,214): 'NestedClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/TopLevelClass.NestedClass
+    ]
 
 KtBlockExpression(216,265): '{'
   null
@@ -134,7 +149,10 @@ KtUserType(238,248): 'InnerAlias'
   null
 
 KtNameReferenceExpression(238,248): 'InnerAlias'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/TopLevelClass.InnerClass
+    ]
 
 KtCallExpression(251,263): 'InnerClass()'
   KaSymbolResolutionSuccess:

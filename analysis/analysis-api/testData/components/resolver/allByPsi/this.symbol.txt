@@ -500,7 +500,10 @@ KtUserType(583,590): 'MyClass'
   null
 
 KtNameReferenceExpression(583,590): 'MyClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/MyClass
+    ]
 
 KtParameterList(591,602): '(s: String)'
   null
@@ -515,7 +518,10 @@ KtUserType(595,601): 'String'
   null
 
 KtNameReferenceExpression(595,601): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtBlockExpression(603,839): '{'
   null
@@ -1346,7 +1352,10 @@ KtUserType(1236,1237): 'T'
   null
 
 KtNameReferenceExpression(1236,1237): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtParameterList(1244,1265): '(body: T.(T) -> Unit)'
   null
@@ -1370,7 +1379,10 @@ KtUserType(1251,1252): 'T'
   null
 
 KtNameReferenceExpression(1251,1252): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtParameterList(1253,1256): '(T)'
   null
@@ -1385,7 +1397,10 @@ KtUserType(1254,1255): 'T'
   null
 
 KtNameReferenceExpression(1254,1255): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtTypeReference(1260,1264): 'Unit'
   null
@@ -1394,7 +1409,10 @@ KtUserType(1260,1264): 'Unit'
   null
 
 KtNameReferenceExpression(1260,1264): 'Unit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Unit
+    ]
 
 KtBlockExpression(1266,1284): '{'
   null

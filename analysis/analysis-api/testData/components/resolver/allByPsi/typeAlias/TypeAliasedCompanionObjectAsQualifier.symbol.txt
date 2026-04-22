@@ -47,7 +47,10 @@ KtUserType(102,105): 'Int'
   null
 
 KtNameReferenceExpression(102,105): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtConstantExpression(108,110): '10'
   null
@@ -62,7 +65,10 @@ KtUserType(140,147): 'MyClass'
   null
 
 KtNameReferenceExpression(140,147): 'MyClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      test/MyClass
+    ]
 
 KtNamedFunction(149,253): 'fun usage() {'
   null

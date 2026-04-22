@@ -20,7 +20,10 @@ KtUserType(27,33): 'Hidden'
   null
 
 KtNameReferenceExpression(27,33): 'Hidden'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Hidden
+    ]
 
 KtNameReferenceExpression(34,40): 'Nested'
   KaSymbolResolutionError:

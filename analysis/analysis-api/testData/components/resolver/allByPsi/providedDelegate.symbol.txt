@@ -101,7 +101,10 @@ KtUserType(172,175): 'Any'
   null
 
 KtNameReferenceExpression(172,175): 'Any'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Any
+    ]
 
 KtParameter(178,200): 'property: KProperty<*>'
   null
@@ -113,7 +116,10 @@ KtUserType(188,200): 'KProperty<*>'
   null
 
 KtNameReferenceExpression(188,197): 'KProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KProperty
+    ]
 
 KtTypeArgumentList(197,200): '<*>'
   null
@@ -128,7 +134,10 @@ KtUserType(203,228): 'ReadOnlyProperty<Any?, T>'
   null
 
 KtNameReferenceExpression(203,219): 'ReadOnlyProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/properties/ReadOnlyProperty
+    ]
 
 KtTypeArgumentList(219,228): '<Any?, T>'
   null
@@ -146,7 +155,10 @@ KtUserType(220,223): 'Any'
   null
 
 KtNameReferenceExpression(220,223): 'Any'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Any
+    ]
 
 KtTypeProjection(226,227): 'T'
   null
@@ -158,7 +170,10 @@ KtUserType(226,227): 'T'
   null
 
 KtNameReferenceExpression(226,227): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtBlockExpression(229,264): '{'
   null
@@ -206,7 +221,10 @@ KtUserType(290,315): 'ReadOnlyProperty<Any?, T>'
   null
 
 KtNameReferenceExpression(290,306): 'ReadOnlyProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/properties/ReadOnlyProperty
+    ]
 
 KtTypeArgumentList(306,315): '<Any?, T>'
   null
@@ -224,7 +242,10 @@ KtUserType(307,310): 'Any'
   null
 
 KtNameReferenceExpression(307,310): 'Any'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Any
+    ]
 
 KtTypeProjection(313,314): 'T'
   null
@@ -236,7 +257,10 @@ KtUserType(313,314): 'T'
   null
 
 KtNameReferenceExpression(313,314): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtClassBody(316,420): '{'
   null
@@ -263,7 +287,10 @@ KtUserType(353,356): 'Any'
   null
 
 KtNameReferenceExpression(353,356): 'Any'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Any
+    ]
 
 KtParameter(359,381): 'property: KProperty<*>'
   null
@@ -275,7 +302,10 @@ KtUserType(369,381): 'KProperty<*>'
   null
 
 KtNameReferenceExpression(369,378): 'KProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KProperty
+    ]
 
 KtTypeArgumentList(378,381): '<*>'
   null
@@ -290,7 +320,10 @@ KtUserType(384,385): 'T'
   null
 
 KtNameReferenceExpression(384,385): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtBlockExpression(386,418): '{'
   null
@@ -317,7 +350,10 @@ KtUserType(411,412): 'T'
   null
 
 KtNameReferenceExpression(411,412): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtProperty(422,463): 'val providedDelegate by ResourceID<Int>()'
   null
@@ -354,7 +390,10 @@ KtUserType(457,460): 'Int'
   null
 
 KtNameReferenceExpression(457,460): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtValueArgumentList(461,463): '()'
   null

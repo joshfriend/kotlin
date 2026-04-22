@@ -32,7 +32,10 @@ KtUserType(42,50): 'Implicit'
   null
 
 KtNameReferenceExpression(42,50): 'Implicit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Implicit
+    ]
 
 KtParameter(52,70): 'explicit: Explicit'
   null
@@ -44,7 +47,10 @@ KtUserType(62,70): 'Explicit'
   null
 
 KtNameReferenceExpression(62,70): 'Explicit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Explicit
+    ]
 
 KtParameterList(83,100): '(regular: String)'
   null
@@ -59,7 +65,10 @@ KtUserType(93,99): 'String'
   null
 
 KtNameReferenceExpression(93,99): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtBlockExpression(101,103): '{}'
   null
@@ -83,7 +92,10 @@ KtUserType(116,122): 'String'
   null
 
 KtNameReferenceExpression(116,122): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtParameter(124,142): 'explicit: Explicit'
   null
@@ -95,7 +107,10 @@ KtUserType(134,142): 'Explicit'
   null
 
 KtNameReferenceExpression(134,142): 'Explicit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Explicit
+    ]
 
 KtParameterList(155,172): '(regular: String)'
   null
@@ -110,7 +125,10 @@ KtUserType(165,171): 'String'
   null
 
 KtNameReferenceExpression(165,171): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtBlockExpression(173,175): '{}'
   null
@@ -134,7 +152,10 @@ KtUserType(195,203): 'Implicit'
   null
 
 KtNameReferenceExpression(195,203): 'Implicit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Implicit
+    ]
 
 KtParameter(205,223): 'explicit: Explicit'
   null
@@ -146,7 +167,10 @@ KtUserType(215,223): 'Explicit'
   null
 
 KtNameReferenceExpression(215,223): 'Explicit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Explicit
+    ]
 
 KtParameterList(234,251): '(regular: String)'
   null
@@ -161,7 +185,10 @@ KtUserType(244,250): 'String'
   null
 
 KtNameReferenceExpression(244,250): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtBlockExpression(252,254): '{}'
   null
@@ -185,7 +212,10 @@ KtUserType(267,273): 'String'
   null
 
 KtNameReferenceExpression(267,273): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtParameter(275,293): 'explicit: Explicit'
   null
@@ -197,7 +227,10 @@ KtUserType(285,293): 'Explicit'
   null
 
 KtNameReferenceExpression(285,293): 'Explicit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Explicit
+    ]
 
 KtParameterList(304,321): '(regular: String)'
   null
@@ -212,7 +245,10 @@ KtUserType(314,320): 'String'
   null
 
 KtNameReferenceExpression(314,320): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtBlockExpression(322,324): '{}'
   null
@@ -236,7 +272,10 @@ KtUserType(337,345): 'Implicit'
   null
 
 KtNameReferenceExpression(337,345): 'Implicit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Implicit
+    ]
 
 KtParameter(347,365): 'explicit: Explicit'
   null
@@ -248,7 +287,10 @@ KtUserType(357,365): 'Explicit'
   null
 
 KtNameReferenceExpression(357,365): 'Explicit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Explicit
+    ]
 
 KtParameterList(386,388): '()'
   null
@@ -434,7 +476,10 @@ KtUserType(633,641): 'Implicit'
   null
 
 KtNameReferenceExpression(633,641): 'Implicit'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      /Implicit
+    ]
 
 KtParameterList(655,657): '()'
   null

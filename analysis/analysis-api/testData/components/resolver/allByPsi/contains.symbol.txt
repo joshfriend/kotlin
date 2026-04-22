@@ -35,7 +35,10 @@ KtUserType(37,40): 'Int'
   null
 
 KtNameReferenceExpression(37,40): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtConstructorDelegationCall(43,49): 'this()'
   KaSymbolResolutionSuccess:
@@ -71,7 +74,10 @@ KtUserType(70,71): 'T'
   null
 
 KtNameReferenceExpression(70,71): 'T'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      T
+    ]
 
 KtParameterList(80,90): '(int: Int)'
   null
@@ -86,7 +92,10 @@ KtUserType(86,89): 'Int'
   null
 
 KtNameReferenceExpression(86,89): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtTypeReference(92,99): 'Boolean'
   null
@@ -95,7 +104,10 @@ KtUserType(92,99): 'Boolean'
   null
 
 KtNameReferenceExpression(92,99): 'Boolean'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Boolean
+    ]
 
 KtConstantExpression(102,106): 'true'
   null

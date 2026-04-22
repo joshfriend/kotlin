@@ -2,8 +2,8 @@ KtNameReferenceExpression(93,96): 'Foo'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
+      (in ROOT) abstract class Foo<T>(x: T)
     resolveToSymbols:
       (in Foo) constructor <T>(x: T)

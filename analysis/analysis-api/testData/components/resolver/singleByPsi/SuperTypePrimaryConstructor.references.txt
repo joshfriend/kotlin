@@ -2,8 +2,8 @@ KtNameReferenceExpression(31,32): 'A'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
+      (in ROOT) open class A(i: kotlin.Int)
     resolveToSymbols:
       (in A) constructor(i: kotlin.Int)

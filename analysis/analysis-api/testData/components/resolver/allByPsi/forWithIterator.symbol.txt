@@ -32,7 +32,10 @@ KtUserType(43,46): 'Int'
   null
 
 KtNameReferenceExpression(43,46): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtParameter(48,60): 'val end: Int'
   null
@@ -44,7 +47,10 @@ KtUserType(57,60): 'Int'
   null
 
 KtNameReferenceExpression(57,60): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtNamedFunction(63,267): 'operator fun IntProgression.iterator() = object : Iterator<Int> {'
   null
@@ -59,7 +65,10 @@ KtUserType(76,90): 'IntProgression'
   null
 
 KtNameReferenceExpression(76,90): 'IntProgression'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      f/IntProgression
+    ]
 
 KtParameterList(99,101): '()'
   null
@@ -83,7 +92,10 @@ KtUserType(113,126): 'Iterator<Int>'
   null
 
 KtNameReferenceExpression(113,121): 'Iterator'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/collections/Iterator
+    ]
 
 KtTypeArgumentList(121,126): '<Int>'
   null
@@ -98,7 +110,10 @@ KtUserType(122,125): 'Int'
   null
 
 KtNameReferenceExpression(122,125): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtClassBody(127,267): '{'
   null
@@ -341,7 +356,10 @@ KtUserType(250,253): 'Int'
   null
 
 KtNameReferenceExpression(250,253): 'Int'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Int
+    ]
 
 KtPostfixExpression(256,265): 'current++'
   KaSymbolResolutionSuccess:

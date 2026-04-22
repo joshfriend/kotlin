@@ -2,9 +2,9 @@ KtNameReferenceExpression(166,173): 'MyClass'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
+      (in ROOT) open class MyClass
     resolveToSymbols:
       (in MyClass) constructor()
 
@@ -12,10 +12,8 @@ KtNameReferenceExpression(220,227): 'MyClass'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in ROOT) open class MyClass
 
 KtCallExpression(230,236): 'TODO()'
@@ -38,10 +36,8 @@ KtNameReferenceExpression(282,288): 'MyEnum'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in ROOT) enum class MyEnum
 
 KtNameReferenceExpression(291,301): 'EnumValue1'
@@ -56,10 +52,8 @@ KtNameReferenceExpression(318,325): 'MyClass'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in ROOT) open class MyClass
 
 KtNameReferenceExpression(328,343): 'InheritorObject'
@@ -74,10 +68,8 @@ KtNameReferenceExpression(361,368): 'MyClass'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in ROOT) open class MyClass
 
 KtCallExpression(371,377): 'func()'

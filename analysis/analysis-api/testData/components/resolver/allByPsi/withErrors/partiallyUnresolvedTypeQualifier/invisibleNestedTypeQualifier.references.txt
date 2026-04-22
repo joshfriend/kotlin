@@ -2,10 +2,8 @@ KtNameReferenceExpression(27,33): 'Hidden'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: null
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      Nothing (Unresolved reference)
-    resolveToSymbols:
       (in ROOT) class Hidden
 
 KtNameReferenceExpression(34,40): 'Nested'

@@ -101,7 +101,10 @@ KtUserType(159,164): 'First'
   null
 
 KtNameReferenceExpression(159,164): 'First'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      first/First
+    ]
 
 KtWhenExpression(168,206): 'when (f) {'
   null
@@ -158,7 +161,10 @@ KtUserType(219,225): 'Second'
   null
 
 KtNameReferenceExpression(219,225): 'Second'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      second/Second
+    ]
 
 KtWhenExpression(229,270): 'when (s) {'
   null

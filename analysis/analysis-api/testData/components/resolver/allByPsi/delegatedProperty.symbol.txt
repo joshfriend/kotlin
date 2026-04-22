@@ -93,7 +93,10 @@ KtUserType(141,144): 'Any'
   null
 
 KtNameReferenceExpression(141,144): 'Any'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Any
+    ]
 
 KtParameter(147,169): 'property: KProperty<*>'
   null
@@ -105,7 +108,10 @@ KtUserType(157,169): 'KProperty<*>'
   null
 
 KtNameReferenceExpression(157,166): 'KProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KProperty
+    ]
 
 KtTypeArgumentList(166,169): '<*>'
   null
@@ -120,7 +126,10 @@ KtUserType(172,178): 'String'
   null
 
 KtNameReferenceExpression(172,178): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtBlockExpression(179,204): '{'
   null
@@ -156,7 +165,10 @@ KtUserType(241,244): 'Any'
   null
 
 KtNameReferenceExpression(241,244): 'Any'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/Any
+    ]
 
 KtParameter(247,269): 'property: KProperty<*>'
   null
@@ -168,7 +180,10 @@ KtUserType(257,269): 'KProperty<*>'
   null
 
 KtNameReferenceExpression(257,266): 'KProperty'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/reflect/KProperty
+    ]
 
 KtTypeArgumentList(266,269): '<*>'
   null
@@ -186,7 +201,10 @@ KtUserType(278,284): 'String'
   null
 
 KtNameReferenceExpression(278,284): 'String'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      kotlin/String
+    ]
 
 KtBlockExpression(286,294): '{'
   null

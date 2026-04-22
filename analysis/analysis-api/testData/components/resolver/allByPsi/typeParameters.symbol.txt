@@ -80,10 +80,16 @@ KtUserType(70,74): 'Base'
   null
 
 KtNameReferenceExpression(70,74): 'Base'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base
+    ]
 
 KtNameReferenceExpression(75,86): 'NestedClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base.NestedClass
+    ]
 
 KtClassBody(88,140): '{'
   null
@@ -125,16 +131,28 @@ KtUserType(158,161): 'one'
   null
 
 KtNameReferenceExpression(158,161): 'one'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one
+    ]
 
 KtNameReferenceExpression(162,165): 'two'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one.two
+    ]
 
 KtNameReferenceExpression(166,170): 'Base'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base
+    ]
 
 KtNameReferenceExpression(171,182): 'NestedClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base.NestedClass
+    ]
 
 KtSuperTypeList(186,195): 'Base<C>()'
   null
@@ -158,7 +176,10 @@ KtUserType(186,193): 'Base<C>'
   null
 
 KtNameReferenceExpression(186,190): 'Base'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base
+    ]
 
 KtTypeArgumentList(190,193): '<C>'
   null
@@ -173,7 +194,10 @@ KtUserType(191,192): 'C'
   null
 
 KtNameReferenceExpression(191,192): 'C'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      C
+    ]
 
 KtValueArgumentList(193,195): '()'
   null
@@ -197,7 +221,10 @@ KtUserType(218,229): 'NestedClass'
   null
 
 KtNameReferenceExpression(218,229): 'NestedClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base.NestedClass
+    ]
 
 KtConstantExpression(233,237): 'null'
   null
@@ -218,7 +245,10 @@ KtUserType(268,269): 'C'
   null
 
 KtNameReferenceExpression(268,269): 'C'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      C
+    ]
 
 KtConstantExpression(273,277): 'null'
   null
@@ -239,7 +269,10 @@ KtUserType(295,313): 'Child<NestedClass>'
   null
 
 KtNameReferenceExpression(295,300): 'Child'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Child
+    ]
 
 KtTypeArgumentList(300,313): '<NestedClass>'
   null
@@ -254,7 +287,10 @@ KtUserType(301,312): 'NestedClass'
   null
 
 KtNameReferenceExpression(301,312): 'NestedClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base.NestedClass
+    ]
 
 KtParameter(315,358): 'c2: one.two.Child<one.two.Base.NestedClass>'
   null
@@ -272,13 +308,22 @@ KtUserType(319,322): 'one'
   null
 
 KtNameReferenceExpression(319,322): 'one'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one
+    ]
 
 KtNameReferenceExpression(323,326): 'two'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one.two
+    ]
 
 KtNameReferenceExpression(327,332): 'Child'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Child
+    ]
 
 KtTypeArgumentList(332,358): '<one.two.Base.NestedClass>'
   null
@@ -302,16 +347,28 @@ KtUserType(333,336): 'one'
   null
 
 KtNameReferenceExpression(333,336): 'one'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one
+    ]
 
 KtNameReferenceExpression(337,340): 'two'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one.two
+    ]
 
 KtNameReferenceExpression(341,345): 'Base'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base
+    ]
 
 KtNameReferenceExpression(346,357): 'NestedClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base.NestedClass
+    ]
 
 KtBlockExpression(360,434): '{'
   null
@@ -326,7 +383,10 @@ KtUserType(378,389): 'NestedClass'
   null
 
 KtNameReferenceExpression(378,389): 'NestedClass'
-  null
+  KaSymbolResolutionSuccess:
+    symbols = [
+      one/two/Base.NestedClass
+    ]
 
 KtCallExpression(392,405): 'NestedClass()'
   KaSymbolResolutionSuccess:

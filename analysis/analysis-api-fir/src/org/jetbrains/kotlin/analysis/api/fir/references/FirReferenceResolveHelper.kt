@@ -546,12 +546,12 @@ internal object FirReferenceResolveHelper {
         }
     }
 
-    private fun getSymbolsForResolvedTypeRef(
+    fun getSymbolsForResolvedTypeRef(
         fir: FirResolvedTypeRef,
         expression: KtSimpleNameExpression,
         session: FirSession,
         symbolBuilder: KaSymbolByFirBuilder,
-    ): Collection<KaSymbol> {
+    ): List<KaSymbol> {
         if (!expression.isPartOfUserTypeRefQualifier()) {
             return listOfNotNull(fir.toTargetSymbol(session, symbolBuilder))
         }
@@ -587,7 +587,7 @@ internal object FirReferenceResolveHelper {
         expression: KtSimpleNameExpression,
         session: FirSession,
         symbolBuilder: KaSymbolByFirBuilder,
-    ): Collection<KaSymbol> {
+    ): List<KaSymbol> {
         return when (typeRef) {
             null -> emptyList()
             is FirErrorTypeRef -> {

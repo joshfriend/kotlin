@@ -5,7 +5,6 @@
 
 package org.jetbrains.kotlin.js.test.converters
 
-import org.jetbrains.kotlin.cli.pipeline.web.JsLoweredIrPipelineArtifact
 import org.jetbrains.kotlin.cli.pipeline.web.WebLoadedIrPipelineArtifact
 import org.jetbrains.kotlin.cli.pipeline.web.js.JsCodegenPipelinePhase
 import org.jetbrains.kotlin.cli.pipeline.web.js.JsIrLoweringPipelinePhase
@@ -56,37 +55,43 @@ class JsIrLoweringFacade(
             "JsIrLoweringFacade expects IrBackendInput.DeserializedFromKlibBackendInput as input"
         }
 
-        val configuration = inputArtifact.cliArtifact.configuration
-        val (irModuleFragment, moduleDependencies, _, _, _) = inputArtifact.cliArtifact.moduleInfo
-
         val skipRegularMode = JsEnvironmentConfigurationDirectives.SKIP_REGULAR_MODE in module.directives
 
         if (skipRegularMode) return null
 
-        if (JsEnvironmentConfigurator.incrementalEnabled(testServices)) {
-            val moduleKind = JsEnvironmentConfigurator.getModuleKind(testServices, module)
-            val outputFile = File(
-                JsEnvironmentConfigurator.getJsModuleArtifactPath(
-                    testServices,
-                    module.name,
-                    firstTimeCompilation = firstTimeCompilation
-                ) + moduleKind.jsExtension
-            )
+        val (compilerResult, icCache) = if (JsEnvironmentConfigurator.incrementalEnabled(testServices)) {
+            compileIncrementally(inputArtifact, module)
+        } else {
+            compileNonIncrementally(inputArtifact)
+        } ?: return null
 
-            val compiledModule = CompilerResult(
-                configuration.artifactConfigurations.map {
-                    val jsExecutableProducer = JsExecutableProducer(
-                        artifactConfiguration = it,
-                        sourceMapsInfo = SourceMapsInfo.from(configuration),
-                        caches = testServices.jsIrIncrementalDataProvider.getCaches(),
-                    )
-                    jsExecutableProducer.buildExecutable(true).compilationOut
-                }
-            )
-            return BinaryArtifacts.Js.JsIrArtifact(
-                outputFile, compiledModule, testServices.jsIrIncrementalDataProvider.getCacheForModule(module)
-            ).dump(module, firstTimeCompilation)
-        }
+        val outputFile = File(
+            JsEnvironmentConfigurator.getJsModuleArtifactPath(testServices, module.name, TranslationMode.FULL_DEV, firstTimeCompilation)
+                .finalizePath(JsEnvironmentConfigurator.getModuleKind(testServices, module)),
+        )
+
+        return BinaryArtifacts.Js.JsIrArtifact(outputFile, compilerResult, icCache).dump(module, firstTimeCompilation)
+    }
+
+    private fun compileIncrementally(
+        inputArtifact: IrBackendInput.DeserializedFromKlibBackendInput<*>,
+        module: TestModule,
+    ): Pair<CompilerResult, Map<String, ByteArray>?> {
+        val configuration = inputArtifact.cliArtifact.configuration
+        return CompilerResult(
+            configuration.artifactConfigurations.map {
+                val jsExecutableProducer = JsExecutableProducer(
+                    artifactConfiguration = it,
+                    sourceMapsInfo = SourceMapsInfo.from(configuration),
+                    caches = testServices.jsIrIncrementalDataProvider.getCaches(),
+                )
+                jsExecutableProducer.buildExecutable(true).compilationOut
+            },
+        ) to testServices.jsIrIncrementalDataProvider.getCacheForModule(module)
+    }
+
+    private fun compileNonIncrementally(inputArtifact: IrBackendInput.DeserializedFromKlibBackendInput<*>): Pair<CompilerResult, Map<String, ByteArray>?>? {
+        val (irModuleFragment, moduleDependencies, _, _, _) = inputArtifact.cliArtifact.moduleInfo
 
         irModuleFragment.resolveTestPaths()
         moduleDependencies.all.forEach { it.resolveTestPaths() }
@@ -94,24 +99,12 @@ class JsIrLoweringFacade(
         val cliInputArtifact = inputArtifact.cliArtifact as? WebLoadedIrPipelineArtifact
             ?: error("JsIrLoweringFacade expects WebLoadedIrPipelineArtifact")
         val loweredIr = JsIrLoweringPipelinePhase.executePhase(cliInputArtifact)
-            ?: return processErrorFromCliPhase(configuration, testServices)
-
-        return loweredIr2JsArtifact(module, loweredIr)
-    }
-
-    private fun loweredIr2JsArtifact(
-        module: TestModule,
-        loweredIr: JsLoweredIrPipelineArtifact,
-    ): BinaryArtifacts.Js? {
-        val moduleKind = JsEnvironmentConfigurator.getModuleKind(testServices, module)
-
-        val outputFile = File(
-            JsEnvironmentConfigurator.getJsModuleArtifactPath(testServices, module.name, TranslationMode.FULL_DEV).finalizePath(moduleKind)
-        )
+            ?: return processErrorFromCliPhase(inputArtifact.cliArtifact.configuration, testServices)
 
         val output = JsCodegenPipelinePhase.executePhase(loweredIr)
             ?: return processErrorFromCliPhase(loweredIr.configuration, testServices)
-        return BinaryArtifacts.Js.JsIrArtifact(outputFile, output.result).dump(module)
+
+        return output.result to null
     }
 
     private fun IrModuleFragment.resolveTestPaths() {

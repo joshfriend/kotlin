@@ -66,7 +66,7 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
             return
         }
 
-        val supportsExtendedValueClasses = context.languageVersionSettings.supportsFeature(LanguageFeature.ValueClasses)
+        val supportsExtendedValueClasses = LanguageFeature.ValueClasses.isEnabled()
         val valueModifierPrefix = if (supportsExtendedValueClasses) "@JvmInline value" else "Value"
         val isExtendedValueClass = declaration.isExtendedValueClass
 

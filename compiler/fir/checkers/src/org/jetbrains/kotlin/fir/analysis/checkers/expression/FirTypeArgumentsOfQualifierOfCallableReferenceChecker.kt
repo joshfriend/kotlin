@@ -25,7 +25,6 @@ import org.jetbrains.kotlin.fir.expressions.FirResolvedQualifier
 import org.jetbrains.kotlin.fir.expressions.unwrapSmartcastExpression
 import org.jetbrains.kotlin.fir.isEnabled
 import org.jetbrains.kotlin.fir.resolve.classTypeParameterSymbols
-import org.jetbrains.kotlin.fir.resolve.diagnostics.ConeDiagnosticInCallableReferenceLhs
 import org.jetbrains.kotlin.fir.resolve.diagnostics.ConeOuterClassArgumentsRequired
 import org.jetbrains.kotlin.fir.resolve.diagnostics.ConePlaceholderProjectionInQualifierResolution
 import org.jetbrains.kotlin.fir.resolve.diagnostics.ConeWrongNumberOfTypeArgumentsError

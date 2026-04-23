@@ -20,7 +20,6 @@ import org.jetbrains.kotlin.compiler.plugin.TEST_ONLY_PLUGIN_REGISTRATION_CALLBA
 import org.jetbrains.kotlin.compiler.plugin.TEST_ONLY_PROJECT_CONFIGURATION_CALLBACK
 import org.jetbrains.kotlin.compiler.plugin.registerInProject
 import org.jetbrains.kotlin.config.*
-import org.jetbrains.kotlin.js.config.*
 import org.jetbrains.kotlin.platform.TargetPlatform
 import org.jetbrains.kotlin.platform.isCommon
 import org.jetbrains.kotlin.platform.isJs
@@ -30,7 +29,6 @@ import org.jetbrains.kotlin.platform.konan.isNative
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.test.TestInfrastructureInternals
 import org.jetbrains.kotlin.test.directives.CodegenTestDirectives
-import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives
 import org.jetbrains.kotlin.test.directives.isApplicableTo
 import org.jetbrains.kotlin.test.model.*
 import org.jetbrains.kotlin.test.utils.MessageCollectorForCompilerTests
@@ -178,21 +176,6 @@ fun createCompilerConfiguration(
 ): CompilerConfiguration {
     val configuration = CompilerConfiguration.create()
     configuration[CommonConfigurationKeys.MODULE_NAME] = module.name
-
-    if (JsEnvironmentConfigurationDirectives.GENERATE_STRICT_IMPLICIT_EXPORT in module.directives) {
-        configuration.generateStrictImplicitExport = true
-    }
-
-    if (JsEnvironmentConfigurationDirectives.GENERATE_DTS in module.directives) {
-        configuration.generateDts = true
-    }
-
-    if (JsEnvironmentConfigurationDirectives.ES6_MODE in module.directives || JsEnvironmentConfigurationDirectives.DELEGATE_JS_TRANSPILATION in module.directives) {
-        configuration.useEs6Classes = true
-        configuration.compileSuspendAsJsGenerator = true
-        configuration.compileLambdasAsEs6ArrowFunctions = JsEnvironmentConfigurationDirectives.DISABLE_ES6_ARROWS !in module.directives
-        configuration.compileLongAsBigint = true
-    }
 
     if (testServices.defaultsProvider.frontendKind == FrontendKinds.FIR) {
         configuration.useFir = true

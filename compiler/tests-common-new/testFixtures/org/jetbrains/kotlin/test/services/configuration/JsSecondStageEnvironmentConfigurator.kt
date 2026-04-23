@@ -16,7 +16,12 @@ import org.jetbrains.kotlin.js.config.*
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.platform.isJs
 import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.CALL_MAIN
+import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.DELEGATE_JS_TRANSPILATION
+import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.DISABLE_ES6_ARROWS
+import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.ES6_MODE
+import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.GENERATE_DTS
 import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.GENERATE_INLINE_ANONYMOUS_FUNCTIONS
+import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.GENERATE_STRICT_IMPLICIT_EXPORT
 import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.KEEP
 import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.PROPERTY_LAZY_INITIALIZATION
 import org.jetbrains.kotlin.test.directives.JsEnvironmentConfigurationDirectives.SAFE_EXTERNAL_BOOLEAN
@@ -116,5 +121,18 @@ open class JsSecondStageEnvironmentConfigurator(testServices: TestServices) : Js
         val testPackage = extractTestPackage(testServices, ignoreEsModules = false)
         configuration.additionalExportedDeclarationNames = setOf(testPackage.child(Name.identifier("box")))
         configuration.artifactConfigurations = getArtifactConfigurations(testServices, module, configuration, firstTimeCompilation = true)
+
+        if (GENERATE_STRICT_IMPLICIT_EXPORT in module.directives) {
+            configuration.generateStrictImplicitExport = true
+        }
+        if (GENERATE_DTS in module.directives) {
+            configuration.generateDts = true
+        }
+        if (ES6_MODE in module.directives || DELEGATE_JS_TRANSPILATION in module.directives) {
+            configuration.useEs6Classes = true
+            configuration.compileSuspendAsJsGenerator = true
+            configuration.compileLambdasAsEs6ArrowFunctions = DISABLE_ES6_ARROWS !in module.directives
+            configuration.compileLongAsBigint = true
+        }
     }
 }

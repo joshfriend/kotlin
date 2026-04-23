@@ -417,7 +417,8 @@ private fun BridgeFunctionDescriptor.swiftAsyncCall(typeNamer: SirTypeNamer, arg
             try Task.checkCancellation()
             var ${cancellation.name.swiftIdentifier}: ${cancellation.bridge.swiftType.swiftName}! = nil
             return try await withTaskCancellationHandler {
-                try await withUnsafeThrowingContinuation { nativeContinuation in
+                try Task.checkCancellation()
+                return try await withUnsafeThrowingContinuation { nativeContinuation in
                     withUnsafeCurrentTask { currentTask in
                         let ${continuation.name.swiftIdentifier}: ${continuation.bridge.swiftType.swiftName} = { nativeContinuation.resume(returning: $0) }
                         let ${exception.name.swiftIdentifier}: ${exception.bridge.swiftType.swiftName} = { error in

@@ -15,7 +15,6 @@ import org.gradle.api.tasks.*
 import org.gradle.api.tasks.PathSensitivity.NONE
 import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecOperations
-import org.gradle.work.DisableCachingByDefault
 import org.jetbrains.kotlin.build.kgpnpmtooling.internal.execCapture
 import java.io.File
 import javax.inject.Inject
@@ -34,7 +33,7 @@ import javax.inject.Inject
  * Eagerly updating will cause unnecessary cache misses, or
  * risk introducing new dependencies that haven't been thoroughly tested yet.
  */
-@DisableCachingByDefault(because = "Attempting to upgrade versions should always run.")
+@UntrackedTask(because = "Attempting to upgrade versions should always run.")
 abstract class UpdateNpmToolingDependenciesTask
 @Inject
 internal constructor(
@@ -78,11 +77,6 @@ internal constructor(
 
     @get:LocalState
     abstract val workDir: DirectoryProperty
-
-    init {
-        // must always run when requested, because the task must always check for new versions
-        outputs.upToDateWhen { false }
-    }
 
     @TaskAction
     protected fun action() {

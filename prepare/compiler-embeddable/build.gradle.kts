@@ -17,6 +17,15 @@ val testCompilerClasspath by configurations.creating {
     }
 }
 
+val nativeImageClasspath by configurations.creating {
+    isCanBeConsumed = false
+    extendsFrom(configurations["runtimeElements"])
+    attributes {
+        attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage.JAVA_RUNTIME))
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category.LIBRARY))
+    }
+}
+
 dependencies {
     api(project(":compiler:build-tools:kotlin-build-tools-api"))
     runtimeOnly(kotlinStdlib())
@@ -71,6 +80,44 @@ projectTests {
             )
             systemProperty("compilationClasspath", testCompilationClasspathProvider.get())
         }
+    }
+}
+
+val kotlincniTask = tasks.register<Exec>("kotlincni") {
+    inputs.files(runtimeJar)
+    inputs.files(nativeImageClasspath)
+
+    val mainClass = "org.jetbrains.kotlin.cli.jvm.K2JVMCompiler"
+    val outputFile = layout.buildDirectory.file("bin/kotlincni")
+    outputs.file(outputFile)
+
+    val javaHome = project.providers.environmentVariable("JAVA_HOME")
+    val classpathFiles = project.files(runtimeJar, nativeImageClasspath)
+
+    doFirst {
+        val nativeImageBin = File(javaHome.get(), "bin/native-image")
+        if (!nativeImageBin.exists()) {
+            throw GradleException("native-image not found at ${nativeImageBin.absolutePath} (JAVA_HOME=${javaHome.get()})")
+        }
+        val fullClasspath = classpathFiles.joinToString(File.pathSeparator) { it.absolutePath }
+        commandLine(
+            nativeImageBin,
+            "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+            "--add-opens", "java.base/java.io=ALL-UNNAMED",
+            "--add-opens", "java.base/java.nio=ALL-UNNAMED",
+            "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
+            "--add-opens", "java.desktop/javax.swing=ALL-UNNAMED",
+            "-H:+AddAllCharsets",
+            "-H:+UnlockExperimentalVMOptions",
+            "-H:+AllowJRTFileSystem",
+            "-cp", fullClasspath,
+            "-o", outputFile.get().asFile.absolutePath,
+            mainClass,
+        )
+    }
+    doLast {
+        System.err.println("________________FULL CLASSPATH________________")
+        System.err.println(commandLine.joinToString(" "))
     }
 }
 

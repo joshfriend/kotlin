@@ -1,4 +1,5 @@
 import org.gradle.kotlin.dsl.support.serviceOf
+import java.util.regex.Pattern.quote
 
 description = "Kotlin Compiler (embeddable)"
 
@@ -91,8 +92,8 @@ val kotlincniTask = tasks.register<Exec>("kotlincni") {
     val outputFile = layout.buildDirectory.file("bin/kotlincni")
     outputs.file(outputFile)
 
-    val javaHome = project.providers.environmentVariable("JAVA_HOME")
-    val classpathFiles = project.files(runtimeJar, nativeImageClasspath)
+    val javaHome = providers.environmentVariable("JAVA_HOME")
+    val classpathFiles = files(runtimeJar, nativeImageClasspath)
 
     doFirst {
         val nativeImageBin = File(javaHome.get(), "bin/native-image")
@@ -115,9 +116,48 @@ val kotlincniTask = tasks.register<Exec>("kotlincni") {
             mainClass,
         )
     }
-    doLast {
-        System.err.println("________________FULL CLASSPATH________________")
-        System.err.println(commandLine.joinToString(" "))
+}
+
+val distDir: String by rootProject.extra
+
+val kotlincniDist = distTask<Copy>("kotlincniDist") {
+    dependsOn(kotlincniTask)
+
+    destinationDir = File("$distDir/kotlincni")
+    val binFiles = files(layout.buildDirectory.dir("bin"))
+    into("bin") {
+        from(binFiles)
+    }
+
+    val licenseFiles = files("$rootDir/license")
+    into("license") {
+        from(licenseFiles)
+    }
+
+    val resourceFiles = files("$rootDir/compiler/cli/cli-base/resources")
+    into("resources") {
+        from(resourceFiles)
+    }
+
+    val librariesStripVersionFiles = files(nativeImageClasspath)
+    into("lib") {
+        from(librariesStripVersionFiles) {
+            rename {
+                it.replace(Regex("-\\d.*\\.jar\$"), ".jar")
+            }
+        }
+        filePermissions {
+            unix("rw-r--r--")
+        }
     }
 }
 
+inline fun <reified T : AbstractCopyTask> Project.distTask(
+    name: String,
+    crossinline block: T.() -> Unit
+) = tasks.register<T>(name) {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+    rename(quote("-$version"), "")
+    rename(quote("-$bootstrapKotlinVersion"), "")
+    block()
+}

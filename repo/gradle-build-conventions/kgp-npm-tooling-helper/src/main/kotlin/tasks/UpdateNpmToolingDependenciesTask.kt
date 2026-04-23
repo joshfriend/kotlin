@@ -75,8 +75,12 @@ internal constructor(
     @get:Internal
     abstract val npmToolingProjectDir: DirectoryProperty
 
-    @get:LocalState
-    abstract val workDir: DirectoryProperty
+    /**
+     * Common base directory for all work directories.
+     * Each operation runs in an independent subdirectory to avoid conflicts.
+     */
+    @get:Internal
+    abstract val baseWorkDir: DirectoryProperty
 
     @TaskAction
     protected fun action() {
@@ -91,7 +95,7 @@ internal constructor(
      * Upgrade all versions in `package.json` using `npm update --save`.
      */
     private fun updateDependenciesVersions() {
-        val workDir = workDir.get().asFile.resolve("npm-update")
+        val workDir = baseWorkDir.get().asFile.resolve("npm-update")
 
         val currentPackageJson = packageJson.get().asFile
 
@@ -116,7 +120,7 @@ internal constructor(
      */
     private fun executeNpmInstall() {
         val npmToolingProjectDir = npmToolingProjectDir.get().asFile
-        val workDir = workDir.get().asFile.resolve("npm-install")
+        val workDir = baseWorkDir.get().asFile.resolve("npm-install")
 
         val packageJson = npmToolingProjectDir.resolve("package.json")
         val currentLockFile = npmToolingProjectDir.resolve("package-lock.json")
@@ -141,7 +145,7 @@ internal constructor(
      */
     private fun executeYarnInstall() {
         val npmToolingProjectDir = npmToolingProjectDir.get().asFile
-        val workDir = workDir.get().asFile.resolve("yarn-install")
+        val workDir = baseWorkDir.get().asFile.resolve("yarn-install")
 
         val packageJson = npmToolingProjectDir.resolve("package.json")
         val currentLockFile = npmToolingProjectDir.resolve("yarn.lock")

@@ -113,7 +113,7 @@ internal constructor(
                 yarnSetupTask.flatMap { it.yarnDir.map { dir -> dir.file("bin/yarn") } }
             )
             t.npmToolingProjectDir.convention(extension.npmToolingProjectDir)
-            t.workDir.convention(t.temporaryDir)
+            t.baseWorkDir.convention(t.temporaryDir)
             t.updateVersions.convention(false)
         }
     }

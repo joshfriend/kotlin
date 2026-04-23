@@ -4,6 +4,4 @@ KtNameReferenceExpression(96,102): 'action'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
-      (in kotlin.Function0) operator fun invoke(): R
-    resolveToSymbols:
       (in test) val test.Foo.action: () -> kotlin.Unit

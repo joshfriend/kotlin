@@ -38,7 +38,6 @@ import org.jetbrains.kotlin.analysis.api.symbols.markers.KaNamedSymbol
 import org.jetbrains.kotlin.analysis.api.types.KaSubstitutor
 import org.jetbrains.kotlin.analysis.api.types.KaType
 import org.jetbrains.kotlin.analysis.low.level.api.fir.api.getOrBuildFir
-import org.jetbrains.kotlin.analysis.low.level.api.fir.api.getOrBuildFirSafe
 import org.jetbrains.kotlin.analysis.low.level.api.fir.api.resolveToFirSymbolOfTypeSafe
 import org.jetbrains.kotlin.analysis.low.level.api.fir.resolver.AllCandidatesResolver
 import org.jetbrains.kotlin.analysis.low.level.api.fir.util.errorWithFirSpecificEntries
@@ -181,6 +180,9 @@ internal class KaFirResolver(
 
     override fun performSymbolResolution(psi: KtElement): KaSymbolResolutionAttempt? = wrapError(psi) {
         analysisSession.cacheStorage.resolveSymbolCache.value.getOrPut(psi) {
+            if (psi is KtNameReferenceExpression && (psi.parent as? KtCallExpression)?.text == "lMyClass(NestedObject)") {
+                println()
+            }
             resolveSymbol(psi)
         }
     }
@@ -253,9 +255,9 @@ internal class KaFirResolver(
 
     private fun FirElement.toKaSymbolResolutionAttempt(psi: KtElement): KaSymbolResolutionAttempt? = when (this) {
         is FirResolvedTypeRef if psi is KtSimpleNameExpression -> toKaSymbolResolutionAttempt(psi)
+        is FirReference -> toKaSymbolResolutionAttempt(psi)
         is FirDiagnosticHolder -> toKaSymbolResolutionError(psi)
         is FirResolvable -> toKaSymbolResolutionAttempt(psi)
-        is FirReference -> toKaSymbolResolutionAttempt(psi)
         is FirReturnExpression -> toKaSymbolResolutionAttempt(psi)
         is FirResolvedQualifier -> toKaSymbolResolutionAttempt(psi)
         is FirTypeParameter -> toKaSymbolResolutionAttempt()
@@ -352,10 +354,6 @@ internal class KaFirResolver(
     }
 
     private fun FirReference.toKaSymbolResolutionAttempt(psi: KtElement): KaSymbolResolutionAttempt? {
-        if (this is FirDiagnosticHolder) {
-            return toKaSymbolResolutionError(psi)
-        }
-
         val firSymbolToBuild = when (this) {
             is FirSuperReference -> {
                 val resolvedTypeRef = superTypeRef as? FirResolvedTypeRef ?: return null
@@ -377,6 +375,10 @@ internal class KaFirResolver(
 
                 else -> symbol
             }
+        }
+
+        if (this is FirDiagnosticHolder) {
+            return toKaSymbolResolutionError(psi)
         }
 
         val symbol = when (val symbol = firSymbolToBuild?.buildSymbol(firSymbolBuilder)) {
@@ -402,8 +404,10 @@ internal class KaFirResolver(
      */
     private fun invokeFunctionReceiver(psi: KtNameReferenceExpression): KaSymbolResolutionAttempt? {
         val callExpression = psi.getContainingCallExpressionForCalleeExpression() ?: return null
-        val implicitInvokeCall = callExpression.getOrBuildFirSafe<FirImplicitInvokeCall>(analysisSession.resolutionFacade) ?: return null
-        return implicitInvokeCall.explicitReceiver?.toKaSymbolResolutionAttempt(psi)
+        val implicitInvokeCall = callExpression.getOrBuildFir(analysisSession.resolutionFacade)
+            ?.unwrapSafeCall() as? FirImplicitInvokeCall
+
+        return implicitInvokeCall?.explicitReceiver?.toKaSymbolResolutionAttempt(psi)
     }
 
     /**

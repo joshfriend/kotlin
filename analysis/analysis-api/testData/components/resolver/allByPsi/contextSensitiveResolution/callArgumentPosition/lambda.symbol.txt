@@ -573,11 +573,10 @@ KtCallExpression(954,976): 'lMyClass(NestedObject)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'MyClass.NestedObject', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(954,962): 'lMyClass'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      lMyClass: (@R|kotlin.ParameterName|(name = String(arg))  MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'MyClass.NestedObject', but 'MyClass' was expected.>
 
 KtValueArgumentList(962,976): '(NestedObject)'
   null
@@ -599,11 +598,10 @@ KtCallExpression(981,995): 'lMyClass(prop)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(981,989): 'lMyClass'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      lMyClass: (@R|kotlin.ParameterName|(name = String(arg))  MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtValueArgumentList(989,995): '(prop)'
   null
@@ -625,11 +623,10 @@ KtCallExpression(1000,1019): 'lMyClass(superProp)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1000,1008): 'lMyClass'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      lMyClass: (@R|kotlin.ParameterName|(name = String(arg))  MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtValueArgumentList(1008,1019): '(superProp)'
   null
@@ -651,11 +648,10 @@ KtCallExpression(1024,1043): 'lMyClass(constProp)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1024,1032): 'lMyClass'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      lMyClass: (@R|kotlin.ParameterName|(name = String(arg))  MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtValueArgumentList(1032,1043): '(constProp)'
   null
@@ -677,11 +673,10 @@ KtCallExpression(1048,1066): 'lMyClass(lazyProp)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1048,1056): 'lMyClass'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      lMyClass: (@R|kotlin.ParameterName|(name = String(arg))  MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtValueArgumentList(1056,1066): '(lazyProp)'
   null
@@ -703,11 +698,10 @@ KtCallExpression(1071,1091): 'lMyClass(lambdaProp)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is '() -> MyClass.InheritorObject', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1071,1079): 'lMyClass'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      lMyClass: (@R|kotlin.ParameterName|(name = String(arg))  MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is '() -> MyClass.InheritorObject', but 'MyClass' was expected.>
 
 KtValueArgumentList(1079,1091): '(lambdaProp)'
   null

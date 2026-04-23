@@ -576,11 +576,10 @@ KtCallExpression(1047,1070): 'anonymousConsumer(prop)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1047,1064): 'anonymousConsumer'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      val anonymousConsumer: (MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtValueArgumentList(1064,1070): '(prop)'
   null
@@ -602,11 +601,10 @@ KtCallExpression(1075,1103): 'anonymousConsumer(constProp)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1075,1092): 'anonymousConsumer'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      val anonymousConsumer: (MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtValueArgumentList(1092,1103): '(constProp)'
   null
@@ -628,11 +626,10 @@ KtCallExpression(1108,1135): 'anonymousConsumer(lazyProp)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1108,1125): 'anonymousConsumer'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      val anonymousConsumer: (MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtValueArgumentList(1125,1135): '(lazyProp)'
   null
@@ -654,11 +651,10 @@ KtCallExpression(1140,1169): 'anonymousConsumer(lambdaProp)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is '() -> MyClass.InheritorObject', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1140,1157): 'anonymousConsumer'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      val anonymousConsumer: (MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is '() -> MyClass.InheritorObject', but 'MyClass' was expected.>
 
 KtValueArgumentList(1157,1169): '(lambdaProp)'
   null
@@ -680,11 +676,10 @@ KtCallExpression(1174,1202): 'anonymousConsumer(superProp)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1174,1191): 'anonymousConsumer'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      val anonymousConsumer: (MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is 'String', but 'MyClass' was expected.>
 
 KtValueArgumentList(1191,1202): '(superProp)'
   null
@@ -768,11 +763,10 @@ KtCallExpression(1273,1302): 'anonymousConsumer(lambdaProp)'
     diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is '() -> MyClass.InheritorObject', but 'MyClass' was expected.>
 
 KtNameReferenceExpression(1273,1290): 'anonymousConsumer'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      kotlin/Function1.invoke(<dispatch receiver>: (P1) -> R, p1: P1): R
+  KaSymbolResolutionSuccess:
+    symbols = [
+      val anonymousConsumer: (MyClass) -> kotlin.Unit
     ]
-    diagnostic = ERROR<ARGUMENT_TYPE_MISMATCH: Argument type mismatch: actual type is '() -> MyClass.InheritorObject', but 'MyClass' was expected.>
 
 KtValueArgumentList(1290,1302): '(lambdaProp)'
   null

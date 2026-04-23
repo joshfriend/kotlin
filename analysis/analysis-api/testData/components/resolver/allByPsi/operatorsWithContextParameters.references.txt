@@ -1015,12 +1015,8 @@ KtNameReferenceExpression(1348,1349): 'a'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionError
-    diagnostic: ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      (in ROOT) context(a@A)
-      operator fun A.invoke()
-    resolveToSymbols:
       (in <local>: withoutContext) var a: A
 
 KtNameReferenceExpression(1356,1357): 'a'
@@ -1189,12 +1185,8 @@ KtNameReferenceExpression(1417,1418): 'b'
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
     usesContextSensitiveResolution: false
-    attempt: KaSymbolResolutionError
-    diagnostic: ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
+    attempt: KaSymbolResolutionSuccess
     symbols:
-      (in SimpleOperators) context(a@A)
-      operator fun invoke()
-    resolveToSymbols:
       (in <local>: withoutContext) var b: SimpleOperators
 
 KtNameReferenceExpression(1425,1426): 'b'

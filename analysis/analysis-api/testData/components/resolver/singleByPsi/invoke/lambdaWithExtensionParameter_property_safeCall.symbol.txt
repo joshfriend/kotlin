@@ -1,5 +1,5 @@
 KtNameReferenceExpression(93,99): 'action'
   KaSymbolResolutionSuccess:
     symbols = [
-      kotlin/Function0.invoke(<dispatch receiver>: () -> R): R
+      val action: () -> kotlin.Unit
     ]

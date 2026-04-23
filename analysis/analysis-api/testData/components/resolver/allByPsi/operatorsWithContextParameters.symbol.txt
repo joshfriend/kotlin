@@ -1580,11 +1580,10 @@ KtCallExpression(1348,1351): 'a()'
     diagnostic = ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
 
 KtNameReferenceExpression(1348,1349): 'a'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      /invoke(<extension receiver>: A): kotlin.Unit
+  KaSymbolResolutionSuccess:
+    symbols = [
+      var a: A
     ]
-    diagnostic = ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
 
 KtValueArgumentList(1349,1351): '()'
   null
@@ -1757,11 +1756,10 @@ KtCallExpression(1417,1420): 'b()'
     diagnostic = ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
 
 KtNameReferenceExpression(1417,1418): 'b'
-  KaSymbolResolutionError:
-    candidateSymbols = [
-      /SimpleOperators.invoke(<dispatch receiver>: SimpleOperators): kotlin.Unit
+  KaSymbolResolutionSuccess:
+    symbols = [
+      var b: SimpleOperators
     ]
-    diagnostic = ERROR<NO_CONTEXT_ARGUMENT: No context argument for 'a: A' found.>
 
 KtValueArgumentList(1418,1420): '()'
   null

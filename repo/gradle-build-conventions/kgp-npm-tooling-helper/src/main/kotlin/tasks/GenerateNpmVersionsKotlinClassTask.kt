@@ -56,6 +56,40 @@ internal constructor() : DefaultTask() {
         createNpmVersionsFile(npmVersions)
     }
 
+    /**
+     * Determine the resolved versions of dependencies of the root package.
+     *
+     * ### Implementation
+     *
+     * First, get the names of the root package's dependencies.
+     *
+     * Ignore the versions of the root package's dependencies:
+     * they are the requested versions, which might not match the resolved versions.
+     *
+     * Next, determine the resolved version for each root package dependency.
+     *
+     * #### Example
+     *
+     * For example, the requested version of `is-even` is `^1.0.0` (note the pinned version),
+     * but the resolved version is `1.0.1` (which is not pinned).
+     *
+     * ```json
+     * // package-lock.json
+     * {
+     *   "name": "kotlin-npm-tooling",
+     *   "packages": {
+     *     "": {
+     *       "name": "kotlin-npm-tooling",
+     *       "dependencies": {
+     *         "is-even": "^1.0.0"
+     *       }
+     *     "node_modules/is-even": {
+     *       "version": "1.0.1"
+     *     }
+     *   }
+     * }
+     * ```
+     */
     private fun computeDependencyVersions(): Map<String, String> {
         val npmLockFile = npmLockFile.get().asFile
 
@@ -91,8 +125,7 @@ internal constructor() : DefaultTask() {
 
         val dependencies = dependencyVersions
             .map { (name, version) ->
-                val exactVersion = version.removePrefix("^").removePrefix("~")
-                NpmDep(name, exactVersion)
+                NpmDep(name, version)
             }
             .sortedBy { it.displayName }
 

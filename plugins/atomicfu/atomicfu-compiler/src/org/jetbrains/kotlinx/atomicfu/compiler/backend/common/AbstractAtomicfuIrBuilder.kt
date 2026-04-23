@@ -513,6 +513,9 @@ abstract class AbstractAtomicfuIrBuilder(
                         nameHint = "atomicfu\$cur", false
                     )
                     +irCall(atomicfuSymbols.invoke1Symbol).apply {
+                        // invoke1Symbol.owner.returnType is `R of kotlin.Function1` — not in scope here.
+                        // The loop action always returns Unit; override the type to keep it in scope.
+                        this.type = irBuiltIns.unitType
                         arguments[0] = irGet(action)
                         arguments[1] = irGet(cur)
                     }
@@ -577,6 +580,9 @@ abstract class AbstractAtomicfuIrBuilder(
                     )
                     val upd = createTmpVariable(
                         irCall(atomicfuSymbols.invoke1Symbol).apply {
+                            // invoke1Symbol.owner.returnType is `R of kotlin.Function1` — not in scope here.
+                            // The update action returns the new value, which is of valueType.
+                            this.type = valueType
                             arguments[0] = irGet(action)
                             arguments[1] = irGet(cur)
                         }, "atomicfu\$upd", false

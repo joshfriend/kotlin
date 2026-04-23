@@ -16,7 +16,8 @@ extension ExportedKotlinPackages.kotlinx.coroutines.flow.FlowCollector where Sel
             try Task.checkCancellation()
             var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
             return try await withTaskCancellationHandler {
-                try await withUnsafeThrowingContinuation { nativeContinuation in
+                try Task.checkCancellation()
+                return try await withUnsafeThrowingContinuation { nativeContinuation in
                     withUnsafeCurrentTask { currentTask in
                         let continuation: (Swift.Void) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                         let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -54,7 +55,8 @@ extension ExportedKotlinPackages.kotlinx.coroutines.flow.MutableSharedFlow where
             try Task.checkCancellation()
             var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
             return try await withTaskCancellationHandler {
-                try await withUnsafeThrowingContinuation { nativeContinuation in
+                try Task.checkCancellation()
+                return try await withUnsafeThrowingContinuation { nativeContinuation in
                     withUnsafeCurrentTask { currentTask in
                         let continuation: (Swift.Void) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                         let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in

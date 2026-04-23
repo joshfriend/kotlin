@@ -71,7 +71,8 @@ public func alwaysFails() async throws -> Swift.Never {
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (Swift.Never) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -163,7 +164,8 @@ public func produce_function() -> (Swift.Int32) async throws -> Swift.Int32 {
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (Swift.Int32) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -191,7 +193,8 @@ public func produce_function_typealias() async throws -> main.AliasedFunctionTyp
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (@escaping (Swift.Float) -> Swift.Int32) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -221,7 +224,8 @@ public func produce_suspend_function() async throws -> (Swift.Double) async thro
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (@escaping (Swift.Double) async throws -> Swift.Int32) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -237,7 +241,8 @@ public func produce_suspend_function() async throws -> (Swift.Double) async thro
                         try Task.checkCancellation()
                         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
                         return try await withTaskCancellationHandler {
-                            try await withUnsafeThrowingContinuation { nativeContinuation in
+                            try Task.checkCancellation()
+                            return try await withUnsafeThrowingContinuation { nativeContinuation in
                                 withUnsafeCurrentTask { currentTask in
                                     let continuation: (Swift.Int32) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -275,7 +280,8 @@ public func produce_suspend_function_typealias() async throws -> main.AliasedAsy
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (@escaping (Swift.Float) async throws -> Swift.Int64) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -291,7 +297,8 @@ public func produce_suspend_function_typealias() async throws -> main.AliasedAsy
                         try Task.checkCancellation()
                         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
                         return try await withTaskCancellationHandler {
-                            try await withUnsafeThrowingContinuation { nativeContinuation in
+                            try Task.checkCancellation()
+                            return try await withUnsafeThrowingContinuation { nativeContinuation in
                                 withUnsafeCurrentTask { currentTask in
                                     let continuation: (Swift.Int64) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -329,7 +336,8 @@ public func retunsListOfSuspend() async throws -> [() async throws -> Swift.Void
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (Swift.Array<() async throws -> Swift.Void>) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -345,7 +353,8 @@ public func retunsListOfSuspend() async throws -> [() async throws -> Swift.Void
                         try Task.checkCancellation()
                         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
                         return try await withTaskCancellationHandler {
-                            try await withUnsafeThrowingContinuation { nativeContinuation in
+                            try Task.checkCancellation()
+                            return try await withUnsafeThrowingContinuation { nativeContinuation in
                                 withUnsafeCurrentTask { currentTask in
                                     let continuation: (Swift.Void) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -383,7 +392,8 @@ public func returnSuspendGeneric() async throws -> any KotlinRuntimeSupport._Kot
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (any KotlinRuntimeSupport._KotlinBridgeable) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -412,7 +422,8 @@ public func returnSuspendUnit() -> () async throws -> Swift.Void {
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (Swift.Void) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -440,7 +451,8 @@ public func returnUnit() async throws -> Swift.Void {
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (Swift.Void) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -467,7 +479,8 @@ public func returnsList() async throws -> [Swift.String] {
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (Swift.Array<Swift.String>) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -494,7 +507,8 @@ public func returnsListOfSuspendNullables() async throws -> [(() async throws ->
         try Task.checkCancellation()
         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
         return try await withTaskCancellationHandler {
-            try await withUnsafeThrowingContinuation { nativeContinuation in
+            try Task.checkCancellation()
+            return try await withUnsafeThrowingContinuation { nativeContinuation in
                 withUnsafeCurrentTask { currentTask in
                     let continuation: (Swift.Array<Swift.Optional<() async throws -> Swift.Void>>) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -510,7 +524,8 @@ public func returnsListOfSuspendNullables() async throws -> [(() async throws ->
                         try Task.checkCancellation()
                         var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
                         return try await withTaskCancellationHandler {
-                            try await withUnsafeThrowingContinuation { nativeContinuation in
+                            try Task.checkCancellation()
+                            return try await withUnsafeThrowingContinuation { nativeContinuation in
                                 withUnsafeCurrentTask { currentTask in
                                     let continuation: (Swift.Void) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                                     let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in
@@ -549,7 +564,8 @@ extension main.FunctionalInterfaceWithSuspendFunction where Self : KotlinRuntime
             try Task.checkCancellation()
             var cancellation: KotlinCoroutineSupport.KotlinTask! = nil
             return try await withTaskCancellationHandler {
-                try await withUnsafeThrowingContinuation { nativeContinuation in
+                try Task.checkCancellation()
+                return try await withUnsafeThrowingContinuation { nativeContinuation in
                     withUnsafeCurrentTask { currentTask in
                         let continuation: (Swift.Void) -> Swift.Void = { nativeContinuation.resume(returning: $0) }
                         let exception: (Swift.Optional<KotlinRuntime.KotlinBase>) -> Swift.Void = { error in

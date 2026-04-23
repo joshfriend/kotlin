@@ -130,23 +130,23 @@ fun ConeKotlinType.isValueClass(session: FirSession): Boolean {
 }
 
 fun ConeKotlinType.isBasicSingleFieldValueClass(session: FirSession): Boolean = with(session.typeContext) {
-    isRecursiveValueClassType(session, checkExtendedValueClasses = false, checkMultiField = false) || typeConstructor().isInlineClass()
+    isRecursiveValueClassType(session, checkFullValueClasses = false, checkMultiField = false) || typeConstructor().isInlineClass()
 }
 
-fun ConeKotlinType.isRecursiveValueClassType(session: FirSession, checkExtendedValueClasses: Boolean, checkMultiField: Boolean = true): Boolean =
-    isRecursiveValueClassType(hashSetOf(), session, checkExtendedValueClasses, checkMultiField)
+fun ConeKotlinType.isRecursiveValueClassType(session: FirSession, checkFullValueClasses: Boolean, checkMultiField: Boolean = true): Boolean =
+    isRecursiveValueClassType(hashSetOf(), session, checkFullValueClasses, checkMultiField)
 
 private fun ConeKotlinType.isRecursiveValueClassType(
-    visited: HashSet<ConeKotlinType>, session: FirSession, checkExtendedValueClasses: Boolean, checkMultiField: Boolean
+    visited: HashSet<ConeKotlinType>, session: FirSession, checkFullValueClasses: Boolean, checkMultiField: Boolean
 ): Boolean = context(session.typeContext) {
     val asRegularClass = leastUpperBound(session).toRegularClassSymbol(session)
-        ?.takeIf { it.isBasicValueClass || checkExtendedValueClasses && it.isExtendedValueClass && !isNullableType() }
+        ?.takeIf { it.isBasicValueClass || checkFullValueClasses && it.isFullValueClass && !isNullableType() }
         ?: return false
     val primaryConstructor = asRegularClass.primaryConstructorIfAny(session) ?: return false
 
     if (primaryConstructor.valueParameterSymbols.size > 1 && !checkMultiField) return false
     return !visited.add(this) || primaryConstructor.valueParameterSymbols.any {
-        it.resolvedReturnType.isRecursiveValueClassType(visited, session, checkExtendedValueClasses, checkMultiField)
+        it.resolvedReturnType.isRecursiveValueClassType(visited, session, checkFullValueClasses, checkMultiField)
     }.also { visited.remove(this) }
 }
 

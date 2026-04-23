@@ -66,15 +66,15 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
             return
         }
 
-        val supportsExtendedValueClasses = LanguageFeature.ValueClasses.isEnabled()
-        val valueModifierPrefix = if (supportsExtendedValueClasses) "@JvmInline value" else "Value"
-        val isExtendedValueClass = declaration.isExtendedValueClass
+        val supportsFullValueClasses = LanguageFeature.FullValueClasses.isEnabled()
+        val valueModifierPrefix = if (supportsFullValueClasses) "@JvmInline value" else "Value"
+        val isFullValueClass = declaration.isFullValueClass
 
         if (declaration.isInner || declaration.isLocal) {
             reporter.reportOn(declaration.source, FirErrors.VALUE_CLASS_NOT_TOP_LEVEL)
         }
 
-        if (isExtendedValueClass) {
+        if (isFullValueClass) {
             if (declaration.modality == Modality.OPEN) {
                 reporter.reportOn(declaration.source, FirErrors.VALUE_CLASS_OPEN)
             }
@@ -95,13 +95,13 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
             if (supertypeEntry is FirImplicitAnyTypeRef || supertypeEntry is FirErrorTypeRef) continue
             val supertypeSymbol = supertypeEntry.toRegularClassSymbol(context.session) ?: continue
             if (supertypeSymbol.isInterface) continue
-            if (!isExtendedValueClass) {
+            if (!isFullValueClass) {
                 reporter.reportOn(
                     supertypeEntry.source,
                     FirErrors.VALUE_CLASS_CANNOT_EXTEND_CLASSES,
                     valueModifierPrefix,
                 )
-            } else if (!supertypeSymbol.isExtendedValueClass && !supertypeSymbol.classId.isRecordId()) {
+            } else if (!supertypeSymbol.isFullValueClass && !supertypeSymbol.classId.isRecordId()) {
                 reporter.reportOn(supertypeEntry.source, FirErrors.VALUE_CLASS_CANNOT_EXTEND_IDENTITY_CLASSES)
             }
         }
@@ -128,7 +128,7 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
         declaration.processAllDeclarations(context.session) { innerDeclaration ->
             when (innerDeclaration) {
                 is FirRegularClassSymbol -> {
-                    if (innerDeclaration.isInner && !isExtendedValueClass) {
+                    if (innerDeclaration.isInner && !isFullValueClass) {
                         reporter.reportOn(
                             innerDeclaration.source,
                             FirErrors.INNER_CLASS_INSIDE_VALUE_CLASS,
@@ -177,7 +177,7 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
         }
 
         val reservedNames = when {
-            isExtendedValueClass -> emptySet()
+            isFullValueClass -> emptySet()
             isCustomEqualsSupported -> boxAndUnboxNames
             else -> boxAndUnboxNames + equalsAndHashCodeNames
         }
@@ -208,11 +208,11 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
 
         val isJvmInlineMultiFieldEnabled = LanguageFeature.JvmInlineMultiFieldValueClasses.isEnabled()
         if (primaryConstructor?.source?.kind is KtRealSourceElementKind) {
-            if (isJvmInlineMultiFieldEnabled || isExtendedValueClass) {
-                if (primaryConstructorParametersByName.isEmpty() && (!isExtendedValueClass || declaration.isFinal)) {
+            if (isJvmInlineMultiFieldEnabled || isFullValueClass) {
+                if (primaryConstructorParametersByName.isEmpty() && (!isFullValueClass || declaration.isFinal)) {
                     val valueClassDescription = when {
-                        !supportsExtendedValueClasses -> "Value"
-                        isExtendedValueClass -> "Final value"
+                        !supportsFullValueClasses -> "Value"
+                        isFullValueClass -> "Final value"
                         else -> "@JvmInline value"
                     }
                     reporter.reportOn(
@@ -224,10 +224,10 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
                 reporter.reportOn(primaryConstructor.source, FirErrors.INLINE_CLASS_CONSTRUCTOR_WRONG_PARAMETERS_SIZE, valueModifierPrefix)
                 return
             }
-        } else if (!isExtendedValueClass || declaration.isFinal) {
+        } else if (!isFullValueClass || declaration.isFinal) {
             val valueClassDescription = when {
-                !supportsExtendedValueClasses -> "value"
-                isExtendedValueClass -> "final value"
+                !supportsFullValueClasses -> "value"
+                isFullValueClass -> "final value"
                 else -> "@JvmInline value"
             }
             reporter.reportOn(
@@ -243,19 +243,19 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
                     reporter.reportOn(
                         primaryConstructorParameter.source,
                         FirErrors.VALUE_CLASS_CONSTRUCTOR_NOT_FINAL_READ_ONLY_PARAMETER,
-                        if (supportsExtendedValueClasses) "Final value" else "Value",
+                        if (supportsFullValueClasses) "Final value" else "Value",
                     )
-                isExtendedValueClass && declaration.isAbstract && primaryConstructorPropertiesByName[name] != null -> reporter.reportOn(
+                isFullValueClass && declaration.isAbstract && primaryConstructorPropertiesByName[name] != null -> reporter.reportOn(
                     primaryConstructorParameter.source,
                     FirErrors.ABSTRACT_VALUE_CLASS_CONSTRUCTOR_PROPERTY_PARAMETER
                 )
 
-                isExtendedValueClass && declaration.isSealed && primaryConstructorPropertiesByName[name] != null -> reporter.reportOn(
+                isFullValueClass && declaration.isSealed && primaryConstructorPropertiesByName[name] != null -> reporter.reportOn(
                     primaryConstructorParameter.source,
                     FirErrors.SEALED_VALUE_CLASS_CONSTRUCTOR_PROPERTY_PARAMETER
                 )
 
-                !isExtendedValueClass && parameterTypeRef.isInapplicableParameterType(context.session) -> {
+                !isFullValueClass && parameterTypeRef.isInapplicableParameterType(context.session) -> {
                     reporter.reportOn(
                         parameterTypeRef.source,
                         FirErrors.VALUE_CLASS_HAS_INAPPLICABLE_PARAMETER_TYPE,
@@ -264,11 +264,11 @@ sealed class FirValueClassDeclarationChecker(mppKind: MppCheckerKind) : FirRegul
                     )
                 }
 
-                // Currently, it is decided to forbid recursive value classes even for EXTENDED ones because they require implementation on non-JVM platforms.
+                // Currently, it is decided to forbid recursive value classes even for full value classes because they require implementation on non-JVM platforms.
                 // As they can be expressed in Java, the prohibition creates a subtle difference between Java's and Kotlin's recursive unconstructible value classes.
                 // Also, there appears a minor inconsistency between unconstructible value and non-value classes in Kotlin.
                 // Neither of the issues affects any meaningful code.
-                parameterTypeRef.coneType.isRecursiveValueClassType(context.session, checkExtendedValueClasses = true) -> {
+                parameterTypeRef.coneType.isRecursiveValueClassType(context.session, checkFullValueClasses = true) -> {
                     reporter.reportOn(parameterTypeRef.source, FirErrors.VALUE_CLASS_CANNOT_BE_RECURSIVE)
                 }
 

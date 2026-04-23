@@ -610,5 +610,5 @@ fun IrMutableAnnotationContainer.copyAnnotationsAndAddJavaLangDeprecated(source:
             irBuilder.irAnnotation(irBuilder.irSymbols.javaLangDeprecatedConstructorWithDeprecatedFlag)
 }
 
-val IrClass.isSingleFieldValueClass: Boolean get() = isSingleFieldValueClass(distinguishBasicAndExtended = true)
-val IrClass.inlineClassRepresentation get() = inlineClassRepresentation(distinguishBasicAndExtended = true)
+val IrClass.isSingleFieldValueClass: Boolean get() = isSingleFieldValueClass(distinguishBasicAndFull = true)
+val IrClass.inlineClassRepresentation get() = inlineClassRepresentation(distinguishBasicAndFull = true)

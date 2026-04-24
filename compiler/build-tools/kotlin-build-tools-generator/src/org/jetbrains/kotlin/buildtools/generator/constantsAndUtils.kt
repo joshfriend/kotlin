@@ -92,6 +92,7 @@ internal val levelsSince = mapOf(
     CompilerArgumentsLevelNames.wasmArguments to KDOC_SINCE_2_4_20,
     CompilerArgumentsLevelNames.commonJsAndWasmArguments to KDOC_SINCE_2_4_20,
     CompilerArgumentsLevelNames.commonKlibBasedArguments to KDOC_SINCE_2_4_20,
+    CompilerArgumentsLevelNames.metadataArguments to KDOC_SINCE_2_4_20,
 ) + syntheticArgumentInterfaces.associate { it.name to KDOC_SINCE_2_4_20 }
 
 internal fun BtaCompilerArgument<*>.extractName(): String = name.uppercase().replace("-", "_").let {
@@ -119,7 +120,6 @@ internal fun getOldestSupportedVersion(kotlinVersion: KotlinReleaseVersion): Kot
 internal fun KotlinCompilerArgumentsLevel.isLeaf(): Boolean = nestedLevels.isEmpty()
 
 internal val kotlinVersionType = ClassName(API_PACKAGE, "KotlinReleaseVersion")
-
 
 internal val btaEnumVersionMap: Map<ClassName, KotlinReleaseVersion> =
     mapOf(

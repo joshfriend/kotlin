@@ -32,7 +32,7 @@ internal fun ConeKotlinType.unsubstitutedUnderlyingTypeForInlineClass(session: F
 @OptIn(SuspiciousValueClassCheck::class)
 fun computeValueClassRepresentation(klass: FirRegularClass, session: FirSession): ValueClassRepresentation<ConeRigidType>? {
     val areExtendedValueClassesSupported = session.languageVersionSettings.supportsFeature(LanguageFeature.ValueClasses)
-    val jvmInlineAnnotationClassId = session.jvmInlineAnnotationClassId
+    val jvmInlineAnnotationClassId = session.annotationPlatformSupport.jvmInlineAnnotationClassId
     if (areExtendedValueClassesSupported && (jvmInlineAnnotationClassId == null || !klass.hasAnnotation(jvmInlineAnnotationClassId, session)) && klass.isValue) {
         val fields = if (klass.modality == Modality.ABSTRACT || klass.modality == Modality.SEALED) {
             null

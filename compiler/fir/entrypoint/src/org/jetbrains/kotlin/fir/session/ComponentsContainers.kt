@@ -22,7 +22,6 @@ import org.jetbrains.kotlin.fir.analysis.diagnostics.FirRegisteredDiagnosticFact
 import org.jetbrains.kotlin.fir.analysis.jvm.FirJvmOverridesBackwardCompatibilityHelper
 import org.jetbrains.kotlin.fir.analysis.jvm.checkers.FirJavaNullabilityWarningUpperBoundsProvider
 import org.jetbrains.kotlin.fir.analysis.jvm.checkers.FirJvmAnnotationsPlatformSpecificSupportComponent
-import org.jetbrains.kotlin.fir.analysis.jvm.checkers.FirJvmInlineAnnotationSupport
 import org.jetbrains.kotlin.fir.analysis.jvm.checkers.FirJvmInlineCheckerComponent
 import org.jetbrains.kotlin.fir.analysis.jvm.checkers.FirJvmPrimaryConstructorSuperTypeCheckerPlatformComponent
 import org.jetbrains.kotlin.fir.caches.FirCachesFactory
@@ -189,7 +188,6 @@ fun FirSession.registerJavaComponents(
     register(FirSyntheticNamesProvider::class, FirJavaSyntheticNamesProvider)
     register(FirJvmOverridesBackwardCompatibilityHelper)
     register(FirJvmInlineCheckerComponent())
-    register(FirPlatformJvmInlineAnnotationSupport::class, FirJvmInlineAnnotationSupport)
     register(FirGenericArrayClassLiteralSupport::class, FirGenericArrayClassLiteralSupport.Enabled)
     register(FirJvmDelegatedMembersFilter(this))
     register(FirJavaNullabilityWarningUpperBoundsProvider(this))

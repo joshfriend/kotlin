@@ -5,15 +5,20 @@
 
 package org.jetbrains.kotlin.fir
 
+import com.intellij.openapi.Disposable
+import com.intellij.openapi.util.Disposer
 import com.intellij.psi.PsiElementFinder
-import com.intellij.psi.search.GlobalSearchScope
-import org.jetbrains.kotlin.ObsoleteTestInfrastructure
 import org.jetbrains.kotlin.asJava.finder.JavaElementFinder
 import org.jetbrains.kotlin.builtins.StandardNames
+import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
+import org.jetbrains.kotlin.cli.common.messages.GroupingMessageCollector
+import org.jetbrains.kotlin.cli.common.messages.MessageCollector
 import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
-import org.jetbrains.kotlin.cli.jvm.compiler.toAbstractProjectFileSearchScope
-import org.jetbrains.kotlin.cli.jvm.compiler.toVfsBasedProjectEnvironment
+import org.jetbrains.kotlin.cli.pipeline.ArgumentsPipelineArtifact
+import org.jetbrains.kotlin.cli.pipeline.jvm.JvmConfigurationPipelinePhase
+import org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
 import org.jetbrains.kotlin.codegen.forTestCompile.ForTestCompileRuntime
+import org.jetbrains.kotlin.config.Services
 import org.jetbrains.kotlin.fir.java.deserialization.FirJvmBuiltinsSymbolProvider
 import org.jetbrains.kotlin.fir.renderer.FirRenderer
 import org.jetbrains.kotlin.fir.resolve.providers.impl.FirCachingCompositeSymbolProvider
@@ -21,10 +26,12 @@ import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
 import org.jetbrains.kotlin.fir.symbols.SymbolInternals
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
+import org.jetbrains.kotlin.platform.jvm.JvmPlatforms
 import org.jetbrains.kotlin.test.ConfigurationKind
 import org.jetbrains.kotlin.test.KotlinTestWithEnvironment
 import org.jetbrains.kotlin.test.TestDataAssertions
 import org.jetbrains.kotlin.test.TestJdkKind
+import org.jetbrains.kotlin.util.PerformanceManagerImpl
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
 import java.io.File
 
@@ -41,18 +48,37 @@ class BuiltInsDeserializationForFirTestCase : KotlinTestWithEnvironment() {
         return createEnvironmentWithJdk(ConfigurationKind.JDK_ONLY, TestJdkKind.FULL_JDK)
     }
 
-    @OptIn(ObsoleteTestInfrastructure::class)
     fun testBuiltInPackagesContent() {
-        val session = FirTestSessionFactoryHelper.createSessionForTests(
-            environment.toVfsBasedProjectEnvironment(),
-            GlobalSearchScope.allScope(project).toAbstractProjectFileSearchScope()
-        )
-        for (packageFqName in BUILTIN_PACKAGE_NAMES) {
-            val path = ForTestCompileRuntime.transformTestDataPath("compiler/fir/analysis-tests/testData/builtIns").resolve(
-                packageFqName.asString().replace('.', '-') + ".txt"
-            )
-            checkPackageContent(session, packageFqName, path)
+        val disposable = Disposer.newDisposable()
+        try {
+            val session = createSession(disposable)
+            for (packageFqName in BUILTIN_PACKAGE_NAMES) {
+                val path = ForTestCompileRuntime.transformTestDataPath("compiler/fir/analysis-tests/testData/builtIns").resolve(
+                    packageFqName.asString().replace('.', '-') + ".txt"
+                )
+                checkPackageContent(session, packageFqName, path)
+            }
+        } finally {
+            Disposer.dispose(disposable)
         }
+    }
+
+    private fun createSession(rootDisposable: Disposable): FirSession {
+        val emptyInput = ArgumentsPipelineArtifact(
+            arguments = K2JVMCompilerArguments().apply {
+                noStdlib = true
+                noReflect = true
+                noJdk = true
+                allowNoSourceFiles = true
+            },
+            services = Services.EMPTY,
+            rootDisposable,
+            GroupingMessageCollector(MessageCollector.NONE, false, false),
+            PerformanceManagerImpl(JvmPlatforms.defaultJvmPlatform, "stub for builtins test"),
+        )
+        val configurationOutput = JvmConfigurationPipelinePhase.executePhase(emptyInput)!!
+        val frontendOutput = JvmFrontendPipelinePhase.executePhase(configurationOutput)!!
+        return frontendOutput.frontendOutput.outputs.first().session
     }
 
     override fun setUp() {

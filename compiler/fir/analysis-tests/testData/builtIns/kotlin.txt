@@ -360,6 +360,11 @@ public abstract interface CharSequence : R|kotlin/Any| {
 
 }
 
+public abstract interface Cloneable : R|kotlin/Any| {
+    protected open fun clone(): R|kotlin/Any|
+
+}
+
 public abstract interface Comparable<in T> : R|kotlin/Any| {
     public abstract operator fun compareTo(other: R|T|): R|kotlin/Int|
 

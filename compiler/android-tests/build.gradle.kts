@@ -72,6 +72,9 @@ projectTests {
     }
 
     withJvmStdlibAndReflect()
+    withTestJar()
+    withScriptRuntime()
+    withMockJdkAnnotationsJar()
 }
 
 val generateAndroidTests by generator(

@@ -48,9 +48,13 @@ open class AbstractCustomNativeCompilerSecondStageTest : AbstractNativeCoreTest(
             }
         }
 
+        val nativeHomeForFirstStage = if (customNativeCompilerSettings.defaultLanguageVersion < LanguageVersion.LATEST_STABLE)
+            customNativeCompilerSettings.nativeHome // use home of downloaded distro of previous major version
+        else
+            null // Use default native home without changing it to a home within downloaded distro of latest major version
         useConfigurators(
             ::CommonEnvironmentConfigurator,
-            ::NativeFirstStageEnvironmentConfigurator.bind(customNativeCompilerSettings.nativeHome),
+            ::NativeFirstStageEnvironmentConfigurator.bind(nativeHomeForFirstStage),
             ::NativeSecondStageEnvironmentConfigurator,
         )
         useAdditionalSourceProviders(

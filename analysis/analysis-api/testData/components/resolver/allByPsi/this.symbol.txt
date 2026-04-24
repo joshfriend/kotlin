@@ -682,28 +682,7 @@ KtContainerNode(686,691): '@anon'
 KtLabelReferenceExpression(686,691): '@anon'
   KaSymbolResolutionSuccess:
     symbols = [
-      KaReceiverParameterSymbol:
-        annotations: []
-        callableId: null
-        compilerVisibility: Public
-        contextReceivers: []
-        isActual: false
-        isCompanion: false
-        isExpect: false
-        isExtension: false
-        isExternal: false
-        isVal: true
-        location: LOCAL
-        modality: FINAL
-        name: <receiver>
-        origin: SOURCE
-        owningCallableSymbol: KaAnonymousFunctionSymbol(<local>/<no name provided>)
-        receiverParameter: null
-        returnType: KaUsualClassType:
-          annotations: []
-          typeArguments: []
-          type: one/MyClass
-        visibility: PUBLIC
+      <anonymous function>(s: kotlin.String): kotlin.Unit
     ]
 
 KtCallExpression(692,697): 'foo()'
@@ -1033,28 +1012,7 @@ KtContainerNode(952,959): '@myWith'
 KtLabelReferenceExpression(952,959): '@myWith'
   KaSymbolResolutionSuccess:
     symbols = [
-      KaReceiverParameterSymbol:
-        annotations: []
-        callableId: null
-        compilerVisibility: Public
-        contextReceivers: []
-        isActual: false
-        isCompanion: false
-        isExpect: false
-        isExtension: false
-        isExternal: false
-        isVal: true
-        location: LOCAL
-        modality: FINAL
-        name: <receiver>
-        origin: SOURCE
-        owningCallableSymbol: KaAnonymousFunctionSymbol(<local>/<no name provided>)
-        receiverParameter: null
-        returnType: KaUsualClassType:
-          annotations: []
-          typeArguments: []
-          type: one/MyClass.InnerOuter.InnerNested
-        visibility: PUBLIC
+      <anonymous function>(t: one.MyClass.InnerOuter.InnerNested): kotlin.Unit
     ]
 
 KtCallExpression(960,965): 'foo()'
@@ -1297,28 +1255,7 @@ KtContainerNode(1164,1170): '@label'
 KtLabelReferenceExpression(1164,1170): '@label'
   KaSymbolResolutionSuccess:
     symbols = [
-      KaReceiverParameterSymbol:
-        annotations: []
-        callableId: null
-        compilerVisibility: Public
-        contextReceivers: []
-        isActual: false
-        isCompanion: false
-        isExpect: false
-        isExtension: false
-        isExternal: false
-        isVal: true
-        location: LOCAL
-        modality: FINAL
-        name: <receiver>
-        origin: SOURCE
-        owningCallableSymbol: KaAnonymousFunctionSymbol(<local>/<no name provided>)
-        receiverParameter: null
-        returnType: KaUsualClassType:
-          annotations: []
-          typeArguments: []
-          type: one/MyClass.InnerOuter.InnerNested
-        visibility: PUBLIC
+      <anonymous function>(it: one.MyClass.InnerOuter.InnerNested): kotlin.Unit
     ]
 
 KtCallExpression(1171,1176): 'foo()'

@@ -357,7 +357,9 @@ internal class KaFirResolver(
             }
 
             else -> when (val symbol = symbol) {
-                is FirReceiverParameterSymbol if symbol.fir is FirScriptReceiverParameter -> {
+                is FirReceiverParameterSymbol if (psi is KtLabelReferenceExpression || symbol.fir is FirScriptReceiverParameter) -> {
+                    // Label references should refer to the containing declaration symbol (not the receiver parameter symbol)
+
                     // Probably the workaround for a script receiver parameter should be dropped
                     // as soon as `KaScriptSymbol` API will be properly designed KT-76360
                     // (currently we don't have a dedicated KaSymbol for script receiver parameter)

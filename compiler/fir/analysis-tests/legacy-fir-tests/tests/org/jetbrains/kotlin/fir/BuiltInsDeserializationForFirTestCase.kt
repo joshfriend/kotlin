@@ -7,13 +7,10 @@ package org.jetbrains.kotlin.fir
 
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.util.Disposer
-import com.intellij.psi.PsiElementFinder
-import org.jetbrains.kotlin.asJava.finder.JavaElementFinder
 import org.jetbrains.kotlin.builtins.StandardNames
 import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
 import org.jetbrains.kotlin.cli.common.messages.GroupingMessageCollector
 import org.jetbrains.kotlin.cli.common.messages.MessageCollector
-import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.cli.pipeline.ArgumentsPipelineArtifact
 import org.jetbrains.kotlin.cli.pipeline.jvm.JvmConfigurationPipelinePhase
 import org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
@@ -27,15 +24,13 @@ import org.jetbrains.kotlin.fir.symbols.SymbolInternals
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.platform.jvm.JvmPlatforms
-import org.jetbrains.kotlin.test.ConfigurationKind
-import org.jetbrains.kotlin.test.KotlinTestWithEnvironment
 import org.jetbrains.kotlin.test.TestDataAssertions
-import org.jetbrains.kotlin.test.TestJdkKind
 import org.jetbrains.kotlin.util.PerformanceManagerImpl
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
+import org.junit.jupiter.api.Test
 import java.io.File
 
-class BuiltInsDeserializationForFirTestCase : KotlinTestWithEnvironment() {
+class BuiltInsDeserializationForFirTestCase {
     companion object {
         private val BUILTIN_PACKAGE_NAMES = listOf(
             StandardNames.BUILT_INS_PACKAGE_FQ_NAME,
@@ -44,10 +39,7 @@ class BuiltInsDeserializationForFirTestCase : KotlinTestWithEnvironment() {
         )
     }
 
-    override fun createEnvironment(): KotlinCoreEnvironment {
-        return createEnvironmentWithJdk(ConfigurationKind.JDK_ONLY, TestJdkKind.FULL_JDK)
-    }
-
+    @Test
     fun testBuiltInPackagesContent() {
         val disposable = Disposer.newDisposable()
         try {
@@ -79,12 +71,6 @@ class BuiltInsDeserializationForFirTestCase : KotlinTestWithEnvironment() {
         val configurationOutput = JvmConfigurationPipelinePhase.executePhase(emptyInput)!!
         val frontendOutput = JvmFrontendPipelinePhase.executePhase(configurationOutput)!!
         return frontendOutput.frontendOutput.outputs.first().session
-    }
-
-    override fun setUp() {
-        super.setUp()
-
-        PsiElementFinder.EP.getPoint(project).unregisterExtension(JavaElementFinder::class.java)
     }
 
     @OptIn(SymbolInternals::class)

@@ -15,6 +15,8 @@ plugins {
 dependencies {
     testFixturesApi(libs.junit4)
     testFixturesCompileOnly(kotlinTest("junit"))
+    testImplementation(libs.junit.jupiter.api)
+
     testFixturesApi(testFixtures(project(":compiler:tests-common")))
     testFixturesApi(project(":compiler:fir:checkers"))
     testFixturesApi(project(":compiler:fir:checkers:checkers.jvm"))
@@ -29,6 +31,7 @@ dependencies {
     testFixturesCompileOnly(intellijCore())
     testImplementation(intellijCore())
 
+    testRuntimeOnly(libs.junit.jupiter.engine)
     testRuntimeOnly(libs.junit.vintage.engine)
     testRuntimeOnly(libs.junit.platform.launcher)
 }

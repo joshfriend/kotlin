@@ -83,7 +83,7 @@ class JsIrLoweringFacade(
                     jsExecutableProducer.buildExecutable(true).compilationOut
                 }
             )
-            return BinaryArtifacts.Js.JsIrArtifact(
+            return JsIrArtifact(
                 outputFile, compiledModule, testServices.jsIrIncrementalDataProvider.getCacheForModule(module)
             ).dump(module, firstTimeCompilation)
         }
@@ -152,17 +152,17 @@ class JsIrLoweringFacade(
             }
         val compilationOut =
             transformer.generateModule(loweredIr.allModules, artifactConfigurations, relativeRequirePath = isEsModules, outJsProgram = true)
-        return BinaryArtifacts.Js.JsIrArtifact(outputFile, compilationOut).dump(module)
+        return JsIrArtifact(outputFile, compilationOut).dump(module)
     }
 
     private fun IrModuleFragment.resolveTestPaths() {
         files.forEach(jsIrPathReplacer::lower)
     }
 
-    private fun BinaryArtifacts.Js.JsIrArtifact.dump(
+    private fun JsIrArtifact.dump(
         module: TestModule,
         firstTimeCompilation: Boolean = true
-    ): BinaryArtifacts.Js.JsIrArtifact {
+    ): JsIrArtifact {
         val configuration = testServices.compilerConfigurationProvider.getCompilerConfiguration(module)
         val moduleId = configuration.getNotNull(CommonConfigurationKeys.MODULE_NAME)
         val moduleKind = configuration.get(JSConfigurationKeys.MODULE_KIND, ModuleKind.PLAIN)

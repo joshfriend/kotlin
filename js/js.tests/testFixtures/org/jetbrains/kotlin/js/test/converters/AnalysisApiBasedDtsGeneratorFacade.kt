@@ -72,7 +72,7 @@ class AnalysisApiBasedDtsGeneratorFacade(
         val output = runTypeScriptExport(inputModules, config).singleOrNull()
             ?: error("A single .d.ts file should be generated")
 
-        return BinaryArtifacts.Js.TypeScriptArtifact(output)
+        return JsTypeScriptArtifact(output)
     }
 
     private fun createInputModule(libraryPath: String): KlibInputModule<TypeScriptModuleConfig> {

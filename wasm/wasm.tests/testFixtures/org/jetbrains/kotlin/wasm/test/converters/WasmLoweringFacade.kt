@@ -127,36 +127,36 @@ class WasmLoweringFacade(
             val multiModuleOptimization = configuration.wasmGenerateClosedWorldMultimodule
             val optimisedResult = dceCompilationSet.compilerResult.runThirdPartyOptimizer(multiModule = multiModuleOptimization)
             val optimisedDependencies = dceCompilationSet.compilationDependencies.map {
-                BinaryArtifacts.WasmCompilationSet(
+                WasmCompilationSet(
                     compiledModule = it.compiledModule,
                     compilerResult = it.compilerResult.runThirdPartyOptimizer(multiModule = multiModuleOptimization)
                 )
             }
-            BinaryArtifacts.WasmCompilationSet(
+            WasmCompilationSet(
                 compiledModule = dceCompilationSet.compiledModule,
                 compilerResult = optimisedResult,
                 compilationDependencies = optimisedDependencies
             )
         }
 
-        return BinaryArtifacts.Wasm.CompilationSets(
+        return WasmCompilationSetsBinaryArtifact(
             compilation = compilationSet,
             dceCompilation = dceCompilationSet,
             optimisedCompilation = optimised,
         )
     }
 
-    fun makeCompilationSet(parameters: List<WasmIrModuleConfiguration>): BinaryArtifacts.WasmCompilationSet {
+    fun makeCompilationSet(parameters: List<WasmIrModuleConfiguration>): WasmCompilationSet {
         val compilationSets = parameters.map { current ->
             val linkedModule = linkWasmIr(current)
             val compilerResult = compileWasmIrToBinary(current, linkedModule)
-            BinaryArtifacts.WasmCompilationSet(linkedModule, compilerResult)
+            WasmCompilationSet(linkedModule, compilerResult)
         }
 
         val main = compilationSets.last()
         val dependencies = compilationSets.dropLast(1)
 
-        return BinaryArtifacts.WasmCompilationSet(
+        return WasmCompilationSet(
             main.compiledModule,
             main.compilerResult,
             dependencies

@@ -10,7 +10,8 @@ import org.jetbrains.kotlin.diagnostics.impl.BaseDiagnosticsCollector
 import org.jetbrains.kotlin.test.directives.CodegenTestDirectives
 import org.jetbrains.kotlin.test.directives.model.DirectivesContainer
 import org.jetbrains.kotlin.test.frontend.fir.handlers.FirDiagnosticCollectorService
-import org.jetbrains.kotlin.test.model.*
+import org.jetbrains.kotlin.test.model.BinaryArtifacts
+import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.ServiceRegistrationData
 import org.jetbrains.kotlin.test.services.TestServices
 import org.jetbrains.kotlin.test.services.diagnosticsService
@@ -19,15 +20,13 @@ import org.jetbrains.kotlin.test.services.service
 /**
  * Prevents the execution of box runners if the backend produced some errors.
  */
-class NoBackendCompilationErrorsHandler(testServices: TestServices) : AnalysisHandler<BinaryArtifacts.Jvm>(
+class NoBackendCompilationErrorsHandler(testServices: TestServices) : JvmBinaryArtifactHandler(
     testServices,
     // Must go on, because we may have multiple modules emitting IR diagnostics, and we want
     // to continue processing the next modules to collect everything for `GlobalMetadataInfoHandler`.
     failureDisablesNextSteps = false,
     doNotRunIfThereWerePreviousFailures = false,
 ) {
-    override val artifactKind: TestArtifactKind<BinaryArtifacts.Jvm> get() = ArtifactKinds.Jvm
-
     override val directiveContainers: List<DirectivesContainer>
         get() = listOf(CodegenTestDirectives)
 
@@ -35,6 +34,7 @@ class NoBackendCompilationErrorsHandler(testServices: TestServices) : AnalysisHa
         get() = listOf(service(::FirDiagnosticCollectorService))
 
     override fun processModule(module: TestModule, info: BinaryArtifacts.Jvm) {
+        checkArtifact(info)
         val ktDiagnosticReporter = info.classFileFactory.generationState.diagnosticReporter as BaseDiagnosticsCollector
         val diagnosticsService = testServices.diagnosticsService
 

@@ -1,5 +1,8 @@
+import org.gradle.api.file.DuplicatesStrategy
+import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.support.serviceOf
 import java.util.regex.Pattern.quote
+import kotlin.io.path.exists
 
 description = "Kotlin Compiler (embeddable)"
 
@@ -85,6 +88,10 @@ projectTests {
 }
 
 val kotlincniTask = tasks.register<Exec>("kotlincni") {
+    description = """
+        Build a native image of the kotlin-compiler-embeddable
+    """.trimIndent()
+
     inputs.files(runtimeJar)
     inputs.files(nativeImageClasspath)
 
@@ -92,13 +99,17 @@ val kotlincniTask = tasks.register<Exec>("kotlincni") {
     val outputFile = layout.buildDirectory.file("bin/kotlincni")
     outputs.file(outputFile)
 
-    val javaHome = providers.environmentVariable("JAVA_HOME")
+    val javaLauncher = javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(25))
+        vendor.set(JvmVendorSpec.GRAAL_VM)
+    }
+    val javaHome = javaLauncher.get().executablePath.asFile.toPath().parent.parent
     val classpathFiles = files(runtimeJar, nativeImageClasspath)
 
     doFirst {
-        val nativeImageBin = File(javaHome.get(), "bin/native-image")
+        val nativeImageBin = javaHome.resolve("lib/svm/bin/native-image")
         if (!nativeImageBin.exists()) {
-            throw GradleException("native-image not found at ${nativeImageBin.absolutePath} (JAVA_HOME=${javaHome.get()})")
+            throw GradleException("native-image not found at ${nativeImageBin.toAbsolutePath()} (JAVA_HOME=${javaHome.toAbsolutePath()})")
         }
         val fullClasspath = classpathFiles.joinToString(File.pathSeparator) { it.absolutePath }
         commandLine(
@@ -120,28 +131,27 @@ val kotlincniTask = tasks.register<Exec>("kotlincni") {
 
 val distDir: String by rootProject.extra
 
-val kotlincniDist = distTask<Copy>("kotlincniDist") {
+val kotlincniDist = tasks.register<Copy>("kotlincniDist") {
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+    rename(quote("-${version}"), "")
+    rename(quote("-${bootstrapKotlinVersion}"), "")
     dependsOn(kotlincniTask)
-
     destinationDir = File("$distDir/kotlincni")
-    val binFiles = files(layout.buildDirectory.dir("bin"))
+    val binFiles1 = files(layout.buildDirectory.dir("bin"))
     into("bin") {
-        from(binFiles)
+        from(binFiles1)
     }
-
-    val licenseFiles = files("$rootDir/license")
+    val licenseFiles1 = files("$rootDir/license")
     into("license") {
-        from(licenseFiles)
+        from(licenseFiles1)
     }
-
-    val resourceFiles = files("$rootDir/compiler/cli/cli-base/resources")
+    val resourceFiles1 = files("$rootDir/compiler/cli/cli-base/resources")
     into("resources") {
-        from(resourceFiles)
+        from(resourceFiles1)
     }
-
-    val librariesStripVersionFiles = files(nativeImageClasspath)
+    val librariesStripVersionFiles1 = files(nativeImageClasspath)
     into("lib") {
-        from(librariesStripVersionFiles) {
+        from(librariesStripVersionFiles1) {
             rename {
                 it.replace(Regex("-\\d.*\\.jar\$"), ".jar")
             }
@@ -150,14 +160,4 @@ val kotlincniDist = distTask<Copy>("kotlincniDist") {
             unix("rw-r--r--")
         }
     }
-}
-
-inline fun <reified T : AbstractCopyTask> Project.distTask(
-    name: String,
-    crossinline block: T.() -> Unit
-) = tasks.register<T>(name) {
-    duplicatesStrategy = DuplicatesStrategy.FAIL
-    rename(quote("-$version"), "")
-    rename(quote("-$bootstrapKotlinVersion"), "")
-    block()
 }

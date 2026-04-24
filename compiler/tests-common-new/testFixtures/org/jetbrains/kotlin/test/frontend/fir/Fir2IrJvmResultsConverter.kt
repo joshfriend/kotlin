@@ -28,6 +28,7 @@ import org.jetbrains.kotlin.ir.util.KotlinMangler
 import org.jetbrains.kotlin.library.KotlinLibrary
 import org.jetbrains.kotlin.library.metadata.KlibMetadataFactories
 import org.jetbrains.kotlin.test.backend.ir.IrBackendInput
+import org.jetbrains.kotlin.test.backend.ir.JvmIrBackendInput
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.TestServices
 import org.jetbrains.kotlin.test.services.compilerConfigurationProvider
@@ -106,7 +107,7 @@ internal class Fir2IrJvmResultsConverter(testServices: TestServices) : AbstractF
             diagnosticReporter = diagnosticReporter,
         )
 
-        return IrBackendInput.JvmIrBackendInput(
+        return JvmIrBackendInput(
             generationState,
             JvmIrCodegenFactory(compilerConfiguration),
             backendInput,

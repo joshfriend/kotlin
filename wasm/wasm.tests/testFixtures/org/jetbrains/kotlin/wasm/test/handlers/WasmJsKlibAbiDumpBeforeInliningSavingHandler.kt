@@ -17,6 +17,7 @@ import org.jetbrains.kotlin.library.impl.BuiltInsPlatform
 import org.jetbrains.kotlin.platform.wasm.WasmTarget
 import org.jetbrains.kotlin.test.backend.handlers.AbstractKlibAbiDumpBeforeInliningSavingHandler
 import org.jetbrains.kotlin.test.backend.ir.IrBackendInput
+import org.jetbrains.kotlin.test.backend.ir.WasmAfterFrontendBackendInput
 import org.jetbrains.kotlin.test.model.BinaryArtifacts
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.TestServices
@@ -27,7 +28,7 @@ import org.jetbrains.kotlin.wasm.config.WasmConfigurationKeys
 class FirWasmJsKlibAbiDumpBeforeInliningSavingHandler(testServices: TestServices) :
     AbstractKlibAbiDumpBeforeInliningSavingHandler(testServices) {
     override fun serializeModule(module: TestModule, inputArtifact: IrBackendInput): BinaryArtifacts.KLib {
-        require(inputArtifact is IrBackendInput.WasmAfterFrontendBackendInput) {
+        require(inputArtifact is WasmAfterFrontendBackendInput) {
             "FirWasmJsKlibAbiDumpBeforeInliningSavingHandler expects WasmAfterFrontendBackendInput as input, but it's ${inputArtifact::class}"
         }
         val compilerConfiguration = testServices.compilerConfigurationProvider.getCompilerConfiguration(module)

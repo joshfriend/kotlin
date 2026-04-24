@@ -11,7 +11,7 @@ import org.jetbrains.kotlin.js.test.converters.JsUnifiedIrDeserializerAndLowerin
 import org.jetbrains.kotlin.js.test.utils.JsIrIncrementalDataProvider
 import org.jetbrains.kotlin.js.test.utils.jsIrIncrementalDataProvider
 import org.jetbrains.kotlin.test.TargetBackend
-import org.jetbrains.kotlin.test.backend.ir.IrBackendInput
+import org.jetbrains.kotlin.test.backend.ir.JsIrAfterFrontendBackendInput
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
 import org.jetbrains.kotlin.test.frontend.classic.ModuleDescriptorProvider
 import org.jetbrains.kotlin.test.frontend.classic.moduleDescriptorProvider
@@ -27,7 +27,7 @@ class RecompileModuleJsIrBackendFacade(
     override fun TestConfigurationBuilder.configure(module: TestModule) {
         startingArtifactFactory = {
             testServices.artifactsProvider.getArtifact(module, BackendKinds.IrBackend).also {
-                require(it is IrBackendInput.JsIrAfterFrontendBackendInput || it is Fir2IrCliBasedOutputArtifact<*>) {
+                require(it is JsIrAfterFrontendBackendInput || it is Fir2IrCliBasedOutputArtifact<*>) {
                     "Recompilation can start only from IC cache entry, which has type JsIrAfterFrontendBackendInput or Fir2IrCliBasedOutputArtifact.\n" +
                             "Actual type: ${it.javaClass.name}.\nProbable cause: accidental override of artifact with the output of Klib deserialization facade"
                 }

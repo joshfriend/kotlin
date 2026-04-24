@@ -19,6 +19,7 @@ import org.jetbrains.kotlin.library.loader.KlibPlatformChecker
 import org.jetbrains.kotlin.storage.LockBasedStorageManager
 import org.jetbrains.kotlin.test.backend.ir.IrBackendFacade
 import org.jetbrains.kotlin.test.backend.ir.IrBackendInput
+import org.jetbrains.kotlin.test.backend.ir.JsIrAfterFrontendBackendInput
 import org.jetbrains.kotlin.test.directives.KlibBasedCompilerTestDirectives.SKIP_GENERATING_KLIB
 import org.jetbrains.kotlin.test.frontend.classic.moduleDescriptorProvider
 import org.jetbrains.kotlin.test.model.ArtifactKinds
@@ -46,7 +47,7 @@ class ClassicJsKlibSerializerFacade(
     }
 
     override fun transform(module: TestModule, inputArtifact: IrBackendInput): BinaryArtifacts.KLib {
-        require(inputArtifact is IrBackendInput.JsIrAfterFrontendBackendInput) {
+        require(inputArtifact is JsIrAfterFrontendBackendInput) {
             "JsKlibSerializerFacade expects IrBackendInput.JsIrAfterFrontendBackendInput as input"
         }
 

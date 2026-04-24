@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.ir.backend.js.wasm.WasmKlibCheckers
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.ir.visitors.acceptVoid
 import org.jetbrains.kotlin.test.backend.ir.IrBackendInput
+import org.jetbrains.kotlin.test.backend.ir.WasmAfterFrontendBackendInput
 import org.jetbrains.kotlin.test.frontend.fir.Fir2IrCliBasedOutputArtifact
 import org.jetbrains.kotlin.test.model.BackendKinds
 import org.jetbrains.kotlin.test.model.IrPreSerializationLoweringFacade
@@ -64,7 +65,7 @@ class WasmPreSerializationLoweringFacade(
                 // Later, third artifact of class `JsIrDeserializedFromKlibBackendInput` might replace it again during some test pipelines.
                 return Fir2IrCliBasedOutputArtifact(output)
             }
-            is IrBackendInput.WasmAfterFrontendBackendInput -> {
+            is WasmAfterFrontendBackendInput -> {
                 // TODO: When KT-74671 would be implemented, the following code would be never used and is subject to be deleted
                 val irDiagnosticReporter = KtDiagnosticReporterWithImplicitIrBasedContext(
                     diagnosticReporter,

@@ -25,7 +25,6 @@ import org.jetbrains.kotlin.test.model.SourceFileInfo
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.TestServices
 import org.jetbrains.kotlin.test.services.compilerConfigurationProvider
-import org.jetbrains.kotlin.test.services.moduleStructure
 
 abstract class AbstractJvmIrBackendFacade(testServices: TestServices) : IrBackendFacade<BinaryArtifacts.Jvm>(testServices, ArtifactKinds.Jvm) {
     private val javaCompilerFacade = JavaCompilerFacade(testServices)
@@ -89,7 +88,7 @@ abstract class AbstractJvmIrBackendFacade(testServices: TestServices) : IrBacken
 
 class JvmIrBackendFacade(testServices: TestServices) : AbstractJvmIrBackendFacade(testServices) {
     override fun produceGenerationState(inputArtifact: IrBackendInput): GenerationState {
-        require(inputArtifact is IrBackendInput.JvmIrBackendInput) {
+        require(inputArtifact is JvmIrBackendInput) {
             "JvmIrBackendFacade expects IrBackendInput.JvmIrBackendInput as input"
         }
         val state = inputArtifact.state
@@ -98,5 +97,5 @@ class JvmIrBackendFacade(testServices: TestServices) : AbstractJvmIrBackendFacad
     }
 
     override val IrBackendInput.sourceFiles: Collection<KtSourceFile>
-        get() = (this as IrBackendInput.JvmIrBackendInput).sourceFiles
+        get() = (this as JvmIrBackendInput).sourceFiles
 }

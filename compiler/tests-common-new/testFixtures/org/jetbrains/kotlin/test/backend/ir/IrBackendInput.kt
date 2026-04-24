@@ -5,25 +5,15 @@
 
 package org.jetbrains.kotlin.test.backend.ir
 
-import org.jetbrains.kotlin.KtSourceFile
-import org.jetbrains.kotlin.backend.common.IrModuleInfo
-import org.jetbrains.kotlin.backend.common.serialization.KotlinFileSerializedData
-import org.jetbrains.kotlin.backend.common.serialization.metadata.KlibSingleFileMetadataSerializer
-import org.jetbrains.kotlin.backend.jvm.JvmIrCodegenFactory
-import org.jetbrains.kotlin.cli.pipeline.LoadedIrPipelineArtifact
-import org.jetbrains.kotlin.codegen.state.GenerationState
 import org.jetbrains.kotlin.diagnostics.impl.BaseDiagnosticsCollector
 import org.jetbrains.kotlin.ir.IrBuiltIns
 import org.jetbrains.kotlin.ir.declarations.IrModuleFragment
 import org.jetbrains.kotlin.ir.util.KotlinMangler
 import org.jetbrains.kotlin.test.diagnostics.DiagnosticsCollectorHolder
-import org.jetbrains.kotlin.test.diagnostics.DiagnosticsCollectorStub
 import org.jetbrains.kotlin.test.model.BackendKind
 import org.jetbrains.kotlin.test.model.BackendKinds
 import org.jetbrains.kotlin.test.model.ResultingArtifact
-import java.io.File
 
-// IR backend (JVM, JS, Native, Wasm)
 abstract class IrBackendInput : ResultingArtifact.BackendInput<IrBackendInput>(), DiagnosticsCollectorHolder {
     override val kind: BackendKind<IrBackendInput>
         get() = BackendKinds.IrBackend
@@ -52,70 +42,4 @@ abstract class IrBackendInput : ResultingArtifact.BackendInput<IrBackendInput>()
     abstract val irMangler: KotlinMangler.IrMangler
 
     abstract override val diagnosticReporter: BaseDiagnosticsCollector
-
-    sealed class JsIrBackendInput : IrBackendInput()
-
-    data class JsIrAfterFrontendBackendInput(
-        override val irModuleFragment: IrModuleFragment,
-        override val irBuiltIns: IrBuiltIns,
-        val icData: List<KotlinFileSerializedData>,
-        override val diagnosticReporter: BaseDiagnosticsCollector,
-        val hasErrors: Boolean,
-        override val descriptorMangler: KotlinMangler.DescriptorMangler?,
-        override val irMangler: KotlinMangler.IrMangler,
-        val metadataSerializer: KlibSingleFileMetadataSerializer<*>,
-    ) : JsIrBackendInput()
-
-    sealed class WasmBackendInput : IrBackendInput()
-
-    data class WasmAfterFrontendBackendInput(
-        override val irModuleFragment: IrModuleFragment,
-        override val irBuiltIns: IrBuiltIns,
-        val icData: List<KotlinFileSerializedData>,
-        override val diagnosticReporter: BaseDiagnosticsCollector,
-        val hasErrors: Boolean,
-        override val descriptorMangler: KotlinMangler.DescriptorMangler?,
-        override val irMangler: KotlinMangler.IrMangler,
-        val metadataSerializer: KlibSingleFileMetadataSerializer<*>,
-    ) : WasmBackendInput()
-
-    class JvmIrBackendInput(
-        val state: GenerationState,
-        val codegenFactory: JvmIrCodegenFactory,
-        val backendInput: JvmIrCodegenFactory.BackendInput,
-        val sourceFiles: List<KtSourceFile>,
-        override val descriptorMangler: KotlinMangler.DescriptorMangler?,
-        override val irMangler: KotlinMangler.IrMangler,
-    ) : IrBackendInput() {
-        override val irModuleFragment: IrModuleFragment
-            get() = backendInput.irModuleFragment
-
-        override val irBuiltIns: IrBuiltIns
-            get() = backendInput.irBuiltIns
-
-        override val diagnosticReporter: BaseDiagnosticsCollector
-            get() = state.diagnosticReporter as BaseDiagnosticsCollector
-    }
-
-    data class DeserializedFromKlibBackendInput<A : LoadedIrPipelineArtifact>(
-        val cliArtifact: A,
-        val klib: File,
-    ) : IrBackendInput() {
-        override val diagnosticReporter: BaseDiagnosticsCollector = DiagnosticsCollectorStub()
-
-        val moduleInfo: IrModuleInfo
-            get() = cliArtifact.moduleInfo
-
-        override val irModuleFragment: IrModuleFragment
-            get() = moduleInfo.module
-
-        override val irBuiltIns: IrBuiltIns
-            get() = moduleInfo.bultins
-
-        override val descriptorMangler: KotlinMangler.DescriptorMangler?
-            get() = moduleInfo.symbolTable.signaturer?.mangler
-
-        override val irMangler: KotlinMangler.IrMangler
-            get() = moduleInfo.deserializer.fakeOverrideBuilder.mangler
-    }
 }

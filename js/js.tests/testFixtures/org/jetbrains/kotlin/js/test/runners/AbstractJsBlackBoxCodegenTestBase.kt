@@ -58,7 +58,7 @@ abstract class AbstractJsBlackBoxCodegenTestBase(
          * and a recompilation facade [recompileFacade].
          *
          * The output artifact of [deserializerAndLoweringFacade] is [BinaryArtifacts.Js], which helps to avoid re-registering
-         * [IrBackendInput] for the module from [IrBackendInput.JsIrAfterFrontendBackendInput] to
+         * [IrBackendInput] for the module from [org.jetbrains.kotlin.test.backend.ir.JsIrAfterFrontendBackendInput] to
          * [IrBackendInput.JsIrDeserializedFromKlibBackendInput], which is essential for [recompileFacade].
          */
         object WithRecompilation : JsBackendFacades {

@@ -31,6 +31,8 @@ import org.jetbrains.kotlin.library.KotlinLibrary
 import org.jetbrains.kotlin.library.loader.KlibPlatformChecker
 import org.jetbrains.kotlin.library.metadata.KlibMetadataFactories
 import org.jetbrains.kotlin.test.backend.ir.IrBackendInput
+import org.jetbrains.kotlin.test.backend.ir.JsIrAfterFrontendBackendInput
+import org.jetbrains.kotlin.test.backend.ir.WasmAfterFrontendBackendInput
 import org.jetbrains.kotlin.test.frontend.fir.handlers.firDiagnosticCollectorService
 import org.jetbrains.kotlin.test.model.TestModule
 import org.jetbrains.kotlin.test.services.TestServices
@@ -89,7 +91,7 @@ internal abstract class Fir2IrJsWasmResultsConverter(testServices: TestServices)
 @InternalFir2IrConverterAPI
 internal class Fir2IrJsResultsConverter(testServices: TestServices) : Fir2IrJsWasmResultsConverter(testServices) {
     override val artifactFactory: (IrModuleFragment, IrBuiltIns, List<KotlinFileSerializedData>, BaseDiagnosticsCollector, Boolean, KotlinMangler.DescriptorMangler?, KotlinMangler.IrMangler, KlibSingleFileMetadataSerializer<*>) -> IrBackendInput
-        get() = IrBackendInput::JsIrAfterFrontendBackendInput
+        get() = ::JsIrAfterFrontendBackendInput
 
     override fun resolveLibraries(module: TestModule, compilerConfiguration: CompilerConfiguration): List<KotlinLibrary> {
         return loadWebKlibs(
@@ -101,8 +103,8 @@ internal class Fir2IrJsResultsConverter(testServices: TestServices) : Fir2IrJsWa
 
 @InternalFir2IrConverterAPI
 internal class Fir2IrWasmResultsConverter(testServices: TestServices) : Fir2IrJsWasmResultsConverter(testServices) {
-    override val artifactFactory: (IrModuleFragment, IrBuiltIns, List<KotlinFileSerializedData>, BaseDiagnosticsCollector, Boolean, KotlinMangler.DescriptorMangler?, KotlinMangler.IrMangler, KlibSingleFileMetadataSerializer<*>) -> IrBackendInput.WasmAfterFrontendBackendInput
-        get() = IrBackendInput::WasmAfterFrontendBackendInput
+    override val artifactFactory: (IrModuleFragment, IrBuiltIns, List<KotlinFileSerializedData>, BaseDiagnosticsCollector, Boolean, KotlinMangler.DescriptorMangler?, KotlinMangler.IrMangler, KlibSingleFileMetadataSerializer<*>) -> WasmAfterFrontendBackendInput
+        get() = ::WasmAfterFrontendBackendInput
 
     override fun resolveLibraries(module: TestModule, compilerConfiguration: CompilerConfiguration): List<KotlinLibrary> {
         return loadWasmLibraries(compilerConfiguration)

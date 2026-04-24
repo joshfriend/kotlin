@@ -9,7 +9,6 @@ import org.jetbrains.kotlin.platform.CommonPlatforms
 import org.jetbrains.kotlin.test.Assertions
 import org.jetbrains.kotlin.test.TestInfrastructureInternals
 import org.jetbrains.kotlin.test.builders.LanguageVersionSettingsBuilder
-import org.jetbrains.kotlin.test.directives.AdditionalFilesDirectives
 import org.jetbrains.kotlin.test.directives.LanguageSettingsDirectives
 import org.jetbrains.kotlin.test.directives.ModuleStructureDirectives
 import org.jetbrains.kotlin.test.directives.model.*
@@ -50,9 +49,13 @@ class ModuleStructureExtractorImpl(
          * This method could be used by tests which are not based on the [TestServices] infrastructure,
          * but still need to support multi-file multi-module tests.
          */
-        fun parseModuleStructureWithoutService(testDataFile: File, vararg directivesContainers: DirectivesContainer): TestModuleStructure {
+        fun parseModuleStructureWithoutService(
+            testDataFile: File,
+            assertions: AssertionsService,
+            vararg directivesContainers: DirectivesContainer,
+        ): TestModuleStructure {
             val testServices = TestServices().apply {
-                register(AssertionsService::class, JUnit5Assertions)
+                register(AssertionsService::class, assertions)
                 val defaultsProvider = DefaultsProvider(
                     frontendKind = FrontendKind.NoFrontend,
                     backendKind = BackendKind.NoBackend,
@@ -260,17 +263,7 @@ class ModuleStructureExtractorImpl(
             val matchResult = moduleDirectiveRegex.matchEntire(moduleDirectiveString)
                 ?: error("\"$moduleDirectiveString\" doesn't matches with pattern \"moduleName(dep1, dep2)\"")
             val (name, _, dependencies, _, friends, _, dependsOn) = matchResult.destructured
-            var dependenciesNames = dependencies.takeIf { it.isNotBlank() }?.split(" ") ?: emptyList()
-            globalDirectives?.let { directives ->
-                /*
-                 * In old tests coroutine helpers was added as separate module named `support`
-                 *   instead of additional files for current module. So to safe compatibility with
-                 *   old testdata we need to filter this dependency
-                 */
-                if (AdditionalFilesDirectives.WITH_COROUTINES in directives) {
-                    dependenciesNames = dependenciesNames.filter { it != "support" }
-                }
-            }
+            val dependenciesNames = dependencies.takeIf { it.isNotBlank() }?.split(" ") ?: emptyList()
             val friendsNames = friends.takeIf { it.isNotBlank() }?.split(" ") ?: emptyList()
             val dependsOnNames = dependsOn.takeIf { it.isNotBlank() }?.split(" ") ?: emptyList()
 

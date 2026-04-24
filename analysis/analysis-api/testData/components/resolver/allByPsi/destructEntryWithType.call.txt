@@ -237,7 +237,7 @@ KtUserType(160,164): 'Anno'
 KtNameReferenceExpression(160,164): 'Anno'
   KaCallResolutionError:
     candidateCalls = [
-      KaSimpleFunctionCall:
+      KaAnnotationCall:
         contextArgumentMapping = {}
         contextArguments = []
         dispatchReceiver = null
@@ -467,7 +467,7 @@ KtUserType(185,189): 'Anno'
 KtNameReferenceExpression(185,189): 'Anno'
   KaCallResolutionError:
     candidateCalls = [
-      KaSimpleFunctionCall:
+      KaAnnotationCall:
         contextArgumentMapping = {}
         contextArguments = []
         dispatchReceiver = null
@@ -697,7 +697,7 @@ KtUserType(210,214): 'Anno'
 KtNameReferenceExpression(210,214): 'Anno'
   KaCallResolutionError:
     candidateCalls = [
-      KaSimpleFunctionCall:
+      KaAnnotationCall:
         contextArgumentMapping = {}
         contextArguments = []
         dispatchReceiver = null

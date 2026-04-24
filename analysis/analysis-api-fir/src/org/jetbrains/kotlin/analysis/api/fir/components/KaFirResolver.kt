@@ -521,6 +521,7 @@ internal class KaFirResolver(
             ?: containingUnaryExpressionForIncOrDec
             ?: psi.getContainingDotQualifiedExpressionForSelectorExpression()
             ?: psi.getConstructorDelegationCallForDelegationReferenceExpression()
+            ?: psi.getConstructorCallForNameReferenceExpression()
             ?: psi
 
         val resolveFragmentOfCall = psiToResolve == containingBinaryExpressionForLhs || psiToResolve == containingUnaryExpressionForIncOrDec
@@ -766,6 +767,42 @@ internal class KaFirResolver(
      */
     private fun KtElement.getConstructorDelegationCallForDelegationReferenceExpression(): KtConstructorDelegationCall? {
         return takeIf { it is KtConstructorDelegationReferenceExpression }?.parent as? KtConstructorDelegationCall
+    }
+
+    /**
+     * When resolving [KtNameReferenceExpression], we instead resolve the containing [KtConstructorCalleeExpression].
+     * This way the corresponding FIR element is a call instead of the reference
+     *
+     * ### Example:
+     *
+     * ```kotlin
+     * open class A
+     * class B: A()
+     * ```
+     *
+     * Here `A()` is represented as:
+     * - SUPER_TYPE_CALL_ENTRY (`A()`)
+     *   - CONSTRUCTOR_CALLEE (`A`)
+     *     - TYPE_REFERENCE (`A`)
+     *       - USER_TYPE (`A`)
+     *         - REFERENCE_EXPRESSION (`A`)
+     *
+     * As a result, the reference expression cannot be resolved to a constructor call since regular unwraps like [getContainingCallExpressionForCalleeExpression]
+     * is not enough to traverse through [KtTypeReference].
+     *
+     * The same is applicable for [KtAnnotationEntry].
+     */
+    private fun KtElement.getConstructorCallForNameReferenceExpression(): KtConstructorCalleeExpression? {
+        if (this !is KtNameReferenceExpression) {
+            return null
+        }
+
+        val userType = parent as? KtUserType ?: return null
+
+        // We could consider only one level of KtUserType since only in this case it is basically a "constructor callee".
+        // Otherwise, it is just a part of the qulified name
+        val typeReference = userType.parent as? KtTypeReference ?: return null
+        return typeReference.parent as? KtConstructorCalleeExpression
     }
 
     private fun createKaCall(

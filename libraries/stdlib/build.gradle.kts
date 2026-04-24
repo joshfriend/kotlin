@@ -386,6 +386,8 @@ kotlin {
             project.configurations.getByName("jvmMainCompileOnly")
             dependencies {
                 api("org.jetbrains:annotations:13.0")
+                implementation(libs.intellij.asm)
+                implementation(project(":kotlin-util-jvm-inline-codegen"))
             }
             val jvmSrcDirs = listOfNotNull(
                 "jvm/src",
@@ -681,6 +683,14 @@ tasks {
         from(kotlin.jvm().compilations["mainJdk7"].output.allOutputs)
         from(kotlin.jvm().compilations["mainJdk8"].output.allOutputs)
         from(project.sourceSets["java9"].output)
+
+        // Bundle intellij.asm and kotlin-util-jvm-inline-codegen dependency
+        // TODO: there MUST be a better way
+        val asmDependency = kotlin.jvm().compilations["main"].compileDependencyFiles.filter {
+            it.name.startsWith("asm-") ||
+                    it.name.startsWith("kotlin-util-jvm-inline-codegen-")
+        }
+        from(asmDependency.map { zipTree(it) })
     }
 
     val jvmRearrangedSourcesJar by registering(Jar::class) {

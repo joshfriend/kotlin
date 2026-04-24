@@ -12,10 +12,12 @@ import org.jetbrains.kotlin.fir.analysis.checkers.context.CheckerContext
 import org.jetbrains.kotlin.fir.analysis.diagnostics.FirErrors
 import org.jetbrains.kotlin.fir.declarations.*
 import org.jetbrains.kotlin.fir.declarations.utils.isInline
+import org.jetbrains.kotlin.fir.resolve.fqName
 import org.jetbrains.kotlin.fir.symbols.impl.FirNamedFunctionSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirPropertySymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.fir.symbols.impl.FirTypeAliasSymbol
+import org.jetbrains.kotlin.name.FqName
 
 object FirReifiedTypeParameterChecker : FirTypeParameterChecker(MppCheckerKind.Common) {
     context(context: CheckerContext, reporter: DiagnosticReporter)
@@ -23,8 +25,12 @@ object FirReifiedTypeParameterChecker : FirTypeParameterChecker(MppCheckerKind.C
         if (!declaration.isReified) return
         val containingDeclaration = context.containingDeclarations.lastOrNull() ?: return
 
+        val isNotInlineOrSpecializedFun = containingDeclaration is FirNamedFunctionSymbol &&
+                !containingDeclaration.isInline &&
+                !declaration.annotations.any { it.fqName(context.session) == FqName("kotlin.jvm.JvmSpecialize") }
+
         val forbidReified = (containingDeclaration is FirRegularClassSymbol) ||
-                (containingDeclaration is FirNamedFunctionSymbol && !containingDeclaration.isInline) ||
+                isNotInlineOrSpecializedFun ||
                 (containingDeclaration is FirPropertySymbol && !containingDeclaration.areAccessorsInline())
 
         if (forbidReified) {

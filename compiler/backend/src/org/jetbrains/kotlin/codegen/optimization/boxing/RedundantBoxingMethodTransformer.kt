@@ -403,7 +403,8 @@ class RedundantBoxingMethodTransformer(private val generationState: GenerationSt
                     insn.isAreEqualIntrinsic() ->
                         adaptAreEqualIntrinsic(node, insn, value)
                     insn.isJavaLangClassBoxing() ||
-                            insn.isJavaLangClassUnboxing() ->
+                            insn.isJavaLangClassUnboxing() ||
+                            insn.isUnboxMarker() ->
                         node.instructions.remove(insn)
                     else ->
                         throwCannotAdaptInstruction(insn)

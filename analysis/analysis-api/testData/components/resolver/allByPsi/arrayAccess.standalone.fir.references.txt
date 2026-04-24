@@ -125,8 +125,6 @@ KtOperationReferenceExpression(168,170): '+='
     symbols:
       0: (in kotlin.Int) operator fun plus(other: kotlin.Int): kotlin.Int
       1: (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
-    resolveToSymbols:
-      (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
 
 KtArrayAccessExpression(178,185): 'list[2]'
   KtArrayAccessReference:
@@ -152,8 +150,6 @@ KtOperationReferenceExpression(187,189): '+='
     symbols:
       0: (in kotlin.Int) operator fun plus(other: kotlin.Int): kotlin.Int
       1: (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
-    resolveToSymbols:
-      (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
 
 KtNameReferenceExpression(206,209): 'Int'
   KtSimpleNameReference:
@@ -203,8 +199,6 @@ KtOperationReferenceExpression(245,247): '--'
     symbols:
       0: (in kotlin.Int) operator fun dec(): kotlin.Int
       1: (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
-    resolveToSymbols:
-      (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
 
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
@@ -213,8 +207,6 @@ KtOperationReferenceExpression(245,247): '--'
     symbols:
       0: (in kotlin.Int) operator fun dec(): kotlin.Int
       1: (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
-    resolveToSymbols:
-      (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
 
 KtArrayAccessExpression(247,254): 'list[i]'
   KtArrayAccessReference:
@@ -256,8 +248,6 @@ KtOperationReferenceExpression(266,268): '++'
     symbols:
       0: (in kotlin.Int) operator fun inc(): kotlin.Int
       1: (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
-    resolveToSymbols:
-      (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
 
   KtSimpleNameReference:
     isImplicitReferenceToCompanion: false
@@ -266,8 +256,6 @@ KtOperationReferenceExpression(266,268): '++'
     symbols:
       0: (in kotlin.Int) operator fun inc(): kotlin.Int
       1: (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
-    resolveToSymbols:
-      (in kotlin.collections.MutableList) operator fun set(index: kotlin.Int, element: E): E
 
 KtArrayAccessExpression(269,276): 'list[2]'
   KtArrayAccessReference:

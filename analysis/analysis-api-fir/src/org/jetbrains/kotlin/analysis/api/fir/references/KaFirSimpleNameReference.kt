@@ -8,58 +8,31 @@ package org.jetbrains.kotlin.analysis.api.fir.references
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.analysis.api.fir.KaFirSession
-import org.jetbrains.kotlin.analysis.api.fir.symbols.KaFirNamedClassSymbol
 import org.jetbrains.kotlin.analysis.api.impl.base.references.KaBaseSimpleNameReference
 import org.jetbrains.kotlin.analysis.api.resolution.KaSingleOrMultiCall
 import org.jetbrains.kotlin.analysis.api.resolution.calls
 import org.jetbrains.kotlin.analysis.api.resolution.symbols
-import org.jetbrains.kotlin.analysis.api.symbols.KaClassKind
 import org.jetbrains.kotlin.analysis.api.symbols.KaSymbol
 import org.jetbrains.kotlin.analysis.api.symbols.KaSyntheticJavaPropertySymbol
-import org.jetbrains.kotlin.analysis.low.level.api.fir.api.getOrBuildFir
-import org.jetbrains.kotlin.fir.expressions.FirLoopJump
-import org.jetbrains.kotlin.fir.psi
 import org.jetbrains.kotlin.idea.references.readWriteAccess
-import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.KtExperimentalApi
+import org.jetbrains.kotlin.psi.KtImportAlias
+import org.jetbrains.kotlin.psi.KtSimpleNameExpression
 import org.jetbrains.kotlin.references.KotlinPsiReferenceProviderContributor
 import org.jetbrains.kotlin.resolution.KtResolvableCall
 import org.jetbrains.kotlin.resolve.references.ReferenceAccess
-import org.jetbrains.kotlin.utils.addToStdlib.ifNotEmpty
+import org.jetbrains.kotlin.utils.addToStdlib.shouldNotBeCalled
 
 internal class KaFirSimpleNameReference(
     expression: KtSimpleNameExpression,
     val isRead: Boolean,
 ) : KaBaseSimpleNameReference(expression), KaFirReference {
-    private val isAnnotationCall: Boolean
-        get() {
-            val ktUserType = expression.parent as? KtUserType ?: return false
-            val ktTypeReference = ktUserType.parent as? KtTypeReference ?: return false
-            val ktConstructorCalleeExpression = ktTypeReference.parent as? KtConstructorCalleeExpression ?: return false
-            return ktConstructorCalleeExpression.parent is KtAnnotationEntry
-        }
-
-    private fun KaSession.fixUpAnnotationCallResolveToCtor(resultsToFix: Collection<KaSymbol>): Collection<KaSymbol> {
-        if (resultsToFix.isEmpty() || !isAnnotationCall) return resultsToFix
-
-        return resultsToFix.map { targetSymbol ->
-            if (targetSymbol is KaFirNamedClassSymbol && targetSymbol.classKind == KaClassKind.ANNOTATION_CLASS) {
-                targetSymbol.memberScope.constructors.firstOrNull() ?: targetSymbol
-            } else targetSymbol
-        }
-    }
-
     override fun isReferenceToImportAlias(alias: KtImportAlias): Boolean {
         return super<KaFirReference>.isReferenceToImportAlias(alias)
     }
 
     @OptIn(KtExperimentalApi::class)
-    override fun KaFirSession.computeSymbols(): Collection<KaSymbol> {
-        val results = FirReferenceResolveHelper.resolveSimpleNameReference(this@KaFirSimpleNameReference, this)
-        //This fix-up needed to resolve annotation call into annotation constructor (but not into the annotation type)
-        fixUpAnnotationCallResolveToCtor(results).ifNotEmpty {
-            return this
-        }
-
+    override fun KaSession.resolveToSymbols(): Collection<KaSymbol> {
         // Resolved calls are preferable for navigation since they provide a more precise location.
         // For instance, it is the case for constructor calls
         return (element as? KtResolvableCall)?.tryResolveCall()
@@ -69,13 +42,11 @@ internal class KaFirSimpleNameReference(
             ?: element.tryResolveSymbols()?.symbols.orEmpty()
     }
 
+    override fun KaFirSession.computeSymbols(): Collection<KaSymbol> {
+        shouldNotBeCalled("Only resolveToSymbols is supposed to be used directly")
+    }
+
     override fun getResolvedToPsi(analysisSession: KaSession): Collection<PsiElement> = with(analysisSession) {
-        if (expression is KtLabelReferenceExpression) {
-            val fir = expression.getOrBuildFir((analysisSession as KaFirSession).resolutionFacade)
-            if (fir is FirLoopJump) {
-                return listOfNotNull(fir.target.labeledElement.psi)
-            }
-        }
         val referenceTargetSymbols = resolveToSymbols()
         val psiOfReferenceTarget = super.getResolvedToPsi(analysisSession, referenceTargetSymbols)
         if (psiOfReferenceTarget.isNotEmpty()) return psiOfReferenceTarget

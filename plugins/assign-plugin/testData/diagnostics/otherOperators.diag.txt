@@ -4,11 +4,11 @@
 
 /otherOperators.kt:25:16: error: Unresolved reference 'compareTo' on receiver of type 'StringProperty'.
 
-/otherOperators.kt:26:21: error: Unresolved reference 'compareTo' on receiver of type 'StringProperty'.
+/otherOperators.kt:26:21: error: Unresolved reference 'compareTo' on receiver of type 'StringProperty?'.
 
 /otherOperators.kt:29:16: error: Unresolved reference 'compareTo' on receiver of type 'StringProperty'.
 
-/otherOperators.kt:30:21: error: Unresolved reference 'compareTo' on receiver of type 'StringProperty'.
+/otherOperators.kt:30:21: error: Unresolved reference 'compareTo' on receiver of type 'StringProperty?'.
 
 /otherOperators.kt:33:15: error: No 'set' operator method providing array access.
 

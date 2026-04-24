@@ -368,7 +368,7 @@ object FirDiagnosticRenderers {
     }
 
     val FOR_OPTIONAL_RECEIVER = ContextDependentRenderer { type: ConeKotlinType?, ctx ->
-        if (type is ConeClassLikeType && !type.hasError()) " on receiver of type '${RENDER_TYPE.render(type, ctx)}'" else ""
+        if (type?.hasError() == false) " on receiver of type '${RENDER_TYPE.render(type, ctx)}'" else ""
     }
 
     val OF_OPTIONAL_NAME = Renderer { name: Name? ->

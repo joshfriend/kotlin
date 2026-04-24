@@ -357,7 +357,7 @@ private fun IrBuilderWithScope.callRichFunctionReference(
     }
 }
 
-private fun IrBuilderWithScope.irNotNull(value: IrExpression): IrExpression {
+private fun IrBuilderWithScope.asNotNull(value: IrExpression): IrExpression {
     val nonNullType = value.type.makeNotNull()
     return IrTypeOperatorCallImpl(
         startOffset,

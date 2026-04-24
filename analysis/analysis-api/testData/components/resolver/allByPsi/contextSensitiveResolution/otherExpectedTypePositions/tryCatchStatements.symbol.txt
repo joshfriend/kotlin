@@ -166,13 +166,13 @@ KtSuperTypeList(372,384): 'Exception(m)'
 KtSuperTypeCallEntry(372,384): 'Exception(m)'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(message: kotlin.String!): java.lang.Exception
+      <constructor>(message: kotlin.String!): {kotlin.Exception=} java.lang.Exception
     ]
 
 KtConstructorCalleeExpression(372,381): 'Exception'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(message: kotlin.String!): java.lang.Exception
+      <constructor>(message: kotlin.String!): {kotlin.Exception=} java.lang.Exception
     ]
 
 KtTypeReference(372,381): 'Exception'
@@ -229,13 +229,13 @@ KtSuperTypeList(406,418): 'Exception(m)'
 KtSuperTypeCallEntry(406,418): 'Exception(m)'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(message: kotlin.String!): java.lang.Exception
+      <constructor>(message: kotlin.String!): {kotlin.Exception=} java.lang.Exception
     ]
 
 KtConstructorCalleeExpression(406,415): 'Exception'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(message: kotlin.String!): java.lang.Exception
+      <constructor>(message: kotlin.String!): {kotlin.Exception=} java.lang.Exception
     ]
 
 KtTypeReference(406,415): 'Exception'
@@ -292,13 +292,13 @@ KtSuperTypeList(440,452): 'Exception(m)'
 KtSuperTypeCallEntry(440,452): 'Exception(m)'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(message: kotlin.String!): java.lang.Exception
+      <constructor>(message: kotlin.String!): {kotlin.Exception=} java.lang.Exception
     ]
 
 KtConstructorCalleeExpression(440,449): 'Exception'
   KaSymbolResolutionSuccess:
     symbols = [
-      <constructor>(message: kotlin.String!): java.lang.Exception
+      <constructor>(message: kotlin.String!): {kotlin.Exception=} java.lang.Exception
     ]
 
 KtTypeReference(440,449): 'Exception'

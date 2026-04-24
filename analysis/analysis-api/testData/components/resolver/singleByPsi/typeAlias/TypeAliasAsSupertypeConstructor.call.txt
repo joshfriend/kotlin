@@ -8,8 +8,8 @@ KtNameReferenceExpression(56,58): 'CA'
       kind = SUPER_CALL
       signature = KaFunctionSignature:
         receiverType = null
-        returnType = test.C
-        symbol = <constructor>(): test.C
+        returnType = {test.CA=} test.C
+        symbol = <constructor>(): {test.CA=} test.C
         valueParameters = []
         contextParameters = []
         callableId = null

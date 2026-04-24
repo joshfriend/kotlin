@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.buildtools.`internal`.UseFromImplModuleRestricted
 import org.jetbrains.kotlin.buildtools.`internal`.arguments.WasmArgumentsImpl.Companion.X_IR_DCE_DUMP_REACHABILITY_INFO_TO_FILE
 import org.jetbrains.kotlin.buildtools.`internal`.arguments.WasmArgumentsImpl.Companion.X_IR_DUMP_DECLARATION_IR_SIZES_TO_FILE
 import org.jetbrains.kotlin.buildtools.`internal`.arguments.WasmArgumentsImpl.Companion.X_WASM
+import org.jetbrains.kotlin.buildtools.`internal`.arguments.WasmArgumentsImpl.Companion.X_WASM_COROUTINES_STACK_SWITCHING
 import org.jetbrains.kotlin.buildtools.`internal`.arguments.WasmArgumentsImpl.Companion.X_WASM_DEBUGGER_CUSTOM_FORMATTERS
 import org.jetbrains.kotlin.buildtools.`internal`.arguments.WasmArgumentsImpl.Companion.X_WASM_DEBUG_FRIENDLY
 import org.jetbrains.kotlin.buildtools.`internal`.arguments.WasmArgumentsImpl.Companion.X_WASM_DEBUG_INFO
@@ -100,6 +101,7 @@ internal class WasmArgumentsImpl(
     if (X_IR_DCE_DUMP_REACHABILITY_INFO_TO_FILE in this) { arguments.irDceDumpReachabilityInfoToFile = get(X_IR_DCE_DUMP_REACHABILITY_INFO_TO_FILE)}
     if (X_IR_DUMP_DECLARATION_IR_SIZES_TO_FILE in this) { arguments.irDceDumpDeclarationIrSizesToFile = get(X_IR_DUMP_DECLARATION_IR_SIZES_TO_FILE)}
     if (X_WASM in this) { arguments.wasm = get(X_WASM)}
+    if (X_WASM_COROUTINES_STACK_SWITCHING in this) { arguments.wasmCoroutinesStackSwitching = get(X_WASM_COROUTINES_STACK_SWITCHING)}
     if (X_WASM_DEBUG_FRIENDLY in this) { arguments.forceDebugFriendlyCompilation = get(X_WASM_DEBUG_FRIENDLY)}
     if (X_WASM_DEBUG_INFO in this) { arguments.wasmDebug = get(X_WASM_DEBUG_INFO)}
     if (X_WASM_DEBUGGER_CUSTOM_FORMATTERS in this) { arguments.debuggerCustomFormatters = get(X_WASM_DEBUGGER_CUSTOM_FORMATTERS)}
@@ -127,6 +129,7 @@ internal class WasmArgumentsImpl(
     try { this[X_IR_DCE_DUMP_REACHABILITY_INFO_TO_FILE] = arguments.irDceDumpReachabilityInfoToFile } catch (_: NoSuchMethodError) {  }
     try { this[X_IR_DUMP_DECLARATION_IR_SIZES_TO_FILE] = arguments.irDceDumpDeclarationIrSizesToFile } catch (_: NoSuchMethodError) {  }
     try { this[X_WASM] = arguments.wasm } catch (_: NoSuchMethodError) {  }
+    try { this[X_WASM_COROUTINES_STACK_SWITCHING] = arguments.wasmCoroutinesStackSwitching } catch (_: NoSuchMethodError) {  }
     try { this[X_WASM_DEBUG_FRIENDLY] = arguments.forceDebugFriendlyCompilation } catch (_: NoSuchMethodError) {  }
     try { this[X_WASM_DEBUG_INFO] = arguments.wasmDebug } catch (_: NoSuchMethodError) {  }
     try { this[X_WASM_DEBUGGER_CUSTOM_FORMATTERS] = arguments.debuggerCustomFormatters } catch (_: NoSuchMethodError) {  }
@@ -153,6 +156,7 @@ internal class WasmArgumentsImpl(
     if (X_IR_DCE_DUMP_REACHABILITY_INFO_TO_FILE in this) { arguments.irDceDumpReachabilityInfoToFile = get(X_IR_DCE_DUMP_REACHABILITY_INFO_TO_FILE)}
     if (X_IR_DUMP_DECLARATION_IR_SIZES_TO_FILE in this) { arguments.irDceDumpDeclarationIrSizesToFile = get(X_IR_DUMP_DECLARATION_IR_SIZES_TO_FILE)}
     if (X_WASM in this) { arguments.wasm = get(X_WASM)}
+    if (X_WASM_COROUTINES_STACK_SWITCHING in this) { arguments.wasmCoroutinesStackSwitching = get(X_WASM_COROUTINES_STACK_SWITCHING)}
     if (X_WASM_DEBUG_FRIENDLY in this) { arguments.forceDebugFriendlyCompilation = get(X_WASM_DEBUG_FRIENDLY)}
     if (X_WASM_DEBUG_INFO in this) { arguments.wasmDebug = get(X_WASM_DEBUG_INFO)}
     if (X_WASM_DEBUGGER_CUSTOM_FORMATTERS in this) { arguments.debuggerCustomFormatters = get(X_WASM_DEBUGGER_CUSTOM_FORMATTERS)}
@@ -211,6 +215,9 @@ internal class WasmArgumentsImpl(
         WasmArgument("X_IR_DUMP_DECLARATION_IR_SIZES_TO_FILE")
 
     public val X_WASM: WasmArgument<Boolean> = WasmArgument("X_WASM")
+
+    public val X_WASM_COROUTINES_STACK_SWITCHING: WasmArgument<Boolean> =
+        WasmArgument("X_WASM_COROUTINES_STACK_SWITCHING")
 
     public val X_WASM_DEBUG_FRIENDLY: WasmArgument<Boolean> = WasmArgument("X_WASM_DEBUG_FRIENDLY")
 

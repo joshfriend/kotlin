@@ -60,8 +60,6 @@ KtLabelReferenceExpression(151,160): '@iterator'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
-      extension receiver with type f.IntProgression
-    resolveToSymbols:
       (in f) operator fun f.IntProgression.iterator(): kotlin.collections.Iterator<kotlin.Int>
 
 KtNameReferenceExpression(161,166): 'start'
@@ -102,8 +100,6 @@ KtLabelReferenceExpression(211,220): '@iterator'
     usesContextSensitiveResolution: false
     attempt: KaSymbolResolutionSuccess
     symbols:
-      extension receiver with type f.IntProgression
-    resolveToSymbols:
       (in f) operator fun f.IntProgression.iterator(): kotlin.collections.Iterator<kotlin.Int>
 
 KtNameReferenceExpression(221,224): 'end'

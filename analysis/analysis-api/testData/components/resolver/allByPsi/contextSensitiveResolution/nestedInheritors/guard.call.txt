@@ -92,7 +92,22 @@ KtUserType(161,172): 'SealedClass'
   null
 
 KtNameReferenceExpression(161,172): 'SealedClass'
-  null
+  KaCallResolutionSuccess:
+    call = KaDelegatedConstructorCall:
+      contextArgumentMapping = {}
+      contextArguments = []
+      dispatchReceiver = null
+      extensionReceiver = null
+      kind = SUPER_CALL
+      signature = KaFunctionSignature:
+        receiverType = null
+        returnType = SealedClass
+        symbol = <constructor>(): SealedClass
+        valueParameters = []
+        contextParameters = []
+        callableId = null
+      typeArgumentsMapping = {}
+      valueArgumentMapping = {}
 
 KtValueArgumentList(172,174): '()'
   null
@@ -162,7 +177,30 @@ KtUserType(210,225): 'SealedInheritor'
   null
 
 KtNameReferenceExpression(210,225): 'SealedInheritor'
-  null
+  KaCallResolutionSuccess:
+    call = KaDelegatedConstructorCall:
+      contextArgumentMapping = {}
+      contextArguments = []
+      dispatchReceiver = null
+      extensionReceiver = null
+      kind = SUPER_CALL
+      signature = KaFunctionSignature:
+        receiverType = null
+        returnType = SealedClass.SealedInheritor
+        symbol = <constructor>(prop: kotlin.String): SealedClass.SealedInheritor
+        valueParameters = [
+          KaVariableSignature:
+            name = prop
+            receiverType = null
+            returnType = kotlin.String
+            symbol = prop: kotlin.String
+            contextParameters = []
+            callableId = null
+        ]
+        contextParameters = []
+        callableId = null
+      typeArgumentsMapping = {}
+      valueArgumentMapping = {}
 
 KtValueArgumentList(225,227): '()'
   null
@@ -425,7 +463,22 @@ KtUserType(530,539): 'OpenClass'
   null
 
 KtNameReferenceExpression(530,539): 'OpenClass'
-  null
+  KaCallResolutionSuccess:
+    call = KaDelegatedConstructorCall:
+      contextArgumentMapping = {}
+      contextArguments = []
+      dispatchReceiver = null
+      extensionReceiver = null
+      kind = SUPER_CALL
+      signature = KaFunctionSignature:
+        receiverType = null
+        returnType = OpenClass
+        symbol = <constructor>(): OpenClass
+        valueParameters = []
+        contextParameters = []
+        callableId = null
+      typeArgumentsMapping = {}
+      valueArgumentMapping = {}
 
 KtValueArgumentList(539,541): '()'
   null
@@ -495,7 +548,30 @@ KtUserType(588,614): 'SealedInheritorOfOpenClass'
   null
 
 KtNameReferenceExpression(588,614): 'SealedInheritorOfOpenClass'
-  null
+  KaCallResolutionSuccess:
+    call = KaDelegatedConstructorCall:
+      contextArgumentMapping = {}
+      contextArguments = []
+      dispatchReceiver = null
+      extensionReceiver = null
+      kind = SUPER_CALL
+      signature = KaFunctionSignature:
+        receiverType = null
+        returnType = OpenClass.SealedInheritorOfOpenClass
+        symbol = <constructor>(prop: kotlin.String): OpenClass.SealedInheritorOfOpenClass
+        valueParameters = [
+          KaVariableSignature:
+            name = prop
+            receiverType = null
+            returnType = kotlin.String
+            symbol = prop: kotlin.String
+            contextParameters = []
+            callableId = null
+        ]
+        contextParameters = []
+        callableId = null
+      typeArgumentsMapping = {}
+      valueArgumentMapping = {}
 
 KtValueArgumentList(614,616): '()'
   null

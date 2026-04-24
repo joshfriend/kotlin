@@ -41,7 +41,6 @@ import kotlin.math.max
 
 class MethodInliner(
     private val node: MethodNode,
-    private val ownerInternalName: String,
     private val parameters: Parameters,
     private val inliningContext: InliningContext,
     private val nodeRemapper: FieldRemapper,
@@ -310,7 +309,7 @@ class MethodInliner(
 
                     val callSite = sourceMapper.callSite.takeIf { info is DefaultLambda }
                     val inliner = MethodInliner(
-                        info.node.node, info.lambdaClassType.internalName, lambdaParameters, inliningContext.subInlineLambda(info),
+                        info.node.node, lambdaParameters, inliningContext.subInlineLambda(info),
                         newCapturedRemapper,
                         if (info is DefaultLambda) isSameModule else true /*cause all nested objects in same module as lambda*/,
                         { "Lambda inlining " + info.lambdaClassType.internalName },

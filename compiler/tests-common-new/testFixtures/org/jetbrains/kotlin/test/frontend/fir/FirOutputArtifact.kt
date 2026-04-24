@@ -33,8 +33,3 @@ abstract class FirOutputArtifact(val partsForDependsOnModules: List<FirOutputPar
 
     abstract val allFirFiles: Collection<FirFile>
 }
-
-class FirOutputArtifactImpl(parts: List<FirOutputPartForDependsOnModule>) : FirOutputArtifact(parts) {
-    override val allFirFiles: Collection<FirFile>
-        get() = allFirFilesByTestFile.values
-}

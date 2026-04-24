@@ -28,6 +28,9 @@ dependencies {
 
     testFixturesCompileOnly(intellijCore())
     testImplementation(intellijCore())
+
+    testRuntimeOnly(libs.junit.vintage.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 optInToK1Deprecation()
@@ -39,8 +42,7 @@ sourceSets {
 }
 
 projectTests {
-    testTask(parallel = true, maxHeapSizeMb = 3072, jUnitMode = JUnitMode.JUnit4) {
-        dependsOn(":dist")
+    testTask(maxHeapSizeMb = 3072, jUnitMode = JUnitMode.JUnit5) {
         addClasspathProperty(
             layout.files(
                 rootDir.resolve("libraries/stdlib/src"), rootDir.resolve("libraries/stdlib/jvm")

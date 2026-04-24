@@ -237,8 +237,6 @@ class BackendWasmSymbols(
                 CallableIds.createCoroutineUninterceptedIntrinsic0StackSwitching.functionSymbol(),
                 CallableIds.createCoroutineUninterceptedIntrinsic1StackSwitching.functionSymbol(),
             )
-        val createSimpleCoroutineFromSuspendStackSwitching =
-            CallableIds.createSimpleCoroutineFromSuspendFunctionStackSwitching.functionSymbol()
     }
 
     inner class CoroutinesStateMachineIntrinsics {
@@ -588,8 +586,6 @@ private object CallableIds {
     // Coroutines intrinsics
     val createSimpleCoroutineFromSuspendFunction =
         "createSimpleCoroutineFromSuspendFunction".coroutinesIntrinsicsCallableId
-    val createSimpleCoroutineFromSuspendFunctionStackSwitching =
-        "createSimpleCoroutineFromSuspendFunctionStackSwitching".coroutinesIntrinsicsCallableId
 
     val createCoroutineUninterceptedIntrinsic0 = "createCoroutineUninterceptedIntrinsic0".coroutinesIntrinsicsCallableId
     val createCoroutineUninterceptedIntrinsic1 = "createCoroutineUninterceptedIntrinsic1".coroutinesIntrinsicsCallableId

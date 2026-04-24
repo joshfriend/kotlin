@@ -88,9 +88,7 @@ projectTests {
 }
 
 val kotlincniTask = tasks.register<Exec>("kotlincni") {
-    description = """
-        Build a native image of the kotlin-compiler-embeddable
-    """.trimIndent()
+    description = "Build a native image of the kotlin-compiler-embeddable"
 
     inputs.files(runtimeJar)
     inputs.files(nativeImageClasspath)
@@ -107,7 +105,8 @@ val kotlincniTask = tasks.register<Exec>("kotlincni") {
     val classpathFiles = files(runtimeJar, nativeImageClasspath)
 
     doFirst {
-        val nativeImageBin = javaHome.resolve("lib/svm/bin/native-image")
+        val nativeImageName = if (System.getProperty("os.name").lowercase().contains("windows")) "native-image.cmd" else "native-image"
+        val nativeImageBin = javaHome.resolve("lib/svm/bin/$nativeImageName")
         if (!nativeImageBin.exists()) {
             throw GradleException("native-image not found at ${nativeImageBin.toAbsolutePath()} (JAVA_HOME=${javaHome.toAbsolutePath()})")
         }
@@ -132,26 +131,33 @@ val kotlincniTask = tasks.register<Exec>("kotlincni") {
 val distDir: String by rootProject.extra
 
 val kotlincniDist = tasks.register<Copy>("kotlincniDist") {
+    description = "Build the kotlin-compiler-embeddable native distribution"
     duplicatesStrategy = DuplicatesStrategy.FAIL
     rename(quote("-${version}"), "")
     rename(quote("-${bootstrapKotlinVersion}"), "")
     dependsOn(kotlincniTask)
     destinationDir = File("$distDir/kotlincni")
-    val binFiles1 = files(layout.buildDirectory.dir("bin"))
+    val binFiles = files(layout.buildDirectory.dir("bin"))
+    val wrapperScriptFiles = files("bin/kotlincni.sh", "bin/kotlincni.bat")
     into("bin") {
-        from(binFiles1)
+        from(binFiles)
+        from(wrapperScriptFiles) {
+            filePermissions {
+                unix("rwxr-xr-x")
+            }
+        }
     }
-    val licenseFiles1 = files("$rootDir/license")
+    val licenseFiles = files("$rootDir/license")
     into("license") {
-        from(licenseFiles1)
+        from(licenseFiles)
     }
-    val resourceFiles1 = files("$rootDir/compiler/cli/cli-base/resources")
+    val resourceFiles = files("$rootDir/compiler/cli/cli-base/resources")
     into("resources") {
-        from(resourceFiles1)
+        from(resourceFiles)
     }
-    val librariesStripVersionFiles1 = files(nativeImageClasspath)
+    val librariesStripVersionFiles = files(nativeImageClasspath)
     into("lib") {
-        from(librariesStripVersionFiles1) {
+        from(librariesStripVersionFiles) {
             rename {
                 it.replace(Regex("-\\d.*\\.jar\$"), ".jar")
             }

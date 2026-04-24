@@ -24,6 +24,12 @@ kotlin stdlib and kotlin-reflect libraries, resources necessary to run the binar
 ./dist/kotlinc-native/bin/kotlinc-native.sh A.kt
 ```
 
+The Gradle task `:kotlin-compiler-embeddable:kotlincniDist` produces an equivalent distribution in `dist/kotlincni` with launcher scripts from
+[`prepare/compiler-embeddable/bin/`](../prepare/compiler-embeddable/bin). Example:
+```
+./dist/kotlincni/bin/kotlincni.sh A.kt
+```
+
 # Reachability
 
 Collect reachability for command-line compiler

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-NATIVE_IMAGE_BIN="./dist/kotlinc-native/bin/kotlinc-native.sh"
+NATIVE_IMAGE_BIN="./dist/kotlincni/bin/kotlincni.sh"
 DEFAULT_KOTLINC="dist/kotlinc/bin/kotlinc"
-TESTS_DIR="compiler/testData/codegen/boxJvm"
+TESTS_DIR="compiler/testData/codegen/box"
 NATIVE_IMAGE_ARGS=""
 STOP_ON_FAILURE=false
 

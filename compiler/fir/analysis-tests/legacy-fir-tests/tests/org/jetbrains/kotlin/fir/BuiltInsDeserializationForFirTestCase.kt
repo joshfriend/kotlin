@@ -25,6 +25,8 @@ import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.platform.jvm.JvmPlatforms
 import org.jetbrains.kotlin.test.TestDataAssertions
+import org.jetbrains.kotlin.test.TestJdkKind
+import org.jetbrains.kotlin.test.util.KtTestUtil
 import org.jetbrains.kotlin.util.PerformanceManagerImpl
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
 import org.junit.jupiter.api.Test
@@ -43,7 +45,7 @@ class BuiltInsDeserializationForFirTestCase {
     fun testBuiltInPackagesContent() {
         val disposable = Disposer.newDisposable()
         try {
-            val session = createSession(disposable)
+            val session = createSession(disposable, TestJdkKind.FULL_JDK)
             for (packageFqName in BUILTIN_PACKAGE_NAMES) {
                 val path = ForTestCompileRuntime.transformTestDataPath("compiler/fir/analysis-tests/testData/builtIns").resolve(
                     packageFqName.asString().replace('.', '-') + ".txt"
@@ -55,13 +57,27 @@ class BuiltInsDeserializationForFirTestCase {
         }
     }
 
-    private fun createSession(rootDisposable: Disposable): FirSession {
+    private fun createSession(
+        rootDisposable: Disposable,
+        jdkKind: TestJdkKind,
+        configureArguments: K2JVMCompilerArguments.() -> Unit = {},
+    ): FirSession {
         val emptyInput = ArgumentsPipelineArtifact(
             arguments = K2JVMCompilerArguments().apply {
                 noStdlib = true
                 noReflect = true
                 noJdk = true
                 allowNoSourceFiles = true
+                val jdk = when (jdkKind) {
+                    TestJdkKind.MOCK_JDK -> KtTestUtil.findMockJdkRtJar()
+                    TestJdkKind.MODIFIED_MOCK_JDK -> KtTestUtil.findMockJdkRtModified()
+                    TestJdkKind.FULL_JDK_11 -> KtTestUtil.getJdk11Home()
+                    TestJdkKind.FULL_JDK_17 -> KtTestUtil.getJdk17Home()
+                    TestJdkKind.FULL_JDK_21 -> KtTestUtil.getJdk21Home()
+                    TestJdkKind.FULL_JDK -> File(System.getProperty("java.home"))
+                }
+                classpath = jdk.absolutePath
+                configureArguments()
             },
             services = Services.EMPTY,
             rootDisposable,

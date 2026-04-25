@@ -1,3 +1,5 @@
+// TARGET_BACKEND: JVM
+
 // FILE: 1.kt
 package test
 

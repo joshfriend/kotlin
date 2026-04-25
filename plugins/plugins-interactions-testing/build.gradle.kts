@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm")
     id("java-test-fixtures")
     id("project-tests-convention")
+    id("test-inputs-check")
 }
 
 val beforePluginClasspath: Configuration by configurations.creating
@@ -56,8 +57,6 @@ projectTests {
             JdkMajorVersion.JDK_21_0
         )
     ) {
-        dependsOn(":dist")
-        workingDir = rootDir
         useJUnitPlatform()
 
         addClasspathProperty(beforePluginClasspath, "plugin.classpath.before")
@@ -75,4 +74,11 @@ projectTests {
     withTestJar()
     withMockJdkAnnotationsJar()
     withMockJdkRuntime()
+    withStdlibCommon()
+    withThirdPartyAnnotations()
+    withThirdPartyJsr305()
+    withThirdPartyJava8Annotations()
+    withStdlibCommon()
+    withJsRuntime()
+    withWasmRuntime()
 }

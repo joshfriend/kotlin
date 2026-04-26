@@ -528,6 +528,7 @@ enum class LanguageFeature(
     InferThrowableTypeParameterToUpperBound(KOTLIN_2_5, "KT-82961"),
     JsAllowExportingAnnotationClasses(sinceVersion = KOTLIN_2_5, "KT-85599"),
     JsAllowExportingStarProjection(sinceVersion = KOTLIN_2_5, "KT-83462"),
+    AllowReturnsResultOfContract(sinceVersion = KOTLIN_2_5, sinceApiVersion = ApiVersion.KOTLIN_2_4, issue = "KT-85948", forcesPreReleaseBinaries = true),
 
     // 2.6
 

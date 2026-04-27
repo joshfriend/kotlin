@@ -19494,13 +19494,13 @@
                                     "removedVersion": null
                                 },
                                 "argumentType": {
-                                    "type": "org.jetbrains.kotlin.arguments.dsl.types.StringArrayType",
-                                    "defaultValue": {
-                                        "current": null,
-                                        "valueInVersions": []
-                                    },
+                                    "type": "org.jetbrains.kotlin.arguments.dsl.types.MetadataTargetPlatformType",
                                     "isNullable": {
                                         "current": true,
+                                        "valueInVersions": []
+                                    },
+                                    "defaultValue": {
+                                        "current": null,
                                         "valueInVersions": []
                                     }
                                 }

@@ -274,6 +274,9 @@ internal class BtaImplOptionsGenerator(
                             val classifier = type.classifier as KClass<*>
                             classifier.toBtaEnumClassName()
                         }
+                        classifier.java.isArray && classifier.java.componentType.isEnum -> {
+                            Array::class.asTypeName().parameterizedBy(classifier.java.componentType.kotlin.toBtaEnumClassName())
+                        }
                         else -> {
                             type.asTypeName()
                         }
@@ -427,6 +430,9 @@ internal class BtaImplOptionsGenerator(
             type.isGeneratedEnum -> {
                 add(maybeGetNullabilitySign(argument) + ".stringValue")
             }
+            type is ParameterizedTypeName && type.rawType == Array::class.asTypeName() && type.typeArguments[0].isGeneratedEnum -> {
+                add(maybeGetNullabilitySign(argument) + ".map { it.stringValue }?.toTypedArray() ?: emptyArray()")
+            }
             argument.valueType.origin is IntType -> {
                 add(maybeGetNullabilitySign(argument) + ".toString()")
             }
@@ -525,6 +531,14 @@ internal class BtaImplOptionsGenerator(
                     $$".let { %T.entries.firstOrNull { entry -> entry.stringValue == it } ?: throw %M(\"Unknown -$${argument.name} value: $it\") }",
                     argumentTypeParameter.copy(nullable = false),
                     MemberName("org.jetbrains.kotlin.buildtools.api", "CompilerArgumentsParseException"),
+                )
+            }
+            type is ParameterizedTypeName && type.rawType == Array::class.asTypeName() && type.typeArguments[0].isGeneratedEnum -> {
+                val enumType = type.typeArguments[0]
+                add(
+                    $$".map { %T.entries.firstOrNull { entry -> entry.stringValue == it } ?: throw %M(\"Unknown -$${argument.name} value: $it\") }.toTypedArray()",
+                    enumType.copy(nullable = false),
+                    MemberName("org.jetbrains.kotlin.buildtools.api", "CompilerArgumentsParseException")
                 )
             }
             argument.valueType.origin is IntType -> {

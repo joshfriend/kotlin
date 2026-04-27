@@ -151,6 +151,9 @@ internal class BtaApiOptionsGenerator(
                         type.java.isEnum -> {
                             generatedEnumType(type)
                         }
+                        type.java.isArray && type.java.componentType.isEnum -> {
+                            Array::class.asTypeName().parameterizedBy(generatedEnumType(type.java.componentType.kotlin))
+                        }
                         else -> {
                             argumentType.asTypeName()
                         }

@@ -8,6 +8,7 @@ import kotlin.Int
 import kotlin.String
 import kotlin.jvm.JvmField
 import org.jetbrains.kotlin.buildtools.api.KotlinReleaseVersion
+import org.jetbrains.kotlin.buildtools.api.arguments.enums.MetadataTargetPlatform
 
 /**
  * @since 2.4.20
@@ -93,7 +94,7 @@ public interface MetadataArguments : CommonCompilerArguments {
      */
     @JvmField
     @ExperimentalCompilerArgument
-    public val X_TARGET_PLATFORM: MetadataArgument<Array<String>?> =
+    public val X_TARGET_PLATFORM: MetadataArgument<Array<MetadataTargetPlatform>?> =
         MetadataArgument("X_TARGET_PLATFORM", KotlinReleaseVersion(2, 3, 20))
 
     /**

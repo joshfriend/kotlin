@@ -26,7 +26,6 @@ dependencies {
     testFixturesApi(project(":compiler:fir:checkers:checkers.native"))
     testFixturesApi(project(":compiler:fir:checkers:checkers.wasm"))
     testFixturesApi(project(":compiler:fir:entrypoint"))
-    testFixturesApi(project(":compiler:frontend"))
 
     testFixturesApi(commonDependency("org.jetbrains.kotlin:kotlin-reflect")) { isTransitive = false }
 
@@ -47,14 +46,7 @@ sourceSets {
 }
 
 projectTests {
-    testTask(maxHeapSizeMb = 3072, jUnitMode = JUnitMode.JUnit5, defineJDKEnvVariables = listOf(JDK_1_8, JDK_21_0)) {
-        addClasspathProperty(
-            layout.files(
-                rootDir.resolve("libraries/stdlib/src"), rootDir.resolve("libraries/stdlib/jvm")
-            ),
-            KOTLIN_STDLIB_SOURCES_ROOT_PATH
-        )
-    }
+    testTask(maxHeapSizeMb = 3072, jUnitMode = JUnitMode.JUnit5, defineJDKEnvVariables = listOf(JDK_1_8, JDK_21_0))
 
     testGenerator("org.jetbrains.kotlin.fir.TestGeneratorForLegacyFirTestsKt", generateTestsInBuildDirectory = true)
 

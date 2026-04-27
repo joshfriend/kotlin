@@ -790,7 +790,7 @@ class MethodInliner(
 
         val toDelete = SmartSet.create<AbstractInsnNode>()
         val toReplaceWithPop = SmartSet.create<AbstractInsnNode>()
-        instructions.forEachIndexed { index, insn ->
+        for ((index, insn) in instructions.withIndex()) {
             when {
                 insn.isAloadBeforeCheckParameterIsNotNull() -> {
                     // Parameter checks are processed separately

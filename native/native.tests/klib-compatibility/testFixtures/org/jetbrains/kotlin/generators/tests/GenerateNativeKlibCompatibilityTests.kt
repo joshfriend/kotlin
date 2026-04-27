@@ -67,6 +67,16 @@ fun main(args: Array<String>) {
 
         // Native-specific codegen/box tests based on Compiler Core testinfra
         testGroup(testsRoot, "native/native.tests/testData/codegen") {
+            testClass<AbstractCustomNativeCompilerFirstStageTest>(
+                suiteTestClassName = "CustomNativeSpecificFirstStageTestGenerated",
+                annotations = listOf(
+                    annotation(HeavyTest::class.java),
+                    annotation(Tag::class.java, "aggregate-first-stage"),
+                    provider<UseDummyTestCaseGroupProvider>(),
+                )
+            ) {
+                model()
+            }
             testClass<AbstractCustomNativeCompilerSecondStageTest>(
                 suiteTestClassName = "CustomNativeSpecificSecondStageTestGenerated",
                 annotations = listOf(

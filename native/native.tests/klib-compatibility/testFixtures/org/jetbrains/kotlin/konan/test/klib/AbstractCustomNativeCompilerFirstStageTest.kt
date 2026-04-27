@@ -7,12 +7,18 @@ package org.jetbrains.kotlin.konan.test.klib
 
 import org.jetbrains.kotlin.konan.test.blackbox.AbstractNativeCoreTest
 import org.jetbrains.kotlin.konan.test.blackbox.support.TestDirectives
+import org.jetbrains.kotlin.konan.test.blackbox.support.settings.KotlinNativeClassLoader
+import org.jetbrains.kotlin.konan.test.handlers.FileCheckHandler
 import org.jetbrains.kotlin.konan.test.handlers.NativeBoxRunner
+import org.jetbrains.kotlin.konan.test.services.CInteropTestSkipper
+import org.jetbrains.kotlin.konan.test.services.DisabledNativeTestSkipper
+import org.jetbrains.kotlin.konan.test.services.FileCheckTestSkipper
 import org.jetbrains.kotlin.konan.test.services.sourceProviders.NativeLauncherAdditionalSourceProvider
 import org.jetbrains.kotlin.platform.konan.NativePlatforms
 import org.jetbrains.kotlin.test.builders.TestConfigurationBuilder
 import org.jetbrains.kotlin.test.builders.nativeArtifactsHandlersStep
 import org.jetbrains.kotlin.test.directives.ConfigurationDirectives.WITH_STDLIB
+import org.jetbrains.kotlin.test.frontend.objcinterop.ObjCInteropFacade
 import org.jetbrains.kotlin.test.klib.CustomKlibCompilerFirstStageTestSuppressor
 import org.jetbrains.kotlin.test.klib.CustomKlibCompilerTestSuppressor
 import org.jetbrains.kotlin.test.klib.setupCustomLanguageVersionForKlibCompatibilityTest
@@ -32,7 +38,13 @@ import org.junit.jupiter.api.Tag
 open class AbstractCustomNativeCompilerFirstStageTest : AbstractNativeCoreTest() {
     override fun configure(builder: TestConfigurationBuilder): Unit = with(builder) {
         super.configure(builder)
-        useMetaTestConfigurators(::TargetBackendTestSkipper, ::UnsupportedFeaturesTestConfigurator)
+        useMetaTestConfigurators(
+            ::UnsupportedFeaturesTestConfigurator,
+            ::TargetBackendTestSkipper,
+            ::DisabledNativeTestSkipper,
+            ::CInteropTestSkipper,
+            ::FileCheckTestSkipper,
+        )
         globalDefaults {
             frontend = FrontendKinds.FIR
             targetPlatform = NativePlatforms.unspecifiedNativePlatform
@@ -58,6 +70,15 @@ open class AbstractCustomNativeCompilerFirstStageTest : AbstractNativeCoreTest()
             ::AdditionalDiagnosticsSourceFilesProvider,
         )
 
+        // Modules containing .def files are compiled with ObjCInteropFacade to klib using the CInterop tool.
+        // The rest of the 1st stage pipeline will be skipped naturally, since 1st stage facades don't accept klibs as input artifact.
+        // The pipeline for the 2nd stage will be skipped, since cinterop klibs do not represent a main module in tests
+        facadeStep(::ObjCInteropFacade.bind(KotlinNativeClassLoader(
+            lazy {
+                customNativeCompilerSettings.compiler.getIsolatedClassLoader()
+            }
+        )))
+
         facadeStep(::CustomNativeCompilerFirstStageFacade)
 
         useFailureSuppressors(
@@ -72,7 +93,7 @@ open class AbstractCustomNativeCompilerFirstStageTest : AbstractNativeCoreTest()
         useDirectives(TestDirectives)
         facadeStep(NativeCompilerSecondStageFacade::NonGrouping.bind(currentCustomNativeCompilerSettings))
         nativeArtifactsHandlersStep {
-            useHandlers(::NativeBoxRunner)
+            useHandlers(::FileCheckHandler, ::NativeBoxRunner)
         }
     }
 }

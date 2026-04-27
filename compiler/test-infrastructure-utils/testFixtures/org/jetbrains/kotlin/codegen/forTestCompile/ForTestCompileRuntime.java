@@ -151,6 +151,7 @@ public class ForTestCompileRuntime {
         return file;
     }
 
+    @NotNull
     public static File transformTestDataPath(String path) {
         String property = getProperty(KOTLIN_TESTDATA_ROOTS);
         if (property != null) {

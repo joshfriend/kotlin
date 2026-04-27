@@ -18,6 +18,7 @@ import org.jetbrains.kotlin.codegen.forTestCompile.ForTestCompileRuntime
 import org.jetbrains.kotlin.config.Services
 import org.jetbrains.kotlin.fir.java.deserialization.FirJvmBuiltinsSymbolProvider
 import org.jetbrains.kotlin.fir.renderer.FirRenderer
+import org.jetbrains.kotlin.fir.resolve.providers.FirSymbolProvider
 import org.jetbrains.kotlin.fir.resolve.providers.impl.FirCachingCompositeSymbolProvider
 import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
 import org.jetbrains.kotlin.fir.symbols.SymbolInternals
@@ -39,20 +40,28 @@ class BuiltInsDeserializationForFirTestCase {
             StandardNames.COLLECTIONS_PACKAGE_FQ_NAME,
             StandardNames.RANGES_PACKAGE_FQ_NAME
         )
+
+        private const val TEST_DATA_PATH = "compiler/fir/analysis-tests/testData/builtIns"
     }
+
+    // ------------------------ actual tests ------------------------
 
     @Test
     fun testBuiltInPackagesContent() {
+        doTest("fallbackBuiltIns.txt", TestJdkKind.FULL_JDK)
+    }
+
+    // ------------------------ test utilities ------------------------
+
+    private fun doTest(expectedFileName: String, jdkKind: TestJdkKind) {
         val disposable = Disposer.newDisposable()
-        val expectedFileName = "fallbackBuiltIns.txt"
         try {
-            val session = createSession(disposable, TestJdkKind.FULL_JDK)
+            val session = createSession(disposable, jdkKind)
             val builder = StringBuilder()
             for (packageFqName in BUILTIN_PACKAGE_NAMES) {
                 dumpPackageContent(session, packageFqName, builder)
             }
-            val expectedFile = ForTestCompileRuntime.transformTestDataPath("compiler/fir/analysis-tests/testData/builtIns")
-                .resolve(expectedFileName)
+            val expectedFile = ForTestCompileRuntime.transformTestDataPath("$TEST_DATA_PATH/$expectedFileName")
             TestDataAssertions.assertEqualsToFile(
                 expectedFile,
                 builder.toString().trimEnd() + "\n"
@@ -65,7 +74,6 @@ class BuiltInsDeserializationForFirTestCase {
     private fun createSession(
         rootDisposable: Disposable,
         jdkKind: TestJdkKind,
-        configureArguments: K2JVMCompilerArguments.() -> Unit = {},
     ): FirSession {
         val emptyInput = ArgumentsPipelineArtifact(
             arguments = K2JVMCompilerArguments().apply {
@@ -82,7 +90,6 @@ class BuiltInsDeserializationForFirTestCase {
                     TestJdkKind.FULL_JDK -> File(System.getProperty("java.home"))
                 }
                 classpath = jdk.absolutePath
-                configureArguments()
             },
             services = Services.EMPTY,
             rootDisposable,
@@ -95,9 +102,12 @@ class BuiltInsDeserializationForFirTestCase {
     }
 
     @OptIn(SymbolInternals::class)
-    private fun dumpPackageContent(session: FirSession, packageFqName: FqName, builder: StringBuilder) {
-        val symbolProvider = (session.symbolProvider as FirCachingCompositeSymbolProvider).providers
-            .firstIsInstance<FirJvmBuiltinsSymbolProvider>()
+    private fun dumpPackageContent(
+        session: FirSession,
+        packageFqName: FqName,
+        builder: StringBuilder,
+    ) {
+        val symbolProvider = (session.symbolProvider as FirCachingCompositeSymbolProvider).providers.firstIsInstance<FirJvmBuiltinsSymbolProvider>()
         val namesProvider = symbolProvider.symbolNamesProvider
         val classifierNames = namesProvider.getTopLevelClassifierNamesInPackage(packageFqName).orEmpty()
         val callableNames = namesProvider.getTopLevelCallableNamesInPackage(packageFqName).orEmpty()

@@ -85,10 +85,6 @@ fun Project.customCompilerTest(
         allowParallelExecution = true,
         requirePlatformLibs = false,
     ) {
-        // nativeTestTask sets workingDir to rootDir so here we need to override it to projectDir to make compatibility tests cacheable
-        // Same override is made in `native/native.tests/codegen-box/build.gradle.kts`
-        workingDir = projectDir
-
         useJUnitPlatform { includeTags(tag) }
         testInputsCheck {
             isNative.set(true)

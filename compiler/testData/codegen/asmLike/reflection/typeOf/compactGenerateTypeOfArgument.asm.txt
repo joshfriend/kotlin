@@ -1,0 +1,28 @@
+public final class CompactGenerateTypeOfArgumentKt : java/lang/Object {
+    public final static kotlin.reflect.KType f() {
+        LABEL (L0)
+        LINENUMBER (5)
+          LDC (Lkotlin/Pair;)
+          NEW (kotlin/jvm/internal/FunctionReferenceImpl)
+          DUP
+          ICONST_0
+          LDC (LCompactGenerateTypeOfArgumentKt;)
+          LDC (f)
+          LDC (f()Lkotlin/reflect/KType;)
+          ICONST_1
+          INVOKESPECIAL (kotlin/jvm/internal/FunctionReferenceImpl, <init>, (ILjava/lang/Class;Ljava/lang/String;Ljava/lang/String;I)V)
+          LDC (T)
+          GETSTATIC (kotlin/reflect/KVariance, INVARIANT, Lkotlin/reflect/KVariance;)
+          ICONST_0
+          INVOKESTATIC (kotlin/jvm/internal/Reflection, typeParameter, (Ljava/lang/Object;Ljava/lang/String;Lkotlin/reflect/KVariance;Z)Lkotlin/reflect/KTypeParameter;)
+          DUP
+          LDC (Ljava/lang/Object;)
+          INVOKESTATIC (kotlin/jvm/internal/Reflection, nullableTypeOf, (Ljava/lang/Class;)Lkotlin/reflect/KType;)
+          INVOKESTATIC (kotlin/jvm/internal/Reflection, setUpperBounds, (Lkotlin/reflect/KTypeParameter;Lkotlin/reflect/KType;)V)
+          INVOKESTATIC (kotlin/jvm/internal/Reflection, typeOf, (Lkotlin/reflect/KClassifier;)Lkotlin/reflect/KType;)
+          INVOKESTATIC (kotlin/reflect/KTypeProjection, invariant, (Lkotlin/reflect/KType;)Lkotlin/reflect/KTypeProjection;)
+          GETSTATIC (kotlin/reflect/KTypeProjection, star, Lkotlin/reflect/KTypeProjection;)
+          INVOKESTATIC (kotlin/jvm/internal/Reflection, typeOf, (Ljava/lang/Class;Lkotlin/reflect/KTypeProjection;Lkotlin/reflect/KTypeProjection;)Lkotlin/reflect/KType;)
+          ARETURN
+    }
+}

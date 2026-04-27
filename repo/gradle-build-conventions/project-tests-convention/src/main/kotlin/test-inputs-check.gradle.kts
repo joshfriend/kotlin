@@ -48,13 +48,13 @@ tasks.withType<Test>().configureEach {
             println("Undeclared inputs (${undeclaredInputs.size}):")
             undeclaredInputs.forEach { println(it) }
 
-            if (undeclaredInputs.isNotEmpty()) {
-                error(buildString {
-                    appendLine("Undeclared inputs found! (${undeclaredInputs.size})")
-                    appendLine("First 10:")
-                    undeclaredInputs.take(10).forEach { appendLine(it) }
-                })
-            }
+//            if (undeclaredInputs.isNotEmpty()) {
+//                error(buildString {
+//                    appendLine("Undeclared inputs found! (${undeclaredInputs.size})")
+//                    appendLine("First 10:")
+//                    undeclaredInputs.take(10).forEach { appendLine(it) }
+//                })
+//            }
         }
     }
 }

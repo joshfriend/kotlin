@@ -67,7 +67,7 @@ sourceSets {
 projectTests {
     testTask(jUnitMode = JUnitMode.JUnit5)
     testData(project.isolated, "testData")
-    withMockJdkRuntime()
+//    withMockJdkRuntime()
 }
 
 runtimeJar()

@@ -42,11 +42,7 @@ sourceSets {
 }
 
 projectTests {
-    testTask(jUnitMode = JUnitMode.JUnit5, defineJDKEnvVariables = listOf(JdkMajorVersion.JDK_11_0, JdkMajorVersion.JDK_17_0)) {
-        testInputsCheck {
-            allowFlightRecorder = true
-        }
-    }
+    testTask(jUnitMode = JUnitMode.JUnit5, defineJDKEnvVariables = listOf(JdkMajorVersion.JDK_11_0, JdkMajorVersion.JDK_17_0))
 
     testGenerator("org.jetbrains.kotlin.light.classes.symbol.TestGeneratorKt")
 

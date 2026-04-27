@@ -43,11 +43,7 @@ projectTests {
             JdkMajorVersion.JDK_17_0, // TestsWithJava17 and others
             JdkMajorVersion.JDK_21_0  // TestsWithJava21 and others
         )
-    ) {
-        testInputsCheck {
-            allowFlightRecorder = true
-        }
-    }
+    )
 
     testGenerator("org.jetbrains.kotlin.analysis.low.level.api.fir.compiler.based.TestGeneratorKt", generateTestsInBuildDirectory = true)
 

@@ -188,7 +188,7 @@ class AnonymousObjectTransformer(
             coroutineTransformer.replaceFakesWithReals(method.intermediate)
             removeFinallyMarkers(method.intermediate)
             method.visitEnd()
-            if (continuationToRemove != null && coroutineTransformer.safeToRemoveContinuationClass(method.intermediate)) {
+            if (continuationToRemove != null && coroutineTransformer.safeToRemoveContinuationClass(method.key)) {
                 transformationResult.addClassToRemove(continuationToRemove)
                 innerClassNodes.removeIf { it.name == oldContinuationName }
             }

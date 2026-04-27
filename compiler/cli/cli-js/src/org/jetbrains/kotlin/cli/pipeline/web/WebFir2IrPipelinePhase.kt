@@ -32,6 +32,7 @@ import org.jetbrains.kotlin.ir.backend.js.getSerializedData
 import org.jetbrains.kotlin.ir.backend.js.lower.serialization.ir.JsManglerIr
 import org.jetbrains.kotlin.ir.backend.js.lower.serialization.ir.collectJsExportNames
 import org.jetbrains.kotlin.ir.backend.js.wasm.WasmKlibCheckers
+import org.jetbrains.kotlin.ir.backend.js.wasm.collectAllExportNames
 import org.jetbrains.kotlin.ir.types.IrTypeSystemContextImpl
 import org.jetbrains.kotlin.ir.visitors.acceptVoid
 import org.jetbrains.kotlin.js.config.incrementalDataProvider
@@ -117,21 +118,25 @@ private fun runWebKlibCallCheckers(
 
     val irModuleFragment = fir2IrActualizedResult.irModuleFragment
 
+    // collect clean files
+    val fir2KlibMetadataSerializer = Fir2KlibMetadataSerializer(
+        configuration,
+        firOutputs,
+        fir2IrActualizedResult,
+        produceHeaderKlib = false,
+    )
+    val cleanFiles = configuration.incrementalDataProvider?.getSerializedData(fir2KlibMetadataSerializer.sourceFiles).orEmpty()
+    val cleanFilesIrData = cleanFiles.map { it.irData ?: error("Metadata-only KLIBs are not supported in Kotlin/JS or Kotlin/Wasm") }
+
     val checker = if (configuration.wasmCompilation) {
         WasmKlibCheckers.makeChecker(
             irDiagnosticReporter,
             configuration,
+            cleanFiles = cleanFilesIrData,
+            // Wasm also needs access to js exports, so collect all
+            exportedNames = irModuleFragment.collectAllExportNames(),
         )
-    } else { // JS-specific
-        val fir2KlibMetadataSerializer = Fir2KlibMetadataSerializer(
-            configuration,
-            firOutputs,
-            fir2IrActualizedResult,
-            produceHeaderKlib = false,
-        )
-        val cleanFiles = configuration.incrementalDataProvider?.getSerializedData(fir2KlibMetadataSerializer.sourceFiles).orEmpty()
-        val cleanFilesIrData = cleanFiles.map { it.irData ?: error("Metadata-only KLIBs are not supported in Kotlin/JS") }
-
+    } else {
         JsKlibCheckers.makeChecker(
             irDiagnosticReporter,
             configuration,

@@ -87,7 +87,9 @@ abstract class AbstractWasmDiagnosticTestBase(
         }
 
         facadeStep(::Fir2IrCliWebFacade)
-        irHandlersStep()
+        irHandlersStep {
+            useHandlers(::IrDiagnosticsHandler)
+        }
 
         withIrInliner('-')
         facadeStep(::WasmPreSerializationLoweringFacade)

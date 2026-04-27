@@ -1,3 +1,5 @@
+import JdkMajorVersion.JDK_1_8
+import JdkMajorVersion.JDK_21_0
 import TestCompilePaths.KOTLIN_STDLIB_SOURCES_ROOT_PATH
 
 /*
@@ -45,7 +47,7 @@ sourceSets {
 }
 
 projectTests {
-    testTask(maxHeapSizeMb = 3072, jUnitMode = JUnitMode.JUnit5) {
+    testTask(maxHeapSizeMb = 3072, jUnitMode = JUnitMode.JUnit5, defineJDKEnvVariables = listOf(JDK_1_8, JDK_21_0)) {
         addClasspathProperty(
             layout.files(
                 rootDir.resolve("libraries/stdlib/src"), rootDir.resolve("libraries/stdlib/jvm")
@@ -60,6 +62,7 @@ projectTests {
     withScriptRuntime()
     withMockJdkRuntime()
     withMockJdkAnnotationsJar()
+    withMockJDKModifiedRuntime()
     withAnnotations()
     withThirdPartyAnnotations()
     withThirdPartyJsr305()

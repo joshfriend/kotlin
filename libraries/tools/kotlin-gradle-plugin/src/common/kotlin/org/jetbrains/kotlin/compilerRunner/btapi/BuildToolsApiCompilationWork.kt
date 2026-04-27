@@ -20,6 +20,7 @@ import org.jetbrains.kotlin.buildtools.api.ExecutionPolicy.WithDaemon.Companion.
 import org.jetbrains.kotlin.buildtools.api.arguments.CommonJsAndWasmArguments
 import org.jetbrains.kotlin.buildtools.api.arguments.ExperimentalCompilerArgument
 import org.jetbrains.kotlin.buildtools.api.arguments.JvmCompilerArguments
+import org.jetbrains.kotlin.buildtools.api.arguments.MetadataArguments
 import org.jetbrains.kotlin.buildtools.api.js.IncrementalModule
 import org.jetbrains.kotlin.buildtools.api.js.JsHistoryBasedIncrementalCompilationConfiguration
 import org.jetbrains.kotlin.buildtools.api.js.JsPlatformToolchain.Companion.js
@@ -32,6 +33,8 @@ import org.jetbrains.kotlin.buildtools.api.jvm.JvmSnapshotBasedIncrementalCompil
 import org.jetbrains.kotlin.buildtools.api.jvm.operations.JvmCompilationOperation
 import org.jetbrains.kotlin.buildtools.api.jvm.operations.JvmCompilationOperation.Companion.INCREMENTAL_COMPILATION
 import org.jetbrains.kotlin.buildtools.api.jvm.operations.JvmCompilationOperation.Companion.KOTLINSCRIPT_EXTENSIONS
+import org.jetbrains.kotlin.buildtools.api.metadata.KotlinMetadataKlibCompilationOperation
+import org.jetbrains.kotlin.buildtools.api.metadata.KotlinMetadataPlatformToolchain.Companion.metadata
 import org.jetbrains.kotlin.buildtools.api.wasm.WasmHistoryBasedIncrementalCompilationConfiguration
 import org.jetbrains.kotlin.buildtools.api.wasm.WasmPlatformToolchain.Companion.wasm
 import org.jetbrains.kotlin.buildtools.api.wasm.operations.WasmKlibCompilationOperation
@@ -64,7 +67,7 @@ import javax.inject.Inject
 import kotlin.io.path.Path
 import kotlin.reflect.KClass
 
-internal abstract class BuildToolsApiCompilationWork<CompilerArgs : CommonCompilerArguments, BtaArgs: org.jetbrains.kotlin.buildtools.api.arguments.CommonCompilerArguments.Builder> @Inject constructor(
+internal abstract class BuildToolsApiCompilationWork<CompilerArgs : CommonCompilerArguments, BtaArgs : org.jetbrains.kotlin.buildtools.api.arguments.CommonCompilerArguments.Builder> @Inject constructor(
     private val fileSystemOperations: FileSystemOperations,
     private val objects: ObjectFactory,
 ) :
@@ -295,6 +298,41 @@ internal abstract class BuildToolsApiCompilationWork<CompilerArgs : CommonCompil
                 compilationOperationBuilder[INCREMENTAL_COMPILATION] = classpathSnapshotsOptions
             }
         }
+    }
+
+    @OptIn(ExperimentalCompilerArgument::class)
+    internal abstract class Metadata @Inject constructor(
+        fileSystemOperations: FileSystemOperations,
+        objects: ObjectFactory,
+    ) : BuildToolsApiCompilationWork<K2MetadataCompilerArguments, MetadataArguments.Builder>(fileSystemOperations, objects) {
+        override val argumentsClass = K2MetadataCompilerArguments::class
+        override val BaseCompilationOperation.Builder.compilerArguments: MetadataArguments.Builder
+            get() = (this as KotlinMetadataKlibCompilationOperation.Builder).compilerArguments
+
+        override fun KotlinToolchains.createOperationBuilder(
+            sources: List<Path>,
+            args: K2MetadataCompilerArguments,
+        ): BaseCompilationOperation.Builder {
+            return metadata.metadataKlibCompilationOperationBuilder(
+                args.freeArgs.mapNotNull {
+                    try {
+                        Paths.get(it)
+                    } catch (_: Exception) {
+                        null
+                    }
+                },
+                Path(requireNotNull(args.destination))
+            ).also { _ ->
+                args.destination = null // TODO: KT-85394 refactor setting up arguments to avoid this hack
+            }
+        }
+
+        override fun BaseCompilationOperation.Builder.build(): BaseCompilationOperation {
+            this as KotlinMetadataKlibCompilationOperation.Builder
+            return build()
+        }
+
+        override fun setupIc(compilationOperationBuilder: BaseCompilationOperation.Builder) {}
     }
 
     abstract val argumentsClass: KClass<CompilerArgs>

@@ -314,6 +314,8 @@ data class BuildOptions(
         if (runViaBuildToolsApi != null) {
             arguments.add("-Pkotlin.compiler.runViaBuildToolsApi=$runViaBuildToolsApi")
             arguments.add("-Pkotlin.js.compiler.runViaBuildToolsApi=$runViaBuildToolsApi")
+            arguments.add("-Pkotlin.wasm.compiler.runViaBuildToolsApi=$runViaBuildToolsApi")
+            arguments.add("-Pkotlin.metadata.compiler.runViaBuildToolsApi=$runViaBuildToolsApi")
         }
 
         if (showDiagnosticsStacktrace != null) {

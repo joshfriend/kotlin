@@ -51,7 +51,7 @@ internal class GradleBuildToolsApiCompilerRunner(
                 KotlinCompilerClass.JS -> BuildToolsApiCompilationWork.Js::class
                 KotlinCompilerClass.JVM -> BuildToolsApiCompilationWork.Jvm::class
                 KotlinCompilerClass.WASM -> BuildToolsApiCompilationWork.Wasm::class
-//            KotlinCompilerClass.METADATA -> BuildToolsApiCompilationWork.Metadata::class
+                KotlinCompilerClass.METADATA -> BuildToolsApiCompilationWork.Metadata::class
                 else -> throw IllegalStateException("Unknown compiler class name: ${workArgs.compilerClassName}")
             }
         workQueue.submit(workClass.java) { params ->

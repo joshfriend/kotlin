@@ -116,6 +116,7 @@ abstract class DefaultKotlinBasePlugin : KotlinBasePlugin {
                 if (project.kotlinPropertiesProvider.runKotlinCompilerViaBuildToolsApi.get()
                     || project.kotlinPropertiesProvider.runKotlinJsCompilerViaBuildToolsApi.get()
                     || project.kotlinPropertiesProvider.runKotlinWasmCompilerViaBuildToolsApi.get()
+                    || project.kotlinPropertiesProvider.runKotlinMetadataCompilerViaBuildToolsApi.get()
                 ) {
                     it.add(
                         project.dependencies.create("$KOTLIN_MODULE_GROUP:$KOTLIN_BUILD_TOOLS_API_COMPAT:$pluginVersion")

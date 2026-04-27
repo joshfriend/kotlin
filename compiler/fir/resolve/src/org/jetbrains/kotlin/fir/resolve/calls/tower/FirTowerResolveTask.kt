@@ -19,6 +19,7 @@ import org.jetbrains.kotlin.fir.expressions.FirResolvedQualifier
 import org.jetbrains.kotlin.fir.expressions.builder.buildExpressionStub
 import org.jetbrains.kotlin.fir.isEnabled
 import org.jetbrains.kotlin.fir.resolve.BodyResolveComponents
+import org.jetbrains.kotlin.fir.resolve.CallableReferenceLhsAsType
 import org.jetbrains.kotlin.fir.resolve.calls.*
 import org.jetbrains.kotlin.fir.resolve.calls.candidate.*
 import org.jetbrains.kotlin.fir.resolve.toImplicitResolvedQualifierReceiver
@@ -300,14 +301,21 @@ internal open class FirTowerResolveTask(
     ) {
         val qualifierReceiver = createQualifierReceiver(resolvedQualifier, session, components.scopeSession)
 
-        processCallableScope(info, qualifierReceiver, TowerGroup.QualifierOrClassifier)
-        processClassifierScope(info, qualifierReceiver)
+        processCallableScope(
+            info.replaceLhsAsTypeKind(CallableReferenceLhsAsType.Kind.FOR_STATIC),
+            qualifierReceiver,
+            TowerGroup.QualifierOrClassifier,
+        )
+        processClassifierScope(
+            info.replaceLhsAsTypeKind(CallableReferenceLhsAsType.Kind.FOR_STATIC),
+            qualifierReceiver,
+        )
 
         // Searching for companion extensions triggers a bunch of resolution tasks.
         // We skip them for performance reasons when the LF is disabled.
         if (companionBlocksAndExtensionsEnabled) {
             enumerateTowerLevelsForCompanionExtensions(
-                info,
+                info.replaceLhsAsTypeKind(CallableReferenceLhsAsType.Kind.FOR_STATIC),
                 resolvedQualifier,
                 TowerGroup.QualifierOrClassifier,
                 explicitReceiverKind = ExplicitReceiverKind.EXTENSION_RECEIVER
@@ -321,16 +329,21 @@ internal open class FirTowerResolveTask(
                     this.coneTypeOrNull = info.lhsAsType.type
                 }
 
-                val stubReceiverInfo = info.replaceExplicitReceiver(stubReceiver)
-
-                runResolverForExpressionReceiver(stubReceiverInfo, stubReceiver, parentGroup = TowerGroup.QualifierValue)
+                runResolverForExpressionReceiver(
+                    info.replaceExplicitReceiver(stubReceiver),
+                    stubReceiver,
+                    parentGroup = TowerGroup.QualifierValue,
+                )
             }
 
             // NB: canBeValue means it's resolved to an object or companion object
             if (resolvedQualifier.canBeValue && resolvedQualifier.typeArguments.isEmpty()) {
-                runResolverForExpressionReceiver(info, resolvedQualifier, parentGroup = TowerGroup.QualifierValue)
+                runResolverForExpressionReceiver(
+                    info.replaceLhsAsTypeKind(CallableReferenceLhsAsType.Kind.FOR_OBJECT_MEMBER),
+                    resolvedQualifier,
+                    parentGroup = TowerGroup.QualifierValue,
+                )
             }
-
         }
     }
 

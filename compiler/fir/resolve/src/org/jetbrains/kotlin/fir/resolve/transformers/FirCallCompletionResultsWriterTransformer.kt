@@ -1558,10 +1558,40 @@ fun ConeKotlinType.toExpectedType(
 internal fun Candidate.doesResolutionResultOverrideOtherToPreserveCompatibility(): Boolean =
     ResolutionResultOverridesOtherToPreserveCompatibility in diagnostics
 
+/**
+ * If the [LanguageFeature.CompanionBlocksAndExtensions] is enabled, we allow `JustSimpleQuailifer::staticMember` instead of
+ * `QualifierWithTypeArguments<...>::staticMember`. HOWEVER, in case the static receiver has explicit type arguments,
+ * we still have to pretend it is a type (because we need to report errors on incorrect types).
+ */
+context(_: SessionHolder)
+private fun CallableReferenceLhsAsType.shouldBeConsideredType(): Boolean {
+    return !isProperStaticReceiver
+            || kind == CallableReferenceLhsAsType.Kind.FOR_CLASS_MEMBER
+            || LanguageFeature.CompanionBlocksAndExtensions.isDisabled()
+}
+
+context(_: SessionHolder)
+private fun CallableReferenceLhsAsType.shouldReportInvalidStaticReceiver(): Boolean {
+    if (kind == CallableReferenceLhsAsType.Kind.FOR_CLASS_MEMBER) return false
+    return hasExplicitTypeArguments && LanguageFeature.CompanionBlocksAndExtensions.isEnabled() || hasNullableMark
+}
+
+context(_: SessionHolder)
 internal fun FirQualifiedAccessExpression.addNonFatalDiagnostics(candidate: Candidate) {
     val newNonFatalDiagnostics = mutableListOf<ConeDiagnostic>()
     candidate.ifLhsResolvedToType { lhs ->
-        lhs.diagnostic?.let { newNonFatalDiagnostics.add(it) }
+        if (lhs.diagnostic == null) {
+            if (lhs.shouldReportInvalidStaticReceiver()) {
+                newNonFatalDiagnostics.add(
+                    ConeInvalidStaticReceiverInCallableReference(
+                        forObject = lhs.kind == CallableReferenceLhsAsType.Kind.FOR_OBJECT_MEMBER,
+                        dueToNullableMark = !lhs.hasExplicitTypeArguments,
+                    )
+                )
+            }
+        } else if (lhs.shouldBeConsideredType()) {
+            newNonFatalDiagnostics.add(lhs.diagnostic)
+        }
     }
 
     if (candidate.doesResolutionResultOverrideOtherToPreserveCompatibility()) {

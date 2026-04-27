@@ -98,6 +98,11 @@ open class CallInfo(
             implicitInvokeMode = ImplicitInvokeMode.ReceiverAsArgument
         )
 
+    fun replaceLhsAsTypeKind(newKind: CallableReferenceLhsAsType.Kind): CallInfo {
+        val lhsAsType = (this as? CallableReferenceInfo)?.lhsAsType ?: return this
+        return copy(callableReferenceLhsAsType = lhsAsType.copy(kind = newKind))
+    }
+
     open fun copy(
         callKind: CallKind = this.callKind,
         typeArguments: List<FirTypeProjection> = this.typeArguments,
@@ -108,6 +113,7 @@ open class CallInfo(
         candidateForCommonInvokeReceiver: Candidate? = this.candidateForCommonInvokeReceiver,
         containingCandidateForCollectionLiteral: Candidate? = this.containingCandidateForCollectionLiteral,
         isImplicitInvokeReceiver: Boolean = this.isImplicitInvokeReceiver,
+        callableReferenceLhsAsType: CallableReferenceLhsAsType? = (this as? CallableReferenceInfo)?.lhsAsType,
     ): CallInfo = CallInfo(
         callSite, callKind, name, explicitReceiver, argumentList,
         isUsedAsGetClassReceiver, typeArguments,
@@ -150,13 +156,14 @@ class CallableReferenceInfo(
         candidateForCommonInvokeReceiver: Candidate?,
         containingCandidateForCollectionLiteral: Candidate?,
         isImplicitInvokeReceiver: Boolean,
+        callableReferenceLhsAsType: CallableReferenceLhsAsType?,
     ): CallableReferenceInfo {
         require(!isImplicitInvokeReceiver) { "CallableReferenceInfo cannot be an implicit invoke receiver" }
 
         return CallableReferenceInfo(
             callSite, name, explicitReceiver,
             session, containingFile, containingDeclarations,
-            expectedType, lhsAsType, hasSyntheticOuterCall, origin, callKind
+            expectedType, callableReferenceLhsAsType, hasSyntheticOuterCall, origin, callKind
         )
     }
 }

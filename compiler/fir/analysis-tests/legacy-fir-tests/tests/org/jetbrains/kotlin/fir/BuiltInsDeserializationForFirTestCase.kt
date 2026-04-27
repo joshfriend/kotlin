@@ -44,14 +44,19 @@ class BuiltInsDeserializationForFirTestCase {
     @Test
     fun testBuiltInPackagesContent() {
         val disposable = Disposer.newDisposable()
+        val expectedFileName = "fallbackBuiltIns.txt"
         try {
             val session = createSession(disposable, TestJdkKind.FULL_JDK)
+            val builder = StringBuilder()
             for (packageFqName in BUILTIN_PACKAGE_NAMES) {
-                val path = ForTestCompileRuntime.transformTestDataPath("compiler/fir/analysis-tests/testData/builtIns").resolve(
-                    packageFqName.asString().replace('.', '-') + ".txt"
-                )
-                checkPackageContent(session, packageFqName, path)
+                dumpPackageContent(session, packageFqName, builder)
             }
+            val expectedFile = ForTestCompileRuntime.transformTestDataPath("compiler/fir/analysis-tests/testData/builtIns")
+                .resolve(expectedFileName)
+            TestDataAssertions.assertEqualsToFile(
+                expectedFile,
+                builder.toString().trimEnd() + "\n"
+            )
         } finally {
             Disposer.dispose(disposable)
         }
@@ -90,14 +95,19 @@ class BuiltInsDeserializationForFirTestCase {
     }
 
     @OptIn(SymbolInternals::class)
-    private fun checkPackageContent(session: FirSession, packageFqName: FqName, testDataFile: File) {
+    private fun dumpPackageContent(session: FirSession, packageFqName: FqName, builder: StringBuilder) {
         val symbolProvider = (session.symbolProvider as FirCachingCompositeSymbolProvider).providers
             .firstIsInstance<FirJvmBuiltinsSymbolProvider>()
         val namesProvider = symbolProvider.symbolNamesProvider
         val classifierNames = namesProvider.getTopLevelClassifierNamesInPackage(packageFqName).orEmpty()
         val callableNames = namesProvider.getTopLevelCallableNamesInPackage(packageFqName).orEmpty()
 
-        val builder = StringBuilder()
+        val decoration = "=".repeat(20 + packageFqName.toString().length + 11)
+        builder.appendLine(decoration)
+        builder.appendLine("========== Package: $packageFqName ==========")
+        builder.appendLine(decoration)
+        builder.appendLine()
+
         val firRenderer = FirRenderer(builder)
 
         for (name in callableNames) {
@@ -112,10 +122,5 @@ class BuiltInsDeserializationForFirTestCase {
             firRenderer.renderElementAsString(classLikeSymbol.fir)
             builder.appendLine()
         }
-
-        TestDataAssertions.assertEqualsToFile(
-            testDataFile,
-            builder.toString().trimEnd() + "\n"
-        )
     }
 }

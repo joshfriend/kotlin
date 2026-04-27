@@ -1,3 +1,7 @@
+=====================================
+========== Package: kotlin ==========
+=====================================
+
 public final inline fun <reified T> arrayOf(vararg elements: R|kotlin/Array<out T>|): R|kotlin/Array<T>|
 
 public final fun <reified T> arrayOfNulls(size: R|kotlin/Int|): R|kotlin/Array<T?>|
@@ -1434,5 +1438,597 @@ public final object Unit : R|kotlin/Any| {
         public get(): R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|
 
     public constructor(vararg markerClass: R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|): R|kotlin/WasExperimental|
+
+}
+
+=================================================
+========== Package: kotlin.collections ==========
+=================================================
+
+public abstract class BooleanIterator : R|kotlin/collections/Iterator<kotlin/Boolean>| {
+    public final operator fun next(): R|kotlin/Boolean|
+
+    public abstract fun nextBoolean(): R|kotlin/Boolean|
+
+    public constructor(): R|kotlin/collections/BooleanIterator|
+
+}
+
+public abstract class ByteIterator : R|kotlin/collections/Iterator<kotlin/Byte>| {
+    public final operator fun next(): R|kotlin/Byte|
+
+    public abstract fun nextByte(): R|kotlin/Byte|
+
+    public constructor(): R|kotlin/collections/ByteIterator|
+
+}
+
+public abstract class CharIterator : R|kotlin/collections/Iterator<kotlin/Char>| {
+    public final operator fun next(): R|kotlin/Char|
+
+    public abstract fun nextChar(): R|kotlin/Char|
+
+    public constructor(): R|kotlin/collections/CharIterator|
+
+}
+
+public abstract interface Collection<out E> : R|kotlin/collections/Iterable<E>| {
+    public abstract fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract operator fun contains(element: R|E|): R|kotlin/Boolean|
+
+    public abstract operator fun iterator(): R|kotlin/collections/Iterator<E>|
+
+    public abstract fun containsAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    public abstract val size: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+}
+
+public abstract class DoubleIterator : R|kotlin/collections/Iterator<kotlin/Double>| {
+    public final operator fun next(): R|kotlin/Double|
+
+    public abstract fun nextDouble(): R|kotlin/Double|
+
+    public constructor(): R|kotlin/collections/DoubleIterator|
+
+}
+
+public abstract class FloatIterator : R|kotlin/collections/Iterator<kotlin/Float>| {
+    public final operator fun next(): R|kotlin/Float|
+
+    public abstract fun nextFloat(): R|kotlin/Float|
+
+    public constructor(): R|kotlin/collections/FloatIterator|
+
+}
+
+public abstract class IntIterator : R|kotlin/collections/Iterator<kotlin/Int>| {
+    public final operator fun next(): R|kotlin/Int|
+
+    public abstract fun nextInt(): R|kotlin/Int|
+
+    public constructor(): R|kotlin/collections/IntIterator|
+
+}
+
+public abstract interface Iterable<out T> : R|kotlin/Any| {
+    public abstract operator fun iterator(): R|kotlin/collections/Iterator<T>|
+
+}
+
+public abstract interface Iterator<out T> : R|kotlin/Any| {
+    public abstract operator fun next(): R|T|
+
+    public abstract operator fun hasNext(): R|kotlin/Boolean|
+
+}
+
+public abstract interface List<out E> : R|kotlin/collections/Collection<E>| {
+    public abstract fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract operator fun contains(element: R|E|): R|kotlin/Boolean|
+
+    public abstract operator fun iterator(): R|kotlin/collections/Iterator<E>|
+
+    public abstract fun containsAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    public abstract operator fun get(index: R|kotlin/Int|): R|E|
+
+    public abstract fun indexOf(element: R|E|): R|kotlin/Int|
+
+    public abstract fun lastIndexOf(element: R|E|): R|kotlin/Int|
+
+    public abstract fun listIterator(): R|kotlin/collections/ListIterator<E>|
+
+    public abstract fun listIterator(index: R|kotlin/Int|): R|kotlin/collections/ListIterator<E>|
+
+    public abstract fun subList(fromIndex: R|kotlin/Int|, toIndex: R|kotlin/Int|): R|kotlin/collections/List<E>|
+
+    public abstract val size: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+}
+
+public abstract interface ListIterator<out T> : R|kotlin/collections/Iterator<T>| {
+    public abstract operator fun next(): R|T|
+
+    public abstract operator fun hasNext(): R|kotlin/Boolean|
+
+    public abstract fun hasPrevious(): R|kotlin/Boolean|
+
+    public abstract fun previous(): R|T|
+
+    public abstract fun nextIndex(): R|kotlin/Int|
+
+    public abstract fun previousIndex(): R|kotlin/Int|
+
+}
+
+public abstract class LongIterator : R|kotlin/collections/Iterator<kotlin/Long>| {
+    public final operator fun next(): R|kotlin/Long|
+
+    public abstract fun nextLong(): R|kotlin/Long|
+
+    public constructor(): R|kotlin/collections/LongIterator|
+
+}
+
+public abstract interface Map<K, out V> : R|kotlin/Any| {
+    public abstract fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract fun containsKey(key: R|K|): R|kotlin/Boolean|
+
+    public abstract fun containsValue(value: R|V|): R|kotlin/Boolean|
+
+    public abstract operator fun get(key: R|K|): R|V?|
+
+    @R|kotlin/SinceKotlin|(version = String(1.1)) @R|kotlin/internal/PlatformDependent|() public open fun getOrDefault(key: R|K|, defaultValue: R|V|): R|V|
+
+    public abstract val size: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public abstract val keys: R|kotlin/collections/Set<K>|
+        public get(): R|kotlin/collections/Set<K>|
+
+    public abstract val values: R|kotlin/collections/Collection<V>|
+        public get(): R|kotlin/collections/Collection<V>|
+
+    public abstract val entries: R|kotlin/collections/Set<kotlin/collections/Map.Entry<K, V>>|
+        public get(): R|kotlin/collections/Set<kotlin/collections/Map.Entry<K, V>>|
+
+    public abstract interface Entry<out K, out V> : R|kotlin/Any| {
+        public abstract val key: R|K|
+            public get(): R|K|
+
+        public abstract val value: R|V|
+            public get(): R|V|
+
+    }
+
+}
+
+public abstract interface MutableCollection<E> : R|kotlin/collections/Collection<E>|, R|kotlin/collections/MutableIterable<E>| {
+    public abstract operator fun iterator(): R|kotlin/collections/MutableIterator<E>|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun add(element: R|E|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun remove(element: R|E|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun addAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun removeAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun retainAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    public abstract fun clear(): R|kotlin/Unit|
+
+}
+
+public abstract interface MutableIterable<out T> : R|kotlin/collections/Iterable<T>| {
+    public abstract operator fun iterator(): R|kotlin/collections/MutableIterator<T>|
+
+}
+
+public abstract interface MutableIterator<out T> : R|kotlin/collections/Iterator<T>| {
+    public abstract fun remove(): R|kotlin/Unit|
+
+}
+
+public abstract interface MutableList<E> : R|kotlin/collections/List<E>|, R|kotlin/collections/MutableCollection<E>| {
+    @R|kotlin/IgnorableReturnValue|() public abstract fun add(element: R|E|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun remove(element: R|E|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun addAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun addAll(index: R|kotlin/Int|, elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun removeAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun retainAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    public abstract fun clear(): R|kotlin/Unit|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract operator fun set(index: R|kotlin/Int|, element: R|E|): R|E|
+
+    public abstract fun add(index: R|kotlin/Int|, element: R|E|): R|kotlin/Unit|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun removeAt(index: R|kotlin/Int|): R|E|
+
+    public abstract fun listIterator(): R|kotlin/collections/MutableListIterator<E>|
+
+    public abstract fun listIterator(index: R|kotlin/Int|): R|kotlin/collections/MutableListIterator<E>|
+
+    public abstract fun subList(fromIndex: R|kotlin/Int|, toIndex: R|kotlin/Int|): R|kotlin/collections/MutableList<E>|
+
+}
+
+public abstract interface MutableListIterator<T> : R|kotlin/collections/ListIterator<T>|, R|kotlin/collections/MutableIterator<T>| {
+    public abstract operator fun next(): R|T|
+
+    public abstract operator fun hasNext(): R|kotlin/Boolean|
+
+    public abstract fun remove(): R|kotlin/Unit|
+
+    public abstract fun set(element: R|T|): R|kotlin/Unit|
+
+    public abstract fun add(element: R|T|): R|kotlin/Unit|
+
+}
+
+public abstract interface MutableMap<K, V> : R|kotlin/collections/Map<K, V>| {
+    @R|kotlin/IgnorableReturnValue|() public abstract fun put(key: R|K|, value: R|V|): R|V?|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun remove(key: R|K|): R|V?|
+
+    @R|kotlin/SinceKotlin|(version = String(1.1)) @R|kotlin/internal/PlatformDependent|() @R|kotlin/IgnorableReturnValue|() public open fun remove(key: R|K|, value: R|V|): R|kotlin/Boolean|
+
+    public abstract fun putAll(from: R|kotlin/collections/Map<out K, V>|): R|kotlin/Unit|
+
+    public abstract fun clear(): R|kotlin/Unit|
+
+    public abstract val keys: R|kotlin/collections/MutableSet<K>|
+        public get(): R|kotlin/collections/MutableSet<K>|
+
+    public abstract val values: R|kotlin/collections/MutableCollection<V>|
+        public get(): R|kotlin/collections/MutableCollection<V>|
+
+    public abstract val entries: R|kotlin/collections/MutableSet<kotlin/collections/MutableMap.MutableEntry<K, V>>|
+        public get(): R|kotlin/collections/MutableSet<kotlin/collections/MutableMap.MutableEntry<K, V>>|
+
+    public abstract interface MutableEntry<K, V> : R|kotlin/collections/Map.Entry<K, V>| {
+        @R|kotlin/IgnorableReturnValue|() public abstract fun setValue(newValue: R|V|): R|V|
+
+    }
+
+}
+
+public abstract interface MutableSet<E> : R|kotlin/collections/Set<E>|, R|kotlin/collections/MutableCollection<E>| {
+    public abstract operator fun iterator(): R|kotlin/collections/MutableIterator<E>|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun add(element: R|E|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun remove(element: R|E|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun addAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun removeAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    @R|kotlin/IgnorableReturnValue|() public abstract fun retainAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    public abstract fun clear(): R|kotlin/Unit|
+
+}
+
+public abstract interface Set<out E> : R|kotlin/collections/Collection<E>| {
+    public abstract fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract operator fun contains(element: R|E|): R|kotlin/Boolean|
+
+    public abstract operator fun iterator(): R|kotlin/collections/Iterator<E>|
+
+    public abstract fun containsAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    public abstract val size: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+}
+
+public abstract class ShortIterator : R|kotlin/collections/Iterator<kotlin/Short>| {
+    public final operator fun next(): R|kotlin/Short|
+
+    public abstract fun nextShort(): R|kotlin/Short|
+
+    public constructor(): R|kotlin/collections/ShortIterator|
+
+}
+
+============================================
+========== Package: kotlin.ranges ==========
+============================================
+
+public open class CharProgression : R|kotlin/collections/Iterable<kotlin/Char>| {
+    public open operator fun iterator(): R|kotlin/collections/CharIterator|
+
+    public open fun isEmpty(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public final val first: R|kotlin/Char|
+        public get(): R|kotlin/Char|
+
+    public final val last: R|kotlin/Char|
+        public get(): R|kotlin/Char|
+
+    public final val step: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    internal constructor(start: R|kotlin/Char|, endInclusive: R|kotlin/Char|, step: R|kotlin/Int|): R|kotlin/ranges/CharProgression|
+
+    public final companion object Companion : R|kotlin/Any| {
+        public final fun fromClosedRange(rangeStart: R|kotlin/Char|, rangeEnd: R|kotlin/Char|, step: R|kotlin/Int|): R|kotlin/ranges/CharProgression|
+
+        private constructor(): R|kotlin/ranges/CharProgression.Companion|
+
+    }
+
+}
+
+internal final class CharProgressionIterator : R|kotlin/collections/CharIterator| {
+    public open operator fun hasNext(): R|kotlin/Boolean|
+
+    public open fun nextChar(): R|kotlin/Char|
+
+    public final val step: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    private final val finalElement: R|kotlin/Int|
+        private get(): R|kotlin/Int|
+
+    private final var hasNext: R|kotlin/Boolean|
+        private get(): R|kotlin/Boolean|
+        private set(value: R|kotlin/Boolean|): R|kotlin/Unit|
+
+    private final var next: R|kotlin/Int|
+        private get(): R|kotlin/Int|
+        private set(value: R|kotlin/Int|): R|kotlin/Unit|
+
+    public constructor(first: R|kotlin/Char|, last: R|kotlin/Char|, step: R|kotlin/Int|): R|kotlin/ranges/CharProgressionIterator|
+
+}
+
+public final class CharRange : R|kotlin/ranges/CharProgression|, R|kotlin/ranges/ClosedRange<kotlin/Char>|, R|kotlin/ranges/OpenEndRange<kotlin/Char>| {
+    public open operator fun contains(value: R|kotlin/Char|): R|kotlin/Boolean|
+
+    public open fun isEmpty(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public open val start: R|kotlin/Char|
+        public get(): R|kotlin/Char|
+
+    public open val endInclusive: R|kotlin/Char|
+        public get(): R|kotlin/Char|
+
+    @PROPERTY:R|kotlin/Deprecated|(message = String(Can throw an exception when it's impossible to represent the value with Char type, for example, when the range includes MAX_VALUE. It's recommended to use 'endInclusive' property that doesn't throw.)) @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.9)) @PROPERTY:R|kotlin/WasExperimental|(markerClass = <collectionLiteralCall>(<getClass>(<getClass>(R|kotlin/ExperimentalStdlibApi|)))) public open val endExclusive: R|kotlin/Char|
+        public get(): R|kotlin/Char|
+
+    public constructor(start: R|kotlin/Char|, endInclusive: R|kotlin/Char|): R|kotlin/ranges/CharRange|
+
+    public final companion object Companion : R|kotlin/Any| {
+        public final val EMPTY: R|kotlin/ranges/CharRange|
+            public get(): R|kotlin/ranges/CharRange|
+
+        private constructor(): R|kotlin/ranges/CharRange.Companion|
+
+    }
+
+}
+
+public abstract interface ClosedRange<T : R|kotlin/Comparable<T>|> : R|kotlin/Any| {
+    public open operator fun contains(value: R|T|): R|kotlin/Boolean|
+
+    public open fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract val start: R|T|
+        public get(): R|T|
+
+    public abstract val endInclusive: R|T|
+        public get(): R|T|
+
+}
+
+public open class IntProgression : R|kotlin/collections/Iterable<kotlin/Int>| {
+    public open operator fun iterator(): R|kotlin/collections/IntIterator|
+
+    public open fun isEmpty(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public final val first: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public final val last: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public final val step: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    internal constructor(start: R|kotlin/Int|, endInclusive: R|kotlin/Int|, step: R|kotlin/Int|): R|kotlin/ranges/IntProgression|
+
+    public final companion object Companion : R|kotlin/Any| {
+        public final fun fromClosedRange(rangeStart: R|kotlin/Int|, rangeEnd: R|kotlin/Int|, step: R|kotlin/Int|): R|kotlin/ranges/IntProgression|
+
+        private constructor(): R|kotlin/ranges/IntProgression.Companion|
+
+    }
+
+}
+
+internal final class IntProgressionIterator : R|kotlin/collections/IntIterator| {
+    public open operator fun hasNext(): R|kotlin/Boolean|
+
+    public open fun nextInt(): R|kotlin/Int|
+
+    public final val step: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    private final val finalElement: R|kotlin/Int|
+        private get(): R|kotlin/Int|
+
+    private final var hasNext: R|kotlin/Boolean|
+        private get(): R|kotlin/Boolean|
+        private set(value: R|kotlin/Boolean|): R|kotlin/Unit|
+
+    private final var next: R|kotlin/Int|
+        private get(): R|kotlin/Int|
+        private set(value: R|kotlin/Int|): R|kotlin/Unit|
+
+    public constructor(first: R|kotlin/Int|, last: R|kotlin/Int|, step: R|kotlin/Int|): R|kotlin/ranges/IntProgressionIterator|
+
+}
+
+public final class IntRange : R|kotlin/ranges/IntProgression|, R|kotlin/ranges/ClosedRange<kotlin/Int>|, R|kotlin/ranges/OpenEndRange<kotlin/Int>| {
+    public open operator fun contains(value: R|kotlin/Int|): R|kotlin/Boolean|
+
+    public open fun isEmpty(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public open val start: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public open val endInclusive: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    @PROPERTY:R|kotlin/Deprecated|(message = String(Can throw an exception when it's impossible to represent the value with Int type, for example, when the range includes MAX_VALUE. It's recommended to use 'endInclusive' property that doesn't throw.)) @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.9)) @PROPERTY:R|kotlin/WasExperimental|(markerClass = <collectionLiteralCall>(<getClass>(<getClass>(R|kotlin/ExperimentalStdlibApi|)))) public open val endExclusive: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public constructor(start: R|kotlin/Int|, endInclusive: R|kotlin/Int|): R|kotlin/ranges/IntRange|
+
+    public final companion object Companion : R|kotlin/Any| {
+        public final val EMPTY: R|kotlin/ranges/IntRange|
+            public get(): R|kotlin/ranges/IntRange|
+
+        private constructor(): R|kotlin/ranges/IntRange.Companion|
+
+    }
+
+}
+
+public open class LongProgression : R|kotlin/collections/Iterable<kotlin/Long>| {
+    public open operator fun iterator(): R|kotlin/collections/LongIterator|
+
+    public open fun isEmpty(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public final val first: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
+    public final val last: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
+    public final val step: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
+    internal constructor(start: R|kotlin/Long|, endInclusive: R|kotlin/Long|, step: R|kotlin/Long|): R|kotlin/ranges/LongProgression|
+
+    public final companion object Companion : R|kotlin/Any| {
+        public final fun fromClosedRange(rangeStart: R|kotlin/Long|, rangeEnd: R|kotlin/Long|, step: R|kotlin/Long|): R|kotlin/ranges/LongProgression|
+
+        private constructor(): R|kotlin/ranges/LongProgression.Companion|
+
+    }
+
+}
+
+internal final class LongProgressionIterator : R|kotlin/collections/LongIterator| {
+    public open operator fun hasNext(): R|kotlin/Boolean|
+
+    public open fun nextLong(): R|kotlin/Long|
+
+    public final val step: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
+    private final val finalElement: R|kotlin/Long|
+        private get(): R|kotlin/Long|
+
+    private final var hasNext: R|kotlin/Boolean|
+        private get(): R|kotlin/Boolean|
+        private set(value: R|kotlin/Boolean|): R|kotlin/Unit|
+
+    private final var next: R|kotlin/Long|
+        private get(): R|kotlin/Long|
+        private set(value: R|kotlin/Long|): R|kotlin/Unit|
+
+    public constructor(first: R|kotlin/Long|, last: R|kotlin/Long|, step: R|kotlin/Long|): R|kotlin/ranges/LongProgressionIterator|
+
+}
+
+public final class LongRange : R|kotlin/ranges/LongProgression|, R|kotlin/ranges/ClosedRange<kotlin/Long>|, R|kotlin/ranges/OpenEndRange<kotlin/Long>| {
+    public open operator fun contains(value: R|kotlin/Long|): R|kotlin/Boolean|
+
+    public open fun isEmpty(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public open val start: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
+    public open val endInclusive: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
+    @PROPERTY:R|kotlin/Deprecated|(message = String(Can throw an exception when it's impossible to represent the value with Long type, for example, when the range includes MAX_VALUE. It's recommended to use 'endInclusive' property that doesn't throw.)) @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.9)) @PROPERTY:R|kotlin/WasExperimental|(markerClass = <collectionLiteralCall>(<getClass>(<getClass>(R|kotlin/ExperimentalStdlibApi|)))) public open val endExclusive: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
+    public constructor(start: R|kotlin/Long|, endInclusive: R|kotlin/Long|): R|kotlin/ranges/LongRange|
+
+    public final companion object Companion : R|kotlin/Any| {
+        public final val EMPTY: R|kotlin/ranges/LongRange|
+            public get(): R|kotlin/ranges/LongRange|
+
+        private constructor(): R|kotlin/ranges/LongRange.Companion|
+
+    }
+
+}
+
+@R|kotlin/SinceKotlin|(version = String(1.9)) @R|kotlin/WasExperimental|(markerClass = <collectionLiteralCall>(<getClass>(<getClass>(R|kotlin/ExperimentalStdlibApi|)))) public abstract interface OpenEndRange<T : R|kotlin/Comparable<T>|> : R|kotlin/Any| {
+    public open operator fun contains(value: R|T|): R|kotlin/Boolean|
+
+    public open fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract val start: R|T|
+        public get(): R|T|
+
+    public abstract val endExclusive: R|T|
+        public get(): R|T|
 
 }

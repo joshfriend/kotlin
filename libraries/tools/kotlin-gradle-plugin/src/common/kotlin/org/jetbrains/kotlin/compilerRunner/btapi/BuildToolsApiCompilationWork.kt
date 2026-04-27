@@ -17,7 +17,9 @@ import org.jetbrains.kotlin.buildtools.api.*
 import org.jetbrains.kotlin.buildtools.api.BaseCompilationOperation.Companion.COMPILER_MESSAGE_RENDERER
 import org.jetbrains.kotlin.buildtools.api.BaseIncrementalCompilationConfiguration.Companion.FORCE_RECOMPILATION
 import org.jetbrains.kotlin.buildtools.api.ExecutionPolicy.WithDaemon.Companion.JVM_ARGUMENTS
+import org.jetbrains.kotlin.buildtools.api.arguments.CommonJsAndWasmArguments
 import org.jetbrains.kotlin.buildtools.api.arguments.ExperimentalCompilerArgument
+import org.jetbrains.kotlin.buildtools.api.arguments.JvmCompilerArguments
 import org.jetbrains.kotlin.buildtools.api.js.IncrementalModule
 import org.jetbrains.kotlin.buildtools.api.js.JsHistoryBasedIncrementalCompilationConfiguration
 import org.jetbrains.kotlin.buildtools.api.js.JsPlatformToolchain.Companion.js
@@ -35,10 +37,7 @@ import org.jetbrains.kotlin.buildtools.api.wasm.WasmPlatformToolchain.Companion.
 import org.jetbrains.kotlin.buildtools.api.wasm.operations.WasmKlibCompilationOperation
 import org.jetbrains.kotlin.buildtools.api.wasm.operations.WasmLinkingOperation
 import org.jetbrains.kotlin.cli.common.ExitCode
-import org.jetbrains.kotlin.cli.common.arguments.K2JSCompilerArguments
-import org.jetbrains.kotlin.cli.common.arguments.K2JVMCompilerArguments
-import org.jetbrains.kotlin.cli.common.arguments.KotlinWasmCompilerArguments
-import org.jetbrains.kotlin.cli.common.arguments.parseCommandLineArguments
+import org.jetbrains.kotlin.cli.common.arguments.*
 import org.jetbrains.kotlin.compilerRunner.*
 import org.jetbrains.kotlin.gradle.internal.ClassLoadersCachingBuildService
 import org.jetbrains.kotlin.gradle.internal.ParentClassLoaderProvider
@@ -59,11 +58,13 @@ import org.jetbrains.kotlin.util.removeSuffixIfPresent
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.ObjectInputStream
+import java.nio.file.Path
 import java.nio.file.Paths
 import javax.inject.Inject
 import kotlin.io.path.Path
+import kotlin.reflect.KClass
 
-internal abstract class BuildToolsApiCompilationWork @Inject constructor(
+internal abstract class BuildToolsApiCompilationWork<CompilerArgs : CommonCompilerArguments, BtaArgs: org.jetbrains.kotlin.buildtools.api.arguments.CommonCompilerArguments.Builder> @Inject constructor(
     private val fileSystemOperations: FileSystemOperations,
     private val objects: ObjectFactory,
 ) :
@@ -80,7 +81,229 @@ internal abstract class BuildToolsApiCompilationWork @Inject constructor(
         val compilerDiagnosticsProblemsReporterFactory: Property<CompilerDiagnosticsProblemsReporter.Factory>
     }
 
-    private val workArguments
+    fun performCompilation(
+        executionStrategy: KotlinCompilerExecutionStrategy,
+        log: KotlinLogger,
+        compilerMessageRenderer: ProblemsApiCompilerMessageRenderer,
+    ): CompilationResult {
+        try {
+            val buildSession = obtainBuildSession()
+            val kotlinToolchains = buildSession.kotlinToolchains
+            val args: CompilerArgs = parseCommandLineArguments(argumentsClass, workArguments.compilerArgs.toList())
+            val sources = args.freeArgs.mapNotNull {
+                try {
+                    Paths.get(it)
+                } catch (_: Exception) {
+                    null
+                }
+            }
+            val compilationOperationBuilder = kotlinToolchains.createOperationBuilder(sources, args)
+            compilationOperationBuilder.compilerArguments.applyArgumentStrings(workArguments.compilerArgs.toList())
+            setupBaseCompilationSettings(compilationOperationBuilder, compilerMessageRenderer)
+            setupIc(compilationOperationBuilder)
+            val compilationOperation = compilationOperationBuilder.build()
+            return runCompilationOperation(executionStrategy, kotlinToolchains, log, buildSession, compilationOperation)
+        } catch (e: Throwable) {
+            wrapAndRethrowCompilationException(executionStrategy, e)
+        }
+    }
+
+    @OptIn(ExperimentalCompilerArgument::class)
+    internal abstract class Wasm @Inject constructor(
+        fileSystemOperations: FileSystemOperations,
+        objects: ObjectFactory,
+    ) : BuildToolsApiCompilationWork<KotlinWasmCompilerArguments, CommonJsAndWasmArguments.Builder>(fileSystemOperations, objects) {
+        override val argumentsClass = KotlinWasmCompilerArguments::class
+        override val BaseCompilationOperation.Builder.compilerArguments: CommonJsAndWasmArguments.Builder
+            get() = when (this) {
+                is WasmKlibCompilationOperation.Builder -> {
+                    this.compilerArguments
+                }
+                is WasmLinkingOperation.Builder -> {
+                    this.compilerArguments
+                }
+                else -> error("Unknown compilation operation builder type")
+            }
+
+        override fun KotlinToolchains.createOperationBuilder(sources: List<Path>, args: KotlinWasmCompilerArguments): BaseCompilationOperation.Builder {
+            val destination = Path(requireNotNull(args.outputDir))
+            return args.includes?.let { includes ->
+                wasm.wasmLinkingOperationBuilder(Path(includes), destination)
+            } ?: wasm.wasmKlibCompilationOperationBuilder(sources, destination)
+        }
+
+        override fun BaseCompilationOperation.Builder.build(): BaseCompilationOperation {
+            return when (this) {
+                is WasmKlibCompilationOperation.Builder -> build()
+                is WasmLinkingOperation.Builder -> build()
+                else -> error("Unexpected compilation operation type: $this")
+            }
+        }
+
+        override fun setupIc(compilationOperationBuilder: BaseCompilationOperation.Builder) {
+            if (compilationOperationBuilder is WasmKlibCompilationOperation.Builder) {
+                compilationOperationBuilder[WasmKlibCompilationOperation.INCREMENTAL_COMPILATION] =
+                    workArguments.incrementalCompilationEnvironment?.let { icEnv ->
+                        compilationOperationBuilder.historyBasedIcConfigurationBuilder(
+                            icEnv.rootProjectDir.toPath(),
+                            icEnv.workingDir.toPath(),
+                            icEnv.changedFiles,
+                            workArguments.incrementalModuleInfo?.let {
+                                it.dirToModule.map { (dir, module) ->
+                                    IncrementalModule(
+                                        module.name,
+                                        dir.toPath(),
+                                        module.buildDir.toPath(),
+                                        module.buildHistoryFile.parentFile.toPath()
+                                    )
+                                }
+                            } ?: emptyList()
+                        ).apply {
+                            setupBaseIcOptions(icEnv)
+                            this[WasmHistoryBasedIncrementalCompilationConfiguration.ROOT_PROJECT_BUILD_DIR] =
+                                workArguments.incrementalModuleInfo?.rootProjectBuildDir?.toPath()
+                            this[WasmHistoryBasedIncrementalCompilationConfiguration.HISTORY_FILE_DIR] =
+                                icEnv.multiModuleICSettings.buildHistoryFile.parentFile.toPath()
+                        }.build()
+                    }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCompilerArgument::class)
+    internal abstract class Js @Inject constructor(
+        fileSystemOperations: FileSystemOperations,
+        objects: ObjectFactory,
+    ) : BuildToolsApiCompilationWork<K2JSCompilerArguments, CommonJsAndWasmArguments.Builder>(fileSystemOperations, objects) {
+        override val argumentsClass = K2JSCompilerArguments::class
+        override val BaseCompilationOperation.Builder.compilerArguments: CommonJsAndWasmArguments.Builder
+            get() = when (this) {
+                is JsKlibCompilationOperation.Builder -> {
+                    this.compilerArguments
+                }
+                is JsLinkingOperation.Builder -> {
+                    this.compilerArguments
+                }
+                else -> error("Unknown compilation operation builder type")
+            }
+
+        override fun KotlinToolchains.createOperationBuilder(sources: List<Path>, args: K2JSCompilerArguments): BaseCompilationOperation.Builder {
+            val destination = Path(requireNotNull(args.outputDir))
+            return args.includes?.let { includes ->
+                js.jsLinkingOperationBuilder(Path(includes), destination)
+            } ?: js.jsKlibCompilationOperationBuilder(sources, destination)
+        }
+
+        override fun BaseCompilationOperation.Builder.build(): BaseCompilationOperation {
+            return when (this) {
+                is JsKlibCompilationOperation.Builder -> build()
+                is JsLinkingOperation.Builder -> build()
+                else -> error("Unexpected compilation operation type: $this")
+            }
+        }
+
+        override fun setupIc(compilationOperationBuilder: BaseCompilationOperation.Builder) {
+            if (compilationOperationBuilder is JsKlibCompilationOperation.Builder) {
+                compilationOperationBuilder[JsKlibCompilationOperation.INCREMENTAL_COMPILATION] =
+                    workArguments.incrementalCompilationEnvironment?.let { icEnv ->
+                        compilationOperationBuilder.historyBasedIcConfigurationBuilder(
+                            icEnv.rootProjectDir.toPath(),
+                            icEnv.workingDir.toPath(),
+                            icEnv.changedFiles,
+                            workArguments.incrementalModuleInfo?.let {
+                                it.dirToModule.map { (dir, module) ->
+                                    IncrementalModule(
+                                        module.name,
+                                        dir.toPath(),
+                                        module.buildDir.toPath(),
+                                        module.buildHistoryFile.parentFile.toPath()
+                                    )
+                                }
+                            } ?: emptyList()
+                        ).apply {
+                            setupBaseIcOptions(icEnv)
+                            this[JsHistoryBasedIncrementalCompilationConfiguration.ROOT_PROJECT_BUILD_DIR] =
+                                workArguments.incrementalModuleInfo?.rootProjectBuildDir?.toPath()
+                            this[JsHistoryBasedIncrementalCompilationConfiguration.HISTORY_FILE_DIR] =
+                                icEnv.multiModuleICSettings.buildHistoryFile.parentFile.toPath()
+                        }.build()
+                    }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalCompilerArgument::class)
+    internal abstract class Jvm @Inject constructor(
+        fileSystemOperations: FileSystemOperations,
+        objects: ObjectFactory,
+    ) : BuildToolsApiCompilationWork<K2JVMCompilerArguments, JvmCompilerArguments.Builder>(fileSystemOperations, objects) {
+        override val argumentsClass = K2JVMCompilerArguments::class
+        override val BaseCompilationOperation.Builder.compilerArguments: JvmCompilerArguments.Builder
+            get() = (this as JvmCompilationOperation.Builder).compilerArguments
+
+        override fun KotlinToolchains.createOperationBuilder(sources: List<Path>, args: K2JVMCompilerArguments): BaseCompilationOperation.Builder {
+            return jvm.jvmCompilationOperationBuilder(
+                args.freeArgs.mapNotNull {
+                    try {
+                        Paths.get(it)
+                    } catch (_: Exception) {
+                        null
+                    }
+                },
+                args.destinationAsFile.toPath()
+            ).also { compilationOperationBuilder ->
+                args.destination = null // TODO: KT-85394 refactor setting up arguments to avoid this hack
+                compilationOperationBuilder[KOTLINSCRIPT_EXTENSIONS] = workArguments.kotlinScriptExtensions
+            }
+        }
+
+        override fun BaseCompilationOperation.Builder.build(): BaseCompilationOperation {
+            this as JvmCompilationOperation.Builder
+            return build()
+        }
+
+        override fun setupIc(compilationOperationBuilder: BaseCompilationOperation.Builder) {
+            compilationOperationBuilder as JvmCompilationOperation.Builder
+            val icEnv = workArguments.incrementalCompilationEnvironment
+            val classpathChanges = icEnv?.classpathChanges
+            if (classpathChanges is ClasspathChanges.ClasspathSnapshotEnabled) {
+                @Suppress("DEPRECATION")
+                val classpathSnapshotsOptions = compilationOperationBuilder.snapshotBasedIcConfigurationBuilder(
+                    icEnv.workingDir.toPath(),
+                    icEnv.changedFiles,
+                    classpathChanges.classpathSnapshotFiles.currentClasspathEntrySnapshotFiles.map(File::toPath),
+                    classpathChanges.classpathSnapshotFiles.shrunkPreviousClasspathSnapshotFile.toPath(),
+                ).apply {
+                    setupBaseIcOptions(icEnv)
+                    this[FORCE_RECOMPILATION] =
+                        classpathChanges !is ClasspathChanges.ClasspathSnapshotEnabled.IncrementalRun
+                    this[PRECISE_JAVA_TRACKING] = icEnv.icFeatures.usePreciseJavaTracking
+                    this[USE_FIR_RUNNER] = icEnv.useJvmFirRunner
+
+                    when (classpathChanges) {
+                        is ClasspathChanges.ClasspathSnapshotEnabled.IncrementalRun.NoChanges -> {
+                            this[ASSURED_NO_CLASSPATH_SNAPSHOT_CHANGES] =
+                                true
+                        }
+                        is ClasspathChanges.ClasspathSnapshotEnabled.NotAvailableForNonIncrementalRun -> {
+                            this[FORCE_RECOMPILATION] = true
+                        }
+                        else -> {}
+                    }
+                }.build()
+
+                compilationOperationBuilder[INCREMENTAL_COMPILATION] = classpathSnapshotsOptions
+            }
+        }
+    }
+
+    abstract val argumentsClass: KClass<CompilerArgs>
+    abstract fun KotlinToolchains.createOperationBuilder(sources: List<Path>, args: CompilerArgs): BaseCompilationOperation.Builder
+    abstract val BaseCompilationOperation.Builder.compilerArguments: BtaArgs
+    abstract fun BaseCompilationOperation.Builder.build(): BaseCompilationOperation
+    abstract fun setupIc(compilationOperationBuilder: BaseCompilationOperation.Builder)
+
+    protected val workArguments
         get() = parameters.compilerWorkArguments.get()
 
     private val taskPath
@@ -93,153 +316,6 @@ internal abstract class BuildToolsApiCompilationWork @Inject constructor(
         BuildMetricsReporterImpl()
     } else {
         DoNothingBuildMetricsReporter
-    }
-
-    @OptIn(ExperimentalCompilerArgument::class)
-    private fun performWasmCompilation(
-        executionStrategy: KotlinCompilerExecutionStrategy,
-        log: KotlinLogger,
-        compilerMessageRenderer: ProblemsApiCompilerMessageRenderer,
-    ): CompilationResult {
-        try {
-            val buildSession = obtainBuildSession()
-            val kotlinToolchains = buildSession.kotlinToolchains
-            val args = parseCommandLineArguments<KotlinWasmCompilerArguments>(workArguments.compilerArgs.toList())
-            val sources = args.freeArgs.mapNotNull {
-                try {
-                    Paths.get(it)
-                } catch (_: Exception) {
-                    null
-                }
-            }
-            val destination = Path(requireNotNull(args.outputDir))
-
-            val wasmCompilationOperationBuilder: BaseCompilationOperation.Builder = args.includes?.let { includes ->
-                kotlinToolchains.wasm.wasmLinkingOperationBuilder(Path(includes), destination)
-            } ?: kotlinToolchains.wasm.wasmKlibCompilationOperationBuilder(sources, destination)
-
-            val compilationOperation =
-                wasmCompilationOperationBuilder.also { compilationOperationBuilder: BaseCompilationOperation.Builder ->
-                    when (compilationOperationBuilder) {
-                        is WasmKlibCompilationOperation.Builder -> {
-                            compilationOperationBuilder.compilerArguments.applyArgumentStrings(workArguments.compilerArgs.toList())
-                        }
-                        is WasmLinkingOperation.Builder -> {
-                            compilationOperationBuilder.compilerArguments.applyArgumentStrings(workArguments.compilerArgs.toList())
-                        }
-                    }
-                    setupBaseCompilationSettings(compilationOperationBuilder, compilerMessageRenderer)
-                    if (compilationOperationBuilder is WasmKlibCompilationOperation.Builder) {
-                        compilationOperationBuilder[WasmKlibCompilationOperation.INCREMENTAL_COMPILATION] =
-                            workArguments.incrementalCompilationEnvironment?.let { icEnv ->
-                                compilationOperationBuilder.historyBasedIcConfigurationBuilder(
-                                    icEnv.rootProjectDir.toPath(),
-                                    icEnv.workingDir.toPath(),
-                                    icEnv.changedFiles,
-                                    workArguments.incrementalModuleInfo?.let {
-                                        it.dirToModule.map { (dir, module) ->
-                                            IncrementalModule(
-                                                module.name,
-                                                dir.toPath(),
-                                                module.buildDir.toPath(),
-                                                module.buildHistoryFile.parentFile.toPath()
-                                            )
-                                        }
-                                    } ?: emptyList()
-                                ).apply {
-                                    setupBaseIcOptions(icEnv)
-                                    this[WasmHistoryBasedIncrementalCompilationConfiguration.ROOT_PROJECT_BUILD_DIR] =
-                                        workArguments.incrementalModuleInfo?.rootProjectBuildDir?.toPath()
-                                    this[WasmHistoryBasedIncrementalCompilationConfiguration.HISTORY_FILE_DIR] =
-                                        icEnv.multiModuleICSettings.buildHistoryFile.parentFile.toPath()
-                                }.build()
-                            }
-                    }
-                }.let {
-                    when (it) {
-                        is WasmKlibCompilationOperation.Builder -> it.build()
-                        is WasmLinkingOperation.Builder -> it.build()
-                        else -> error("Unexpected compilation operation type: $it")
-                    }
-                } as BaseCompilationOperation
-
-            return runCompilationOperation(executionStrategy, kotlinToolchains, log, buildSession, compilationOperation)
-        } catch (e: Throwable) {
-            wrapAndRethrowCompilationException(executionStrategy, e)
-        }
-    }
-
-    @OptIn(ExperimentalCompilerArgument::class)
-    private fun performJsCompilation(
-        executionStrategy: KotlinCompilerExecutionStrategy,
-        log: KotlinLogger,
-        compilerMessageRenderer: ProblemsApiCompilerMessageRenderer,
-    ): CompilationResult {
-        try {
-            val buildSession = obtainBuildSession()
-            val kotlinToolchains = buildSession.kotlinToolchains
-            val args = parseCommandLineArguments<K2JSCompilerArguments>(workArguments.compilerArgs.toList())
-            val sources = args.freeArgs.mapNotNull {
-                try {
-                    Paths.get(it)
-                } catch (_: Exception) {
-                    null
-                }
-            }
-            val destination = Path(requireNotNull(args.outputDir))
-
-            val jsCompilationOperationBuilder: BaseCompilationOperation.Builder = args.includes?.let { includes ->
-                kotlinToolchains.js.jsLinkingOperationBuilder(Path(includes), destination)
-            } ?: kotlinToolchains.js.jsKlibCompilationOperationBuilder(sources, destination)
-
-            val compilationOperation = jsCompilationOperationBuilder.also { compilationOperationBuilder: BaseCompilationOperation.Builder ->
-                when (compilationOperationBuilder) {
-                    is JsKlibCompilationOperation.Builder -> {
-                        compilationOperationBuilder.compilerArguments.applyArgumentStrings(workArguments.compilerArgs.toList())
-                    }
-                    is JsLinkingOperation.Builder -> {
-                        compilationOperationBuilder.compilerArguments.applyArgumentStrings(workArguments.compilerArgs.toList())
-                    }
-                }
-                setupBaseCompilationSettings(compilationOperationBuilder, compilerMessageRenderer)
-                if (compilationOperationBuilder is JsKlibCompilationOperation.Builder) {
-                    compilationOperationBuilder[JsKlibCompilationOperation.INCREMENTAL_COMPILATION] =
-                        workArguments.incrementalCompilationEnvironment?.let { icEnv ->
-                            compilationOperationBuilder.historyBasedIcConfigurationBuilder(
-                                icEnv.rootProjectDir.toPath(),
-                                icEnv.workingDir.toPath(),
-                                icEnv.changedFiles,
-                                workArguments.incrementalModuleInfo?.let {
-                                    it.dirToModule.map { (dir, module) ->
-                                        IncrementalModule(
-                                            module.name,
-                                            dir.toPath(),
-                                            module.buildDir.toPath(),
-                                            module.buildHistoryFile.parentFile.toPath()
-                                        )
-                                    }
-                                } ?: emptyList()
-                            ).apply {
-                                setupBaseIcOptions(icEnv)
-                                this[JsHistoryBasedIncrementalCompilationConfiguration.ROOT_PROJECT_BUILD_DIR] =
-                                    workArguments.incrementalModuleInfo?.rootProjectBuildDir?.toPath()
-                                this[JsHistoryBasedIncrementalCompilationConfiguration.HISTORY_FILE_DIR] =
-                                    icEnv.multiModuleICSettings.buildHistoryFile.parentFile.toPath()
-                            }.build()
-                        }
-                }
-            }.let {
-                when (it) {
-                    is JsKlibCompilationOperation.Builder -> it.build()
-                    is JsLinkingOperation.Builder -> it.build()
-                    else -> error("Unexpected compilation operation type: $it")
-                }
-            } as BaseCompilationOperation
-
-            return runCompilationOperation(executionStrategy, kotlinToolchains, log, buildSession, compilationOperation)
-        } catch (e: Throwable) {
-            wrapAndRethrowCompilationException(executionStrategy, e)
-        }
     }
 
     private fun runCompilationOperation(
@@ -280,85 +356,8 @@ internal abstract class BuildToolsApiCompilationWork @Inject constructor(
             workArguments.compilerExecutionSettings.generateCompilerRefIndex
     }
 
-    fun performCompilation(
-        executionStrategy: KotlinCompilerExecutionStrategy,
-        log: KotlinLogger,
-        compilerMessageRenderer: ProblemsApiCompilerMessageRenderer,
-    ): CompilationResult {
-        return when (workArguments.compilerClassName) {
-            KotlinCompilerClass.JS -> performJsCompilation(executionStrategy, log, compilerMessageRenderer)
-            KotlinCompilerClass.JVM -> performJvmCompilation(executionStrategy, log, compilerMessageRenderer)
-            KotlinCompilerClass.WASM -> performWasmCompilation(executionStrategy, log, compilerMessageRenderer)
-            else -> throw IllegalStateException("Unknown compiler class name: ${workArguments.compilerClassName}")
-        }
-    }
-
     @OptIn(ExperimentalCompilerArgument::class)
-    private fun performJvmCompilation(
-        executionStrategy: KotlinCompilerExecutionStrategy,
-        log: KotlinLogger,
-        compilerMessageRenderer: ProblemsApiCompilerMessageRenderer,
-    ): CompilationResult {
-        try {
-            val buildSession = obtainBuildSession()
-            val kotlinToolchains = buildSession.kotlinToolchains
-
-            val args = parseCommandLineArguments<K2JVMCompilerArguments>(workArguments.compilerArgs.toList())
-            val jvmCompilationOperation = kotlinToolchains.jvm.jvmCompilationOperationBuilder(
-                args.freeArgs.mapNotNull {
-                    try {
-                        Paths.get(it)
-                    } catch (_: Exception) {
-                        null
-                    }
-                },
-                args.destinationAsFile.toPath()
-            ).also { compilationOperationBuilder ->
-                // BTA does not support -d configured like a regular argument, it's configured on operation creation
-                args.destination = null // TODO: KT-85394 refactor setting up arguments to avoid this hack
-                compilationOperationBuilder.compilerArguments.applyArgumentStrings(args.toArgumentStrings())
-                compilationOperationBuilder[KOTLINSCRIPT_EXTENSIONS] = workArguments.kotlinScriptExtensions
-                setupBaseCompilationSettings(compilationOperationBuilder, compilerMessageRenderer)
-
-                val icEnv = workArguments.incrementalCompilationEnvironment
-                val classpathChanges = icEnv?.classpathChanges
-                if (classpathChanges is ClasspathChanges.ClasspathSnapshotEnabled) {
-                    @Suppress("DEPRECATION")
-                    val classpathSnapshotsOptions = compilationOperationBuilder.snapshotBasedIcConfigurationBuilder(
-                        icEnv.workingDir.toPath(),
-                        icEnv.changedFiles,
-                        classpathChanges.classpathSnapshotFiles.currentClasspathEntrySnapshotFiles.map(File::toPath),
-                        classpathChanges.classpathSnapshotFiles.shrunkPreviousClasspathSnapshotFile.toPath(),
-                    ).apply {
-                        setupBaseIcOptions(icEnv)
-                        this[FORCE_RECOMPILATION] =
-                            classpathChanges !is ClasspathChanges.ClasspathSnapshotEnabled.IncrementalRun
-                        this[PRECISE_JAVA_TRACKING] = icEnv.icFeatures.usePreciseJavaTracking
-                        this[USE_FIR_RUNNER] = icEnv.useJvmFirRunner
-
-                        when (classpathChanges) {
-                            is ClasspathChanges.ClasspathSnapshotEnabled.IncrementalRun.NoChanges -> {
-                                this[ASSURED_NO_CLASSPATH_SNAPSHOT_CHANGES] =
-                                    true
-                            }
-                            is ClasspathChanges.ClasspathSnapshotEnabled.NotAvailableForNonIncrementalRun -> {
-                                this[FORCE_RECOMPILATION] = true
-                            }
-                            else -> {}
-                        }
-                    }.build()
-
-                    compilationOperationBuilder[INCREMENTAL_COMPILATION] = classpathSnapshotsOptions
-                }
-            }.build()
-            return runCompilationOperation(executionStrategy, kotlinToolchains, log, buildSession, jvmCompilationOperation)
-        } catch (e: Throwable) {
-            wrapAndRethrowCompilationException(executionStrategy, e)
-        }
-    }
-
-    @OptIn(ExperimentalCompilerArgument::class)
-    private fun BaseIncrementalCompilationConfiguration.Builder.setupBaseIcOptions(
+    protected fun BaseIncrementalCompilationConfiguration.Builder.setupBaseIcOptions(
         icEnv: IncrementalCompilationEnvironment,
     ) {
         this[BaseIncrementalCompilationConfiguration.ROOT_PROJECT_DIR] = icEnv.rootProjectDir.toPath()

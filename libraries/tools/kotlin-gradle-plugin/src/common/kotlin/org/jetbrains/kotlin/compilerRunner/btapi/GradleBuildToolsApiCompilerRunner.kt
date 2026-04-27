@@ -10,11 +10,13 @@ import org.gradle.workers.WorkQueue
 import org.gradle.workers.WorkerExecutor
 import org.jetbrains.kotlin.build.report.metrics.BuildMetricsReporter
 import org.jetbrains.kotlin.build.report.metrics.BuildPerformanceMetric
-import org.jetbrains.kotlin.build.report.metrics.CALL_WORKER
 import org.jetbrains.kotlin.build.report.metrics.BuildTimeMetric
+import org.jetbrains.kotlin.build.report.metrics.CALL_WORKER
+import org.jetbrains.kotlin.cli.common.arguments.CommonCompilerArguments
 import org.jetbrains.kotlin.compilerRunner.CompilerExecutionSettings
 import org.jetbrains.kotlin.compilerRunner.GradleCompilerRunner
 import org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWorkArguments
+import org.jetbrains.kotlin.compilerRunner.KotlinCompilerClass
 import org.jetbrains.kotlin.gradle.internal.ClassLoadersCachingBuildService
 import org.jetbrains.kotlin.gradle.plugin.BuildFinishedListenerService
 import org.jetbrains.kotlin.gradle.plugin.internal.BuildIdService
@@ -22,6 +24,7 @@ import org.jetbrains.kotlin.gradle.tasks.GradleCompileTaskProvider
 import org.jetbrains.kotlin.gradle.tasks.TaskOutputsBackup
 import org.jetbrains.kotlin.statistics.metrics.StatisticsValuesConsumer
 import java.io.File
+import kotlin.reflect.KClass
 
 internal class GradleBuildToolsApiCompilerRunner(
     taskProvider: GradleCompileTaskProvider,
@@ -39,11 +42,19 @@ internal class GradleBuildToolsApiCompilerRunner(
 
     override fun runCompilerAsync(
         workArgs: GradleKotlinCompilerWorkArguments,
-        taskOutputsBackup: TaskOutputsBackup?
+        taskOutputsBackup: TaskOutputsBackup?,
     ): WorkQueue {
         buildMetrics.addTimeMetric(CALL_WORKER)
         val workQueue = workerExecutor.noIsolation()
-        workQueue.submit(BuildToolsApiCompilationWork::class.java) { params ->
+        val workClass: KClass<out BuildToolsApiCompilationWork<out CommonCompilerArguments, out org.jetbrains.kotlin.buildtools.api.arguments.CommonCompilerArguments.Builder>> =
+            when (workArgs.compilerClassName) {
+                KotlinCompilerClass.JS -> BuildToolsApiCompilationWork.Js::class
+                KotlinCompilerClass.JVM -> BuildToolsApiCompilationWork.Jvm::class
+                KotlinCompilerClass.WASM -> BuildToolsApiCompilationWork.Wasm::class
+//            KotlinCompilerClass.METADATA -> BuildToolsApiCompilationWork.Metadata::class
+                else -> throw IllegalStateException("Unknown compiler class name: ${workArgs.compilerClassName}")
+            }
+        workQueue.submit(workClass.java) { params ->
             params.compilerWorkArguments.set(workArgs)
             params.classLoadersCachingService.set(cachedClassLoadersService)
             params.buildFinishedListenerService.set(buildFinishedListenerService)

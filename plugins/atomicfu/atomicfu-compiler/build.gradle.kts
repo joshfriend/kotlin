@@ -214,7 +214,7 @@ projectTests {
         testInputsCheck {
             with(extraPermissions) {
                 // When the tests are building the caches, the compiler will attempt to resolve this dependency of `atomicfuNativeKlib`.
-                // But the compiler does know where to look for this dependency, and ends up looking in the working directory.
+                // But the compiler doesn't know where to look for this dependency, and ends up looking in the working directory.
                 // In the end, this dependency is not needed for the final binary, and so can be skipped.
                 // KT-85908
                 val missingCInteropLibrary = workingDir.resolve("org.jetbrains.kotlinx:atomicfu-cinterop-interop")

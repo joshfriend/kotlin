@@ -16,12 +16,18 @@ import org.jetbrains.kotlin.cli.pipeline.jvm.JvmConfigurationPipelinePhase
 import org.jetbrains.kotlin.cli.pipeline.jvm.JvmFrontendPipelinePhase
 import org.jetbrains.kotlin.codegen.forTestCompile.ForTestCompileRuntime
 import org.jetbrains.kotlin.config.Services
+import org.jetbrains.kotlin.fir.declarations.FirResolvePhase
+import org.jetbrains.kotlin.fir.declarations.staticScope
 import org.jetbrains.kotlin.fir.java.deserialization.FirJvmBuiltinsSymbolProvider
 import org.jetbrains.kotlin.fir.renderer.FirRenderer
-import org.jetbrains.kotlin.fir.resolve.providers.FirSymbolProvider
+import org.jetbrains.kotlin.fir.resolve.ScopeSession
 import org.jetbrains.kotlin.fir.resolve.providers.impl.FirCachingCompositeSymbolProvider
 import org.jetbrains.kotlin.fir.resolve.providers.symbolProvider
+import org.jetbrains.kotlin.fir.scopes.processAllCallables
+import org.jetbrains.kotlin.fir.scopes.processAllClassifiers
+import org.jetbrains.kotlin.fir.scopes.unsubstitutedScope
 import org.jetbrains.kotlin.fir.symbols.SymbolInternals
+import org.jetbrains.kotlin.fir.symbols.impl.FirRegularClassSymbol
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.platform.jvm.JvmPlatforms
@@ -106,13 +112,14 @@ class BuiltInsDeserializationForFirTestCase {
         return frontendOutput.frontendOutput.outputs.first().session
     }
 
-    @OptIn(SymbolInternals::class)
     private fun dumpPackageContent(
         session: FirSession,
         packageFqName: FqName,
         builder: StringBuilder,
     ) {
-        val symbolProvider = (session.symbolProvider as FirCachingCompositeSymbolProvider).providers.firstIsInstance<FirJvmBuiltinsSymbolProvider>()
+        val scopeSession = ScopeSession()
+        val symbolProvider =
+            (session.symbolProvider as FirCachingCompositeSymbolProvider).providers.firstIsInstance<FirJvmBuiltinsSymbolProvider>()
         val namesProvider = symbolProvider.symbolNamesProvider
         val classifierNames = namesProvider.getTopLevelClassifierNamesInPackage(packageFqName).orEmpty()
         val callableNames = namesProvider.getTopLevelCallableNamesInPackage(packageFqName).orEmpty()
@@ -123,19 +130,59 @@ class BuiltInsDeserializationForFirTestCase {
         builder.appendLine(decoration)
         builder.appendLine()
 
-        val firRenderer = FirRenderer(builder)
+        val firRenderer = FirRenderer(builder, classMemberRenderer = null)
 
         for (name in callableNames) {
             for (symbol in symbolProvider.getTopLevelCallableSymbols(packageFqName, name)) {
+                @OptIn(SymbolInternals::class)
                 firRenderer.renderElementAsString(symbol.fir)
                 builder.appendLine()
             }
         }
 
         for (name in classifierNames) {
-            val classLikeSymbol = symbolProvider.getClassLikeSymbolByClassId(ClassId.topLevel(packageFqName.child(name))) ?: continue
-            firRenderer.renderElementAsString(classLikeSymbol.fir)
-            builder.appendLine()
+            val classSymbol = symbolProvider.getClassLikeSymbolByClassId(ClassId.topLevel(packageFqName.child(name))) ?: continue
+            context(session, scopeSession) {
+                renderClass(firRenderer, classSymbol)
+                builder.appendLine()
+            }
+        }
+    }
+
+    @OptIn(SymbolInternals::class)
+    context(session: FirSession, scopeSession: ScopeSession)
+    private fun renderClass(renderer: FirRenderer, classSymbol: FirRegularClassSymbol) {
+        val printer = renderer.printer
+
+        val scope = classSymbol.unsubstitutedScope(
+            session,
+            scopeSession,
+            withForcedTypeCalculator = true,
+            memberRequiredPhase = FirResolvePhase.STATUS,
+        )
+        renderer.renderElementAsString(classSymbol.fir)
+        printer.renderInBraces {
+            scope.processAllCallables {
+                renderer.renderElementAsString(it.fir)
+                printer.println()
+            }
+
+            scope.processDeclaredConstructors {
+                renderer.renderElementAsString(it.fir)
+                printer.println()
+            }
+
+            scope.processAllClassifiers {
+                if (it is FirRegularClassSymbol) {
+                    renderClass(renderer, it)
+                    printer.println()
+                }
+            }
+
+            classSymbol.staticScope(session, scopeSession)?.processAllCallables {
+                renderer.renderElementAsString(it.fir)
+                printer.println()
+            }
         }
     }
 }

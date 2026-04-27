@@ -33,6 +33,12 @@ public final fun shortArrayOf(vararg elements: R|kotlin/ShortArray|): R|kotlin/S
 public final fun R|kotlin/Any?|.toString(): R|kotlin/String|
 
 public abstract interface Annotation : R|kotlin/Any| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 public open class Any {
@@ -56,9 +62,15 @@ public final class Array<T> : R|kotlin/Any|, R|kotlin/Cloneable|, R|java/io/Seri
     public final val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
-    public constructor<T>(size: R|kotlin/Int|, init: R|(kotlin/Int) -> T|): R|kotlin/Array<T>|
-
     public final override fun clone(): R|kotlin/Array<T>|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public constructor<T>(size: R|kotlin/Int|, init: R|(kotlin/Int) -> T|): R|kotlin/Array<T>|
 
 }
 
@@ -82,6 +94,12 @@ public final class Boolean : R|kotlin/Comparable<kotlin/Boolean>|, R|java/io/Ser
     private constructor(): R|kotlin/Boolean|
 
     @R|kotlin/SinceKotlin|(version = String(1.3)) public final companion object Companion : R|kotlin/Any| {
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
         private constructor(): R|kotlin/Boolean.Companion|
 
     }
@@ -98,11 +116,17 @@ public final class BooleanArray : R|kotlin/Any|, R|kotlin/Cloneable|, R|java/io/
     public final val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public final override fun clone(): R|kotlin/BooleanArray|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(size: R|kotlin/Int|): R|kotlin/BooleanArray|
 
     public constructor(size: R|kotlin/Int|, init: R|(kotlin/Int) -> kotlin/Boolean|): R|kotlin/BooleanArray|
-
-    public final override fun clone(): R|kotlin/BooleanArray|
 
 }
 
@@ -221,6 +245,8 @@ public final class Byte : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Byte>|, R
 
     @R|kotlin/internal/IntrinsicConstEvaluation|() public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
 
+    public open fun hashCode(): R|kotlin/Int|
+
     private constructor(): R|kotlin/Byte|
 
     public final companion object Companion : R|kotlin/Any| {
@@ -235,6 +261,12 @@ public final class Byte : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Byte>|, R
 
         @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.3)) public final const val SIZE_BITS: R|kotlin/Int| = Int(8)
             public get(): R|kotlin/Int|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
 
         private constructor(): R|kotlin/Byte.Companion|
 
@@ -252,11 +284,17 @@ public final class ByteArray : R|kotlin/Any|, R|kotlin/Cloneable|, R|java/io/Ser
     public final val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public final override fun clone(): R|kotlin/ByteArray|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(size: R|kotlin/Int|): R|kotlin/ByteArray|
 
     public constructor(size: R|kotlin/Int|, init: R|(kotlin/Int) -> kotlin/Byte|): R|kotlin/ByteArray|
-
-    public final override fun clone(): R|kotlin/ByteArray|
 
 }
 
@@ -330,6 +368,12 @@ public final class Char : R|kotlin/Comparable<kotlin/Char>|, R|java/io/Serializa
         @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.3)) public final const val SIZE_BITS: R|kotlin/Int| = Int(16)
             public get(): R|kotlin/Int|
 
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
         private constructor(): R|kotlin/Char.Companion|
 
     }
@@ -346,11 +390,17 @@ public final class CharArray : R|kotlin/Any|, R|kotlin/Cloneable|, R|java/io/Ser
     public final val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public final override fun clone(): R|kotlin/CharArray|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(size: R|kotlin/Int|): R|kotlin/CharArray|
 
     public constructor(size: R|kotlin/Int|, init: R|(kotlin/Int) -> kotlin/Char|): R|kotlin/CharArray|
-
-    public final override fun clone(): R|kotlin/CharArray|
 
 }
 
@@ -362,21 +412,45 @@ public abstract interface CharSequence : R|kotlin/Any| {
     public abstract val length: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 public abstract interface Cloneable : R|kotlin/Any| {
     protected open fun clone(): R|kotlin/Any|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
 }
 
 public abstract interface Comparable<in T> : R|kotlin/Any| {
     public abstract operator fun compareTo(other: R|T|): R|kotlin/Int|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.TYPE)) @R|kotlin/annotation/MustBeDocumented|() @R|kotlin/SinceKotlin|(version = String(1.7)) public final annotation class ContextFunctionTypeParams : R|kotlin/Annotation| {
     public final val count: R|kotlin/Int|
         public get(): R|kotlin/Int|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(count: R|kotlin/Int|): R|kotlin/ContextFunctionTypeParams|
 
@@ -392,6 +466,12 @@ public abstract interface Comparable<in T> : R|kotlin/Any| {
     public final val level: R|kotlin/DeprecationLevel|
         public get(): R|kotlin/DeprecationLevel|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(message: R|kotlin/String|, replaceWith: R|kotlin/ReplaceWith| = STUB, level: R|kotlin/DeprecationLevel| = STUB): R|kotlin/Deprecated|
 
 }
@@ -406,12 +486,49 @@ public abstract interface Comparable<in T> : R|kotlin/Any| {
     public final val hiddenSince: R|kotlin/String|
         public get(): R|kotlin/String|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(warningSince: R|kotlin/String| = STUB, errorSince: R|kotlin/String| = STUB, hiddenSince: R|kotlin/String| = STUB): R|kotlin/DeprecatedSinceKotlin|
 
 }
 
 public final enum class DeprecationLevel : R|kotlin/Enum<kotlin/DeprecationLevel>| {
+    public final override operator fun compareTo(other: R|kotlin/DeprecationLevel|): R|kotlin/Int|
+
+    protected final override fun clone(): R|kotlin/Any|
+
+    public final override operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public final override fun hashCode(): R|kotlin/Int|
+
+    public open override fun toString(): R|kotlin/String|
+
+    @PROPERTY:R|kotlin/internal/IntrinsicConstEvaluation|() public final override val name: R|kotlin/String|
+        public get(): R|kotlin/String|
+
+    public final override val ordinal: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public final override fun getDeclaringClass(): R|java/lang/Class<kotlin/DeprecationLevel!>!|
+
+    protected/*protected and package*/ final override fun finalize(): R|kotlin/Unit|
+
     private constructor(): R|kotlin/DeprecationLevel|
+
+    public final companion object Companion : R|kotlin/Any| {
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
+        private constructor(): R|kotlin/Enum.Companion|
+
+    }
 
     public final static enum entry WARNING: R|kotlin/DeprecationLevel|
     public final static enum entry ERROR: R|kotlin/DeprecationLevel|
@@ -421,9 +538,6 @@ public final enum class DeprecationLevel : R|kotlin/Enum<kotlin/DeprecationLevel
 
     public final static fun valueOf(value: R|kotlin/String|): R|kotlin/DeprecationLevel| {
     }
-
-    public final static val entries: R|kotlin/enums/EnumEntries<kotlin/DeprecationLevel>|
-        public static get(): R|kotlin/enums/EnumEntries<kotlin/DeprecationLevel>|
 
 }
 
@@ -526,6 +640,8 @@ public final class Double : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Double>
 
     @R|kotlin/internal/IntrinsicConstEvaluation|() public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
 
+    public open fun hashCode(): R|kotlin/Int|
+
     private constructor(): R|kotlin/Double|
 
     public final companion object Companion : R|kotlin/Any| {
@@ -550,6 +666,12 @@ public final class Double : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Double>
         @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.4)) public final const val SIZE_BITS: R|kotlin/Int| = Int(64)
             public get(): R|kotlin/Int|
 
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
         private constructor(): R|kotlin/Double.Companion|
 
     }
@@ -566,15 +688,27 @@ public final class DoubleArray : R|kotlin/Any|, R|kotlin/Cloneable|, R|java/io/S
     public final val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public final override fun clone(): R|kotlin/DoubleArray|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(size: R|kotlin/Int|): R|kotlin/DoubleArray|
 
     public constructor(size: R|kotlin/Int|, init: R|(kotlin/Int) -> kotlin/Double|): R|kotlin/DoubleArray|
 
-    public final override fun clone(): R|kotlin/DoubleArray|
-
 }
 
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.ANNOTATION_CLASS)) @R|kotlin/annotation/Retention|(value = kotlin/annotation/AnnotationRetention.BINARY) @R|kotlin/annotation/MustBeDocumented|() @R|kotlin/SinceKotlin|(version = String(1.1)) public final annotation class DslMarker : R|kotlin/Annotation| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/DslMarker|
 
 }
@@ -596,9 +730,19 @@ public abstract class Enum<E : R|kotlin/Enum<E>|> : R|kotlin/Comparable<E>|, R|j
     public final val ordinal: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public final fun getDeclaringClass(): R|java/lang/Class<E!>!|
+
+    protected/*protected and package*/ final fun finalize(): R|kotlin/Unit|
+
     public constructor<E : R|kotlin/Enum<E>|>(name: R|kotlin/String| = STUB, ordinal: R|kotlin/Int| = STUB): R|kotlin/Enum<E>|
 
     public final companion object Companion : R|kotlin/Any| {
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
         private constructor(): R|kotlin/Enum.Companion|
 
     }
@@ -606,16 +750,34 @@ public abstract class Enum<E : R|kotlin/Enum<E>|> : R|kotlin/Comparable<E>|, R|j
 }
 
 @R|kotlin/RequiresOptIn|(level = kotlin/RequiresOptIn.Level.ERROR) @R|kotlin/annotation/Retention|(value = kotlin/annotation/AnnotationRetention.BINARY) @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.CLASS, kotlin/annotation/AnnotationTarget.ANNOTATION_CLASS, kotlin/annotation/AnnotationTarget.PROPERTY, kotlin/annotation/AnnotationTarget.FIELD, kotlin/annotation/AnnotationTarget.LOCAL_VARIABLE, kotlin/annotation/AnnotationTarget.VALUE_PARAMETER, kotlin/annotation/AnnotationTarget.CONSTRUCTOR, kotlin/annotation/AnnotationTarget.FUNCTION, kotlin/annotation/AnnotationTarget.PROPERTY_GETTER, kotlin/annotation/AnnotationTarget.PROPERTY_SETTER, kotlin/annotation/AnnotationTarget.TYPEALIAS)) @R|kotlin/annotation/MustBeDocumented|() @R|kotlin/SinceKotlin|(version = String(1.3)) public final annotation class ExperimentalStdlibApi : R|kotlin/Annotation| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/ExperimentalStdlibApi|
 
 }
 
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.CLASS)) @R|kotlin/annotation/Retention|(value = kotlin/annotation/AnnotationRetention.BINARY) @R|kotlin/SinceKotlin|(version = String(1.8)) @R|kotlin/RequiresOptIn|() public final annotation class ExperimentalSubclassOptIn : R|kotlin/Annotation| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/ExperimentalSubclassOptIn|
 
 }
 
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.TYPE)) @R|kotlin/annotation/MustBeDocumented|() public final annotation class ExtensionFunctionType : R|kotlin/Annotation| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/ExtensionFunctionType|
 
 }
@@ -719,6 +881,8 @@ public final class Float : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Float>|,
 
     @R|kotlin/internal/IntrinsicConstEvaluation|() public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
 
+    public open fun hashCode(): R|kotlin/Int|
+
     private constructor(): R|kotlin/Float|
 
     public final companion object Companion : R|kotlin/Any| {
@@ -743,6 +907,12 @@ public final class Float : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Float>|,
         @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.4)) public final const val SIZE_BITS: R|kotlin/Int| = Int(32)
             public get(): R|kotlin/Int|
 
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
         private constructor(): R|kotlin/Float.Companion|
 
     }
@@ -759,18 +929,36 @@ public final class FloatArray : R|kotlin/Any|, R|kotlin/Cloneable|, R|java/io/Se
     public final val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public final override fun clone(): R|kotlin/FloatArray|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(size: R|kotlin/Int|): R|kotlin/FloatArray|
 
     public constructor(size: R|kotlin/Int|, init: R|(kotlin/Int) -> kotlin/Float|): R|kotlin/FloatArray|
 
-    public final override fun clone(): R|kotlin/FloatArray|
-
 }
 
 public abstract interface Function<out R> : R|kotlin/Any| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.FUNCTION)) @R|kotlin/annotation/MustBeDocumented|() @R|kotlin/SinceKotlin|(version = String(2.2)) public final annotation class IgnorableReturnValue : R|kotlin/Annotation| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/IgnorableReturnValue|
 
 }
@@ -904,6 +1092,8 @@ public final class Int : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Int>|, R|j
 
     @R|kotlin/internal/IntrinsicConstEvaluation|() public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
 
+    public open fun hashCode(): R|kotlin/Int|
+
     private constructor(): R|kotlin/Int|
 
     public final companion object Companion : R|kotlin/Any| {
@@ -918,6 +1108,12 @@ public final class Int : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Int>|, R|j
 
         @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.3)) public final const val SIZE_BITS: R|kotlin/Int| = Int(32)
             public get(): R|kotlin/Int|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
 
         private constructor(): R|kotlin/Int.Companion|
 
@@ -935,11 +1131,17 @@ public final class IntArray : R|kotlin/Any|, R|kotlin/Cloneable|, R|java/io/Seri
     public final val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public final override fun clone(): R|kotlin/IntArray|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(size: R|kotlin/Int|): R|kotlin/IntArray|
 
     public constructor(size: R|kotlin/Int|, init: R|(kotlin/Int) -> kotlin/Int|): R|kotlin/IntArray|
-
-    public final override fun clone(): R|kotlin/IntArray|
 
 }
 
@@ -1072,6 +1274,8 @@ public final class Long : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Long>|, R
 
     @R|kotlin/internal/IntrinsicConstEvaluation|() public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
 
+    public open fun hashCode(): R|kotlin/Int|
+
     private constructor(): R|kotlin/Long|
 
     public final companion object Companion : R|kotlin/Any| {
@@ -1086,6 +1290,12 @@ public final class Long : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Long>|, R
 
         @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.3)) public final const val SIZE_BITS: R|kotlin/Int| = Int(64)
             public get(): R|kotlin/Int|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
 
         private constructor(): R|kotlin/Long.Companion|
 
@@ -1103,15 +1313,27 @@ public final class LongArray : R|kotlin/Any|, R|kotlin/Cloneable|, R|java/io/Ser
     public final val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public final override fun clone(): R|kotlin/LongArray|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(size: R|kotlin/Int|): R|kotlin/LongArray|
 
     public constructor(size: R|kotlin/Int|, init: R|(kotlin/Int) -> kotlin/Long|): R|kotlin/LongArray|
 
-    public final override fun clone(): R|kotlin/LongArray|
-
 }
 
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.FILE, kotlin/annotation/AnnotationTarget.CLASS)) @R|kotlin/SinceKotlin|(version = String(2.3)) public final annotation class MustUseReturnValues : R|kotlin/Annotation| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/MustUseReturnValues|
 
 }
@@ -1138,6 +1360,12 @@ See https://youtrack.jetbrains.com/issue/KT-46465 for details about the migratio
 
     public abstract fun toByte(): R|kotlin/Byte|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/Number|
 
 }
@@ -1145,6 +1373,12 @@ See https://youtrack.jetbrains.com/issue/KT-46465 for details about the migratio
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.CLASS, kotlin/annotation/AnnotationTarget.PROPERTY, kotlin/annotation/AnnotationTarget.LOCAL_VARIABLE, kotlin/annotation/AnnotationTarget.VALUE_PARAMETER, kotlin/annotation/AnnotationTarget.CONSTRUCTOR, kotlin/annotation/AnnotationTarget.FUNCTION, kotlin/annotation/AnnotationTarget.PROPERTY_GETTER, kotlin/annotation/AnnotationTarget.PROPERTY_SETTER, kotlin/annotation/AnnotationTarget.EXPRESSION, kotlin/annotation/AnnotationTarget.FILE, kotlin/annotation/AnnotationTarget.TYPEALIAS)) @R|kotlin/annotation/Retention|(value = kotlin/annotation/AnnotationRetention.SOURCE) @R|kotlin/SinceKotlin|(version = String(1.3)) public final annotation class OptIn : R|kotlin/Annotation| {
     public final val markerClass: R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|
         public get(): R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(vararg markerClass: R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|): R|kotlin/OptIn|
 
@@ -1154,11 +1388,23 @@ See https://youtrack.jetbrains.com/issue/KT-46465 for details about the migratio
     public final val name: R|kotlin/String|
         public get(): R|kotlin/String|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(name: R|kotlin/String|): R|kotlin/ParameterName|
 
 }
 
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.CLASS, kotlin/annotation/AnnotationTarget.CONSTRUCTOR, kotlin/annotation/AnnotationTarget.FUNCTION, kotlin/annotation/AnnotationTarget.PROPERTY)) @R|kotlin/annotation/Retention|(value = kotlin/annotation/AnnotationRetention.BINARY) @R|kotlin/annotation/MustBeDocumented|() @R|kotlin/SinceKotlin|(version = String(1.1)) public final annotation class PublishedApi : R|kotlin/Annotation| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/PublishedApi|
 
 }
@@ -1169,6 +1415,12 @@ See https://youtrack.jetbrains.com/issue/KT-46465 for details about the migratio
 
     public final val imports: R|kotlin/Array<out kotlin/String>|
         public get(): R|kotlin/Array<out kotlin/String>|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(expression: R|kotlin/String|, vararg imports: R|kotlin/Array<out kotlin/String>|): R|kotlin/ReplaceWith|
 
@@ -1181,10 +1433,47 @@ See https://youtrack.jetbrains.com/issue/KT-46465 for details about the migratio
     public final val level: R|kotlin/RequiresOptIn.Level|
         public get(): R|kotlin/RequiresOptIn.Level|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(message: R|kotlin/String| = STUB, level: R|kotlin/RequiresOptIn.Level| = STUB): R|kotlin/RequiresOptIn|
 
     public final enum class Level : R|kotlin/Enum<kotlin/RequiresOptIn.Level>| {
+        public final override operator fun compareTo(other: R|kotlin/RequiresOptIn.Level|): R|kotlin/Int|
+
+        protected final override fun clone(): R|kotlin/Any|
+
+        public final override operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public final override fun hashCode(): R|kotlin/Int|
+
+        public open override fun toString(): R|kotlin/String|
+
+        @PROPERTY:R|kotlin/internal/IntrinsicConstEvaluation|() public final override val name: R|kotlin/String|
+            public get(): R|kotlin/String|
+
+        public final override val ordinal: R|kotlin/Int|
+            public get(): R|kotlin/Int|
+
+        public final override fun getDeclaringClass(): R|java/lang/Class<kotlin/RequiresOptIn.Level!>!|
+
+        protected/*protected and package*/ final override fun finalize(): R|kotlin/Unit|
+
         private constructor(): R|kotlin/RequiresOptIn.Level|
+
+        public final companion object Companion : R|kotlin/Any| {
+            public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+            public open fun hashCode(): R|kotlin/Int|
+
+            public open fun toString(): R|kotlin/String|
+
+            private constructor(): R|kotlin/Enum.Companion|
+
+        }
 
         public final static enum entry WARNING: R|kotlin/RequiresOptIn.Level|
         public final static enum entry ERROR: R|kotlin/RequiresOptIn.Level|
@@ -1193,9 +1482,6 @@ See https://youtrack.jetbrains.com/issue/KT-46465 for details about the migratio
 
         public final static fun valueOf(value: R|kotlin/String|): R|kotlin/RequiresOptIn.Level| {
         }
-
-        public final static val entries: R|kotlin/enums/EnumEntries<kotlin/RequiresOptIn.Level>|
-            public static get(): R|kotlin/enums/EnumEntries<kotlin/RequiresOptIn.Level>|
 
     }
 
@@ -1316,6 +1602,8 @@ public final class Short : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Short>|,
 
     @R|kotlin/internal/IntrinsicConstEvaluation|() public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
 
+    public open fun hashCode(): R|kotlin/Int|
+
     private constructor(): R|kotlin/Short|
 
     public final companion object Companion : R|kotlin/Any| {
@@ -1330,6 +1618,12 @@ public final class Short : R|kotlin/Number|, R|kotlin/Comparable<kotlin/Short>|,
 
         @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.3)) public final const val SIZE_BITS: R|kotlin/Int| = Int(16)
             public get(): R|kotlin/Int|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
 
         private constructor(): R|kotlin/Short.Companion|
 
@@ -1347,17 +1641,29 @@ public final class ShortArray : R|kotlin/Any|, R|kotlin/Cloneable|, R|java/io/Se
     public final val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public final override fun clone(): R|kotlin/ShortArray|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(size: R|kotlin/Int|): R|kotlin/ShortArray|
 
     public constructor(size: R|kotlin/Int|, init: R|(kotlin/Int) -> kotlin/Short|): R|kotlin/ShortArray|
-
-    public final override fun clone(): R|kotlin/ShortArray|
 
 }
 
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.CLASS, kotlin/annotation/AnnotationTarget.PROPERTY, kotlin/annotation/AnnotationTarget.FIELD, kotlin/annotation/AnnotationTarget.CONSTRUCTOR, kotlin/annotation/AnnotationTarget.FUNCTION, kotlin/annotation/AnnotationTarget.PROPERTY_GETTER, kotlin/annotation/AnnotationTarget.PROPERTY_SETTER, kotlin/annotation/AnnotationTarget.TYPEALIAS)) @R|kotlin/annotation/Retention|(value = kotlin/annotation/AnnotationRetention.BINARY) @R|kotlin/annotation/MustBeDocumented|() public final annotation class SinceKotlin : R|kotlin/Annotation| {
     public final val version: R|kotlin/String|
         public get(): R|kotlin/String|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(version: R|kotlin/String|): R|kotlin/SinceKotlin|
 
@@ -1379,9 +1685,17 @@ public final class String : R|kotlin/Comparable<kotlin/String>|, R|kotlin/CharSe
     @PROPERTY:R|kotlin/internal/IntrinsicConstEvaluation|() public open val length: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public open fun hashCode(): R|kotlin/Int|
+
     public constructor(): R|kotlin/String|
 
     public final companion object Companion : R|kotlin/Any| {
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
         private constructor(): R|kotlin/String.Companion|
 
     }
@@ -1392,6 +1706,12 @@ public final class String : R|kotlin/Comparable<kotlin/String>|, R|kotlin/CharSe
     public final val markerClass: R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|
         public get(): R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(vararg markerClass: R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|): R|kotlin/SubclassOptInRequired|
 
 }
@@ -1399,6 +1719,12 @@ public final class String : R|kotlin/Comparable<kotlin/String>|, R|kotlin/CharSe
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.CLASS, kotlin/annotation/AnnotationTarget.ANNOTATION_CLASS, kotlin/annotation/AnnotationTarget.TYPE_PARAMETER, kotlin/annotation/AnnotationTarget.PROPERTY, kotlin/annotation/AnnotationTarget.FIELD, kotlin/annotation/AnnotationTarget.LOCAL_VARIABLE, kotlin/annotation/AnnotationTarget.VALUE_PARAMETER, kotlin/annotation/AnnotationTarget.CONSTRUCTOR, kotlin/annotation/AnnotationTarget.FUNCTION, kotlin/annotation/AnnotationTarget.PROPERTY_GETTER, kotlin/annotation/AnnotationTarget.PROPERTY_SETTER, kotlin/annotation/AnnotationTarget.TYPE, kotlin/annotation/AnnotationTarget.EXPRESSION, kotlin/annotation/AnnotationTarget.FILE, kotlin/annotation/AnnotationTarget.TYPEALIAS)) @R|kotlin/annotation/Retention|(value = kotlin/annotation/AnnotationRetention.SOURCE) public final annotation class Suppress : R|kotlin/Annotation| {
     public final val names: R|kotlin/Array<out kotlin/String>|
         public get(): R|kotlin/Array<out kotlin/String>|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(vararg names: R|kotlin/Array<out kotlin/String>|): R|kotlin/Suppress|
 
@@ -1410,6 +1736,28 @@ public open class Throwable : R|kotlin/Any|, R|java/io/Serializable| {
 
     public open val cause: R|kotlin/Throwable?|
         public get(): R|kotlin/Throwable?|
+
+    public open fun getLocalizedMessage(): R|kotlin/String!|
+
+    public open fun initCause(p0: R|kotlin/Throwable!|): R|kotlin/Throwable!|
+
+    public open fun toString(): R|kotlin/String|
+
+    public open fun printStackTrace(): R|kotlin/Unit|
+
+    public open fun printStackTrace(p0: R|java/io/PrintStream!|): R|kotlin/Unit|
+
+    public open fun printStackTrace(p0: R|java/io/PrintWriter!|): R|kotlin/Unit|
+
+    public open external fun fillInStackTrace(): R|kotlin/Throwable!|
+
+    public open fun getStackTrace(): R|ft<kotlin/Array<java/lang/StackTraceElement!>, kotlin/Array<out java/lang/StackTraceElement!>?>|
+
+    public open fun setStackTrace(p0: R|ft<kotlin/Array<java/lang/StackTraceElement!>, kotlin/Array<out java/lang/StackTraceElement!>?>|): R|kotlin/Unit|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
 
     public constructor(message: R|kotlin/String?|, cause: R|kotlin/Throwable?|): R|kotlin/Throwable|
 
@@ -1424,11 +1772,21 @@ public open class Throwable : R|kotlin/Any|, R|java/io/Serializable| {
 public final object Unit : R|kotlin/Any| {
     public open fun toString(): R|kotlin/String|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
     private constructor(): R|kotlin/Unit|
 
 }
 
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.TYPE)) @R|kotlin/annotation/Retention|(value = kotlin/annotation/AnnotationRetention.SOURCE) @R|kotlin/annotation/MustBeDocumented|() public final annotation class UnsafeVariance : R|kotlin/Annotation| {
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/UnsafeVariance|
 
 }
@@ -1436,6 +1794,12 @@ public final object Unit : R|kotlin/Any| {
 @R|kotlin/annotation/Target|(allowedTargets = <collectionLiteralCall>(kotlin/annotation/AnnotationTarget.CLASS, kotlin/annotation/AnnotationTarget.PROPERTY, kotlin/annotation/AnnotationTarget.CONSTRUCTOR, kotlin/annotation/AnnotationTarget.FUNCTION, kotlin/annotation/AnnotationTarget.TYPEALIAS)) @R|kotlin/annotation/Retention|(value = kotlin/annotation/AnnotationRetention.BINARY) internal final annotation class WasExperimental : R|kotlin/Annotation| {
     public final val markerClass: R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|
         public get(): R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(vararg markerClass: R|kotlin/Array<out kotlin/reflect/KClass<out kotlin/Annotation>>|): R|kotlin/WasExperimental|
 
@@ -1450,6 +1814,14 @@ public abstract class BooleanIterator : R|kotlin/collections/Iterator<kotlin/Boo
 
     public abstract fun nextBoolean(): R|kotlin/Boolean|
 
+    public abstract override operator fun hasNext(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/collections/BooleanIterator|
 
 }
@@ -1459,6 +1831,14 @@ public abstract class ByteIterator : R|kotlin/collections/Iterator<kotlin/Byte>|
 
     public abstract fun nextByte(): R|kotlin/Byte|
 
+    public abstract override operator fun hasNext(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/collections/ByteIterator|
 
 }
@@ -1467,6 +1847,14 @@ public abstract class CharIterator : R|kotlin/collections/Iterator<kotlin/Char>|
     public final operator fun next(): R|kotlin/Char|
 
     public abstract fun nextChar(): R|kotlin/Char|
+
+    public abstract override operator fun hasNext(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(): R|kotlin/collections/CharIterator|
 
@@ -1484,12 +1872,28 @@ public abstract interface Collection<out E> : R|kotlin/collections/Iterable<E>| 
     public abstract val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public abstract fun nonExistingMethod(p0: R|E!|): R|kotlin/String!|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 public abstract class DoubleIterator : R|kotlin/collections/Iterator<kotlin/Double>| {
     public final operator fun next(): R|kotlin/Double|
 
     public abstract fun nextDouble(): R|kotlin/Double|
+
+    public abstract override operator fun hasNext(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(): R|kotlin/collections/DoubleIterator|
 
@@ -1500,6 +1904,14 @@ public abstract class FloatIterator : R|kotlin/collections/Iterator<kotlin/Float
 
     public abstract fun nextFloat(): R|kotlin/Float|
 
+    public abstract override operator fun hasNext(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/collections/FloatIterator|
 
 }
@@ -1509,6 +1921,14 @@ public abstract class IntIterator : R|kotlin/collections/Iterator<kotlin/Int>| {
 
     public abstract fun nextInt(): R|kotlin/Int|
 
+    public abstract override operator fun hasNext(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public constructor(): R|kotlin/collections/IntIterator|
 
 }
@@ -1516,12 +1936,24 @@ public abstract class IntIterator : R|kotlin/collections/Iterator<kotlin/Int>| {
 public abstract interface Iterable<out T> : R|kotlin/Any| {
     public abstract operator fun iterator(): R|kotlin/collections/Iterator<T>|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 public abstract interface Iterator<out T> : R|kotlin/Any| {
     public abstract operator fun next(): R|T|
 
     public abstract operator fun hasNext(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
 }
 
@@ -1549,6 +1981,20 @@ public abstract interface List<out E> : R|kotlin/collections/Collection<E>| {
     public abstract val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public abstract fun getSomethingNonExisting(): R|kotlin/String!|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public abstract override fun nonExistingMethod(p0: R|E!|): R|kotlin/String!|
+
+    public open fun getFirst(): R|E|
+
+    public open fun getLast(): R|E|
+
 }
 
 public abstract interface ListIterator<out T> : R|kotlin/collections/Iterator<T>| {
@@ -1564,12 +2010,26 @@ public abstract interface ListIterator<out T> : R|kotlin/collections/Iterator<T>
 
     public abstract fun previousIndex(): R|kotlin/Int|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 public abstract class LongIterator : R|kotlin/collections/Iterator<kotlin/Long>| {
     public final operator fun next(): R|kotlin/Long|
 
     public abstract fun nextLong(): R|kotlin/Long|
+
+    public abstract override operator fun hasNext(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(): R|kotlin/collections/LongIterator|
 
@@ -1584,8 +2044,6 @@ public abstract interface Map<K, out V> : R|kotlin/Any| {
 
     public abstract operator fun get(key: R|K|): R|V?|
 
-    @R|kotlin/SinceKotlin|(version = String(1.1)) @R|kotlin/internal/PlatformDependent|() public open fun getOrDefault(key: R|K|, defaultValue: R|V|): R|V|
-
     public abstract val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
@@ -1598,12 +2056,24 @@ public abstract interface Map<K, out V> : R|kotlin/Any| {
     public abstract val entries: R|kotlin/collections/Set<kotlin/collections/Map.Entry<K, V>>|
         public get(): R|kotlin/collections/Set<kotlin/collections/Map.Entry<K, V>>|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public abstract interface Entry<out K, out V> : R|kotlin/Any| {
         public abstract val key: R|K|
             public get(): R|K|
 
         public abstract val value: R|V|
             public get(): R|V|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
 
     }
 
@@ -1624,20 +2094,55 @@ public abstract interface MutableCollection<E> : R|kotlin/collections/Collection
 
     public abstract fun clear(): R|kotlin/Unit|
 
+    public abstract override val size: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public abstract override fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract override operator fun contains(element: R|E|): R|kotlin/Boolean|
+
+    public abstract override fun containsAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    public abstract override fun nonExistingMethod(p0: R|E!|): R|kotlin/String!|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 public abstract interface MutableIterable<out T> : R|kotlin/collections/Iterable<T>| {
     public abstract operator fun iterator(): R|kotlin/collections/MutableIterator<T>|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
 }
 
 public abstract interface MutableIterator<out T> : R|kotlin/collections/Iterator<T>| {
     public abstract fun remove(): R|kotlin/Unit|
 
+    public abstract override operator fun hasNext(): R|kotlin/Boolean|
+
+    public abstract override operator fun next(): R|T|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 public abstract interface MutableList<E> : R|kotlin/collections/List<E>|, R|kotlin/collections/MutableCollection<E>| {
     @R|kotlin/IgnorableReturnValue|() public abstract fun add(element: R|E|): R|kotlin/Boolean|
+
+    public abstract fun add(index: R|kotlin/Int|, element: R|E|): R|kotlin/Unit|
 
     @R|kotlin/IgnorableReturnValue|() public abstract fun remove(element: R|E|): R|kotlin/Boolean|
 
@@ -1653,8 +2158,6 @@ public abstract interface MutableList<E> : R|kotlin/collections/List<E>|, R|kotl
 
     @R|kotlin/IgnorableReturnValue|() public abstract operator fun set(index: R|kotlin/Int|, element: R|E|): R|E|
 
-    public abstract fun add(index: R|kotlin/Int|, element: R|E|): R|kotlin/Unit|
-
     @R|kotlin/IgnorableReturnValue|() public abstract fun removeAt(index: R|kotlin/Int|): R|E|
 
     public abstract fun listIterator(): R|kotlin/collections/MutableListIterator<E>|
@@ -1662,6 +2165,37 @@ public abstract interface MutableList<E> : R|kotlin/collections/List<E>|, R|kotl
     public abstract fun listIterator(index: R|kotlin/Int|): R|kotlin/collections/MutableListIterator<E>|
 
     public abstract fun subList(fromIndex: R|kotlin/Int|, toIndex: R|kotlin/Int|): R|kotlin/collections/MutableList<E>|
+
+    public abstract override val size: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public abstract override fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract override operator fun contains(element: R|E|): R|kotlin/Boolean|
+
+    public abstract override operator fun iterator(): R|kotlin/collections/MutableIterator<E>|
+
+    public abstract override fun containsAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    public abstract override operator fun get(index: R|kotlin/Int|): R|E|
+
+    public abstract override fun indexOf(element: R|E|): R|kotlin/Int|
+
+    public abstract override fun lastIndexOf(element: R|E|): R|kotlin/Int|
+
+    public abstract override fun getSomethingNonExisting(): R|kotlin/String!|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public abstract override fun nonExistingMethod(p0: R|E!|): R|kotlin/String!|
+
+    public open override fun getFirst(): R|E|
+
+    public open override fun getLast(): R|E|
 
 }
 
@@ -1676,14 +2210,26 @@ public abstract interface MutableListIterator<T> : R|kotlin/collections/ListIter
 
     public abstract fun add(element: R|T|): R|kotlin/Unit|
 
+    public abstract override fun hasPrevious(): R|kotlin/Boolean|
+
+    public abstract override fun previous(): R|T|
+
+    public abstract override fun nextIndex(): R|kotlin/Int|
+
+    public abstract override fun previousIndex(): R|kotlin/Int|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
 }
 
 public abstract interface MutableMap<K, V> : R|kotlin/collections/Map<K, V>| {
     @R|kotlin/IgnorableReturnValue|() public abstract fun put(key: R|K|, value: R|V|): R|V?|
 
     @R|kotlin/IgnorableReturnValue|() public abstract fun remove(key: R|K|): R|V?|
-
-    @R|kotlin/SinceKotlin|(version = String(1.1)) @R|kotlin/internal/PlatformDependent|() @R|kotlin/IgnorableReturnValue|() public open fun remove(key: R|K|, value: R|V|): R|kotlin/Boolean|
 
     public abstract fun putAll(from: R|kotlin/collections/Map<out K, V>|): R|kotlin/Unit|
 
@@ -1698,8 +2244,52 @@ public abstract interface MutableMap<K, V> : R|kotlin/collections/Map<K, V>| {
     public abstract val entries: R|kotlin/collections/MutableSet<kotlin/collections/MutableMap.MutableEntry<K, V>>|
         public get(): R|kotlin/collections/MutableSet<kotlin/collections/MutableMap.MutableEntry<K, V>>|
 
+    public abstract override val size: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public abstract override fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract override fun containsKey(key: R|K|): R|kotlin/Boolean|
+
+    public abstract override fun containsValue(value: R|V|): R|kotlin/Boolean|
+
+    public abstract override operator fun get(key: R|K|): R|V?|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
     public abstract interface MutableEntry<K, V> : R|kotlin/collections/Map.Entry<K, V>| {
         @R|kotlin/IgnorableReturnValue|() public abstract fun setValue(newValue: R|V|): R|V|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
+        public abstract override val key: R|K|
+            public get(): R|K|
+
+        public abstract override val value: R|V|
+            public get(): R|V|
+
+    }
+
+    public abstract interface Entry<out K, out V> : R|kotlin/Any| {
+        public abstract val key: R|K|
+            public get(): R|K|
+
+        public abstract val value: R|V|
+            public get(): R|V|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
 
     }
 
@@ -1720,6 +2310,23 @@ public abstract interface MutableSet<E> : R|kotlin/collections/Set<E>|, R|kotlin
 
     public abstract fun clear(): R|kotlin/Unit|
 
+    public abstract override val size: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public abstract override fun isEmpty(): R|kotlin/Boolean|
+
+    public abstract override operator fun contains(element: R|E|): R|kotlin/Boolean|
+
+    public abstract override fun containsAll(elements: R|kotlin/collections/Collection<E>|): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public abstract override fun nonExistingMethod(p0: R|E!|): R|kotlin/String!|
+
 }
 
 public abstract interface Set<out E> : R|kotlin/collections/Collection<E>| {
@@ -1734,12 +2341,28 @@ public abstract interface Set<out E> : R|kotlin/collections/Collection<E>| {
     public abstract val size: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
+
+    public abstract override fun nonExistingMethod(p0: R|E!|): R|kotlin/String!|
+
 }
 
 public abstract class ShortIterator : R|kotlin/collections/Iterator<kotlin/Short>| {
     public final operator fun next(): R|kotlin/Short|
 
     public abstract fun nextShort(): R|kotlin/Short|
+
+    public abstract override operator fun hasNext(): R|kotlin/Boolean|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(): R|kotlin/collections/ShortIterator|
 
@@ -1774,6 +2397,12 @@ public open class CharProgression : R|kotlin/collections/Iterable<kotlin/Char>| 
     public final companion object Companion : R|kotlin/Any| {
         public final fun fromClosedRange(rangeStart: R|kotlin/Char|, rangeEnd: R|kotlin/Char|, step: R|kotlin/Int|): R|kotlin/ranges/CharProgression|
 
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
         private constructor(): R|kotlin/ranges/CharProgression.Companion|
 
     }
@@ -1783,6 +2412,10 @@ public open class CharProgression : R|kotlin/collections/Iterable<kotlin/Char>| 
 internal final class CharProgressionIterator : R|kotlin/collections/CharIterator| {
     public open operator fun hasNext(): R|kotlin/Boolean|
 
+    private final var hasNext: R|kotlin/Boolean|
+        private get(): R|kotlin/Boolean|
+        private set(value: R|kotlin/Boolean|): R|kotlin/Unit|
+
     public open fun nextChar(): R|kotlin/Char|
 
     public final val step: R|kotlin/Int|
@@ -1791,13 +2424,17 @@ internal final class CharProgressionIterator : R|kotlin/collections/CharIterator
     private final val finalElement: R|kotlin/Int|
         private get(): R|kotlin/Int|
 
-    private final var hasNext: R|kotlin/Boolean|
-        private get(): R|kotlin/Boolean|
-        private set(value: R|kotlin/Boolean|): R|kotlin/Unit|
+    public final operator fun next(): R|kotlin/Char|
 
     private final var next: R|kotlin/Int|
         private get(): R|kotlin/Int|
         private set(value: R|kotlin/Int|): R|kotlin/Unit|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(first: R|kotlin/Char|, last: R|kotlin/Char|, step: R|kotlin/Int|): R|kotlin/ranges/CharProgressionIterator|
 
@@ -1823,11 +2460,28 @@ public final class CharRange : R|kotlin/ranges/CharProgression|, R|kotlin/ranges
     @PROPERTY:R|kotlin/Deprecated|(message = String(Can throw an exception when it's impossible to represent the value with Char type, for example, when the range includes MAX_VALUE. It's recommended to use 'endInclusive' property that doesn't throw.)) @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.9)) @PROPERTY:R|kotlin/WasExperimental|(markerClass = <collectionLiteralCall>(<getClass>(<getClass>(R|kotlin/ExperimentalStdlibApi|)))) public open val endExclusive: R|kotlin/Char|
         public get(): R|kotlin/Char|
 
+    public open operator fun iterator(): R|kotlin/collections/CharIterator|
+
+    public final val first: R|kotlin/Char|
+        public get(): R|kotlin/Char|
+
+    public final val last: R|kotlin/Char|
+        public get(): R|kotlin/Char|
+
+    public final val step: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
     public constructor(start: R|kotlin/Char|, endInclusive: R|kotlin/Char|): R|kotlin/ranges/CharRange|
 
     public final companion object Companion : R|kotlin/Any| {
         public final val EMPTY: R|kotlin/ranges/CharRange|
             public get(): R|kotlin/ranges/CharRange|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
 
         private constructor(): R|kotlin/ranges/CharRange.Companion|
 
@@ -1845,6 +2499,12 @@ public abstract interface ClosedRange<T : R|kotlin/Comparable<T>|> : R|kotlin/An
 
     public abstract val endInclusive: R|T|
         public get(): R|T|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
 }
 
@@ -1873,6 +2533,12 @@ public open class IntProgression : R|kotlin/collections/Iterable<kotlin/Int>| {
     public final companion object Companion : R|kotlin/Any| {
         public final fun fromClosedRange(rangeStart: R|kotlin/Int|, rangeEnd: R|kotlin/Int|, step: R|kotlin/Int|): R|kotlin/ranges/IntProgression|
 
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
         private constructor(): R|kotlin/ranges/IntProgression.Companion|
 
     }
@@ -1882,6 +2548,10 @@ public open class IntProgression : R|kotlin/collections/Iterable<kotlin/Int>| {
 internal final class IntProgressionIterator : R|kotlin/collections/IntIterator| {
     public open operator fun hasNext(): R|kotlin/Boolean|
 
+    private final var hasNext: R|kotlin/Boolean|
+        private get(): R|kotlin/Boolean|
+        private set(value: R|kotlin/Boolean|): R|kotlin/Unit|
+
     public open fun nextInt(): R|kotlin/Int|
 
     public final val step: R|kotlin/Int|
@@ -1890,13 +2560,17 @@ internal final class IntProgressionIterator : R|kotlin/collections/IntIterator| 
     private final val finalElement: R|kotlin/Int|
         private get(): R|kotlin/Int|
 
-    private final var hasNext: R|kotlin/Boolean|
-        private get(): R|kotlin/Boolean|
-        private set(value: R|kotlin/Boolean|): R|kotlin/Unit|
+    public final operator fun next(): R|kotlin/Int|
 
     private final var next: R|kotlin/Int|
         private get(): R|kotlin/Int|
         private set(value: R|kotlin/Int|): R|kotlin/Unit|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(first: R|kotlin/Int|, last: R|kotlin/Int|, step: R|kotlin/Int|): R|kotlin/ranges/IntProgressionIterator|
 
@@ -1922,11 +2596,28 @@ public final class IntRange : R|kotlin/ranges/IntProgression|, R|kotlin/ranges/C
     @PROPERTY:R|kotlin/Deprecated|(message = String(Can throw an exception when it's impossible to represent the value with Int type, for example, when the range includes MAX_VALUE. It's recommended to use 'endInclusive' property that doesn't throw.)) @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.9)) @PROPERTY:R|kotlin/WasExperimental|(markerClass = <collectionLiteralCall>(<getClass>(<getClass>(R|kotlin/ExperimentalStdlibApi|)))) public open val endExclusive: R|kotlin/Int|
         public get(): R|kotlin/Int|
 
+    public open operator fun iterator(): R|kotlin/collections/IntIterator|
+
+    public final val first: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public final val last: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
+    public final val step: R|kotlin/Int|
+        public get(): R|kotlin/Int|
+
     public constructor(start: R|kotlin/Int|, endInclusive: R|kotlin/Int|): R|kotlin/ranges/IntRange|
 
     public final companion object Companion : R|kotlin/Any| {
         public final val EMPTY: R|kotlin/ranges/IntRange|
             public get(): R|kotlin/ranges/IntRange|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
 
         private constructor(): R|kotlin/ranges/IntRange.Companion|
 
@@ -1959,6 +2650,12 @@ public open class LongProgression : R|kotlin/collections/Iterable<kotlin/Long>| 
     public final companion object Companion : R|kotlin/Any| {
         public final fun fromClosedRange(rangeStart: R|kotlin/Long|, rangeEnd: R|kotlin/Long|, step: R|kotlin/Long|): R|kotlin/ranges/LongProgression|
 
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
+
         private constructor(): R|kotlin/ranges/LongProgression.Companion|
 
     }
@@ -1968,6 +2665,10 @@ public open class LongProgression : R|kotlin/collections/Iterable<kotlin/Long>| 
 internal final class LongProgressionIterator : R|kotlin/collections/LongIterator| {
     public open operator fun hasNext(): R|kotlin/Boolean|
 
+    private final var hasNext: R|kotlin/Boolean|
+        private get(): R|kotlin/Boolean|
+        private set(value: R|kotlin/Boolean|): R|kotlin/Unit|
+
     public open fun nextLong(): R|kotlin/Long|
 
     public final val step: R|kotlin/Long|
@@ -1976,13 +2677,17 @@ internal final class LongProgressionIterator : R|kotlin/collections/LongIterator
     private final val finalElement: R|kotlin/Long|
         private get(): R|kotlin/Long|
 
-    private final var hasNext: R|kotlin/Boolean|
-        private get(): R|kotlin/Boolean|
-        private set(value: R|kotlin/Boolean|): R|kotlin/Unit|
+    public final operator fun next(): R|kotlin/Long|
 
     private final var next: R|kotlin/Long|
         private get(): R|kotlin/Long|
         private set(value: R|kotlin/Long|): R|kotlin/Unit|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
     public constructor(first: R|kotlin/Long|, last: R|kotlin/Long|, step: R|kotlin/Long|): R|kotlin/ranges/LongProgressionIterator|
 
@@ -2008,11 +2713,28 @@ public final class LongRange : R|kotlin/ranges/LongProgression|, R|kotlin/ranges
     @PROPERTY:R|kotlin/Deprecated|(message = String(Can throw an exception when it's impossible to represent the value with Long type, for example, when the range includes MAX_VALUE. It's recommended to use 'endInclusive' property that doesn't throw.)) @PROPERTY:R|kotlin/SinceKotlin|(version = String(1.9)) @PROPERTY:R|kotlin/WasExperimental|(markerClass = <collectionLiteralCall>(<getClass>(<getClass>(R|kotlin/ExperimentalStdlibApi|)))) public open val endExclusive: R|kotlin/Long|
         public get(): R|kotlin/Long|
 
+    public open operator fun iterator(): R|kotlin/collections/LongIterator|
+
+    public final val first: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
+    public final val last: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
+    public final val step: R|kotlin/Long|
+        public get(): R|kotlin/Long|
+
     public constructor(start: R|kotlin/Long|, endInclusive: R|kotlin/Long|): R|kotlin/ranges/LongRange|
 
     public final companion object Companion : R|kotlin/Any| {
         public final val EMPTY: R|kotlin/ranges/LongRange|
             public get(): R|kotlin/ranges/LongRange|
+
+        public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+        public open fun hashCode(): R|kotlin/Int|
+
+        public open fun toString(): R|kotlin/String|
 
         private constructor(): R|kotlin/ranges/LongRange.Companion|
 
@@ -2030,5 +2752,11 @@ public final class LongRange : R|kotlin/ranges/LongProgression|, R|kotlin/ranges
 
     public abstract val endExclusive: R|T|
         public get(): R|T|
+
+    public open operator fun equals(other: R|kotlin/Any?|): R|kotlin/Boolean|
+
+    public open fun hashCode(): R|kotlin/Int|
+
+    public open fun toString(): R|kotlin/String|
 
 }

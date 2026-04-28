@@ -645,8 +645,8 @@ class KotlinCoreEnvironment private constructor(
 
             registerProjectServices(project)
 
-            for (extension in CompilerConfigurationExtension.getInstances(project)) {
-                extension.updateConfiguration(configuration)
+            for (extension in configuration.getCompilerExtensions(CompilerConfigurationExtension)) {
+                extension.updateConfiguration(project, configuration)
             }
         }
 
@@ -686,7 +686,6 @@ class KotlinCoreEnvironment private constructor(
             PreprocessedVirtualFileFactoryExtension.registerExtensionPoint(project)
 
             // K1 extensions for scripting
-            CompilerConfigurationExtension.registerExtensionPoint(project)
             CollectAdditionalSourcesExtension.registerExtensionPoint(project)
             ProcessSourcesBeforeCompilingExtension.registerExtensionPoint(project)
             ExtraImportsProviderExtension.registerExtensionPoint(project)

@@ -385,8 +385,9 @@ class NativeSecondStageCompilationConfig(
     val enableDebugTransparentStepping: Boolean
         get() = target.family.isAppleFamily && (configuration.get(BinaryOptions.enableDebugTransparentStepping) ?: true)
 
+    private val defaultLatin1Strings = false
     val latin1Strings: Boolean
-        get() = configuration.get(BinaryOptions.latin1Strings) ?: false
+        get() = configuration.get(BinaryOptions.latin1Strings) ?: defaultLatin1Strings
 
     init {
         // NB: producing LIBRARY is enabled on any combination of hosts/targets
@@ -536,6 +537,8 @@ class NativeSecondStageCompilationConfig(
         }
         if (cCallMode != defaultCCallMode)
             append("-ccall_mode${cCallMode.name}")
+        if (latin1Strings != defaultLatin1Strings)
+            append("-latin1_strings${if (latin1Strings) "ENABLE" else "DISABLE"}")
     }
 
     private val systemCacheFlavorString = buildString {

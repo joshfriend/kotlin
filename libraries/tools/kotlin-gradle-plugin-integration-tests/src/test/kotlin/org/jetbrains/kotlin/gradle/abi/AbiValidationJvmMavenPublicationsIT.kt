@@ -138,6 +138,7 @@ class AbiValidationJvmMavenPublicationsIT : KGPBaseTest() {
             build("updateKotlinAbi")
             dumpFromPublication = referenceJvmDumpFile().readText()
         }
+
         assertEquals(compilationsDump, dumpFromPublication)
     }
 }

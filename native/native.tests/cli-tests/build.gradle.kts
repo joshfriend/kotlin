@@ -49,6 +49,7 @@ projectTests {
     }
 
     withStdlibCommon()
+    // Required by AbstractCliTest.replaceTestPaths
     withThirdPartyAnnotations()
     withThirdPartyJsr305()
     withThirdPartyJava8Annotations()

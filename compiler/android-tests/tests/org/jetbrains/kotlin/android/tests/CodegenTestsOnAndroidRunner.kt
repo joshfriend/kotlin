@@ -208,7 +208,7 @@ class CodegenTestsOnAndroidRunner private constructor(private val pathManager: P
             return result
         }
 
-        private fun cleanAndBuildProject(gradleRunner: GradleRunner) {
+        private suspend fun cleanAndBuildProject(gradleRunner: GradleRunner) {
             gradleRunner.clean()
             gradleRunner.assembleAndroidTest()
         }

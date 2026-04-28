@@ -18,9 +18,8 @@ package org.jetbrains.kotlin.android.tests.gradle
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.util.text.Strings
-import org.jetbrains.kotlin.android.tests.OutputUtils
 import org.jetbrains.kotlin.android.tests.PathManager
-import org.jetbrains.kotlin.android.tests.run.RunUtils
+import org.jetbrains.kotlin.android.tests.run.runProcessCancellable
 
 class GradleRunner(pathManager: PathManager) {
     private val listOfCommands = ArrayList<String?>()
@@ -34,32 +33,24 @@ class GradleRunner(pathManager: PathManager) {
     }
 
 
-    fun clean() {
+    suspend fun clean() {
         println("Building gradle project...")
-        val result = RunUtils.execute(generateCommandLine("clean"))
-        OutputUtils.checkResult(result)
+        runProcessCancellable(generateCommandLine("clean"))
     }
 
-    fun assembleAndroidTest() {
+    suspend fun assembleAndroidTest() {
         println("Building gradle project...")
         val build = generateCommandLine("assembleAndroidTest")
         build.addParameter("--stacktrace")
         build.addParameter("--warn")
-        val result = RunUtils.execute(build)
-        OutputUtils.checkResult(result)
+        runProcessCancellable(build)
     }
 
-    fun installAndroidDebugTest(flavorName: String) {
+    suspend fun installAndroidDebugTest(flavorName: String) {
         println("Install tests for flavor $flavorName...")
         val capitalizedFlavor = Strings.capitalize(flavorName)
-        OutputUtils.checkResult(RunUtils.execute(generateCommandLine("install" + capitalizedFlavor + "Debug")))
-        OutputUtils.checkResult(RunUtils.execute(generateCommandLine("install" + capitalizedFlavor + "DebugAndroidTest")))
-    }
-
-    fun uninstallDebugAndroidTest() {
-        println("Uninstall tests...")
-        RunUtils.execute(generateCommandLine("uninstallDebugAndroidTest"))
-        RunUtils.execute(generateCommandLine("uninstallDebug"))
+        runProcessCancellable(generateCommandLine("install" + capitalizedFlavor + "Debug"))
+        runProcessCancellable(generateCommandLine("install" + capitalizedFlavor + "DebugAndroidTest"))
     }
 
     private fun generateCommandLine(taskName: String): GeneralCommandLine {

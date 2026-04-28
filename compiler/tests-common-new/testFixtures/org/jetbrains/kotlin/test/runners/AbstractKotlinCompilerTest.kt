@@ -48,6 +48,8 @@ abstract class AbstractKotlinCompilerTest {
 
         val defaultConfiguration: TestConfigurationBuilderBase<*, *>.() -> Unit = {
             assertions = JUnit5Assertions
+            @OptIn(TestInfrastructureInternals::class)
+            useCustomCompilerConfigurationProvider(::CompilerConfigurationProviderImpl) // default provider initialization
             useAdditionalService<TemporaryDirectoryManager>(::TemporaryDirectoryManagerImpl)
             useAdditionalService<TargetPlatformProvider>(::TargetPlatformProviderForCompilerTests)
             useSourcePreprocessor(*defaultPreprocessors.toTypedArray())

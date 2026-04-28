@@ -18,16 +18,16 @@ package org.jetbrains.kotlin.android.tests.emulator
 import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.util.text.StringUtil
-import org.jetbrains.kotlin.android.tests.OutputUtils
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withTimeout
 import org.jetbrains.kotlin.android.tests.PathManager
-import org.jetbrains.kotlin.android.tests.run.RunUtils
-import org.jetbrains.kotlin.android.tests.run.RunUtils.RunSettings
-import org.junit.Assert
+import org.jetbrains.kotlin.android.tests.run.runProcessCancellable
 import java.io.File
 import java.io.IOException
 import java.nio.file.Files
-import java.util.regex.Matcher
-import java.util.regex.Pattern
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 class Emulator(private val pathManager: PathManager, private val platform: String?) {
     private val createCommand: GeneralCommandLine
@@ -35,14 +35,9 @@ class Emulator(private val pathManager: PathManager, private val platform: Strin
             val commandLine = GeneralCommandLine()
             val androidCmdName = if (SystemInfo.isWindows) "avdmanager.bat" else "avdmanager"
             commandLine.exePath = pathManager.toolsFolderInAndroidSdk + "/bin/" + androidCmdName
-            commandLine.addParameter("create")
-            commandLine.addParameter("avd")
-            commandLine.addParameter("--force")
-            commandLine.addParameter("-n")
-            commandLine.addParameter(AVD_NAME)
-            commandLine.addParameter("-p")
-            commandLine.addParameter(pathManager.getAndroidAvdRoot())
-            commandLine.addParameter("-k")
+            commandLine.addParameters(
+                "create", "avd", "--force", "-n", AVD_NAME, "-p", pathManager.getAndroidAvdRoot(), "-k"
+            )
 
             // Allow override of system image via system property
             val overrideImage = System.getProperty("kotlin.android.avd.systemImage")
@@ -76,12 +71,7 @@ class Emulator(private val pathManager: PathManager, private val platform: Strin
                 commandLine.exePath = pathManager.emulatorFolderInAndroidSdk + "/emulator"
             }
 
-            commandLine.addParameter("-avd")
-            commandLine.addParameter(AVD_NAME)
-            commandLine.addParameter("-no-audio")
-            commandLine.addParameter("-no-window")
-            commandLine.addParameter("-gpu")
-            commandLine.addParameter("swiftshader_indirect")
+            commandLine.addParameters("-avd", AVD_NAME, "-no-audio", "-no-window", "-gpu", "swiftshader_indirect")
             if (isRunningInCi) {
                 println("Disabling emulator hardware acceleration in CI")
                 commandLine.addParameter("-no-accel")
@@ -103,19 +93,6 @@ class Emulator(private val pathManager: PathManager, private val platform: Strin
             val commandLine = createAdbCommand()
             commandLine.addParameter("kill-server")
             return commandLine
-        }
-
-    private val stopCommand: GeneralCommandLine?
-        get() {
-            if (SystemInfo.isWindows) {
-                val commandLine = GeneralCommandLine()
-                commandLine.exePath = "taskkill"
-                commandLine.addParameter("/F")
-                commandLine.addParameter("/IM")
-                commandLine.addParameter("emulator-$platform.exe")
-                return commandLine
-            }
-            return null
         }
 
     private fun patchAvdConfigSystemImage() {
@@ -156,9 +133,9 @@ class Emulator(private val pathManager: PathManager, private val platform: Strin
         }
     }
 
-    fun createEmulator() {
+    suspend fun createEmulator() {
         println("Creating emulator...")
-        OutputUtils.checkResult(RunUtils.execute(RunSettings(this.createCommand, "no", true, null, false)))
+        runProcessCancellable(createCommand, stdin = "no\n")
         // Fix up stale system image path in config.ini, otherwise, there will be androidSdk/androidSdk in path.
         patchAvdConfigSystemImage()
     }
@@ -169,105 +146,74 @@ class Emulator(private val pathManager: PathManager, private val platform: Strin
         return commandLine
     }
 
-    fun startServer() {
+    suspend fun startServer() {
         val commandLine = createAdbCommand()
         commandLine.addParameter("start-server")
         println("Start adb server...")
-        OutputUtils.checkResult(RunUtils.execute(RunSettings(commandLine, null, true, "ADB START:", true)))
+        runProcessCancellable(commandLine)
     }
 
-    fun startEmulator() {
-        startServer()
+    suspend fun runEmulator() {
         println("Starting emulator with ANDROID_HOME/ANDROID_SDK_ROOT: " + pathManager.androidSdkRoot)
-        val startCommand = this.startCommand
-        startCommand.withEnvironment("ANDROID_SDK_ROOT", pathManager.androidSdkRoot)
-        startCommand.withEnvironment("ANDROID_HOME", pathManager.androidSdkRoot)
-        RunUtils.executeOnSeparateThread(RunSettings(startCommand, null, false, "START: ", true))
-        printLog()
+        val command = startCommand
+        command.withEnvironment("ANDROID_SDK_ROOT", pathManager.androidSdkRoot)
+        command.withEnvironment("ANDROID_HOME", pathManager.androidSdkRoot)
+
+        runProcessCancellable(command)
     }
 
-    fun printLog() {
+    suspend fun printLog() {
         val commandLine = createAdbCommand()
-        commandLine.addParameter("logcat")
-        commandLine.addParameter("-v")
-        commandLine.addParameter("time")
-        commandLine.addParameter("-s")
-        commandLine.addParameter("dalvikvm:W")
-        commandLine.addParameter("TestRunner:I")
-        RunUtils.executeOnSeparateThread(RunSettings(commandLine, null, false, "LOGCAT: ", true))
+        commandLine.addParameters("logcat", "-v", "time", "-s", "dalvikvm:W", "TestRunner:I")
+        runProcessCancellable(commandLine)
     }
 
-    fun waitEmulatorStart() {
+    suspend fun waitEmulatorStart() {
         println("Waiting for emulator start...")
-        OutputUtils.checkResult(RunUtils.execute(this.waitCommand))
-        val bootCheckCommand = createAdbCommand()
-        bootCheckCommand.addParameter("shell")
-        bootCheckCommand.addParameter("getprop")
-        bootCheckCommand.addParameter("sys.boot_completed")
 
-        var counter = 0
-        var execute = RunUtils.execute(bootCheckCommand)
-        while (counter < 20) {
-            val output = execute.output
-            if (output.trim { it <= ' ' }.endsWith("1")) {
-                println("Emulator fully booted!")
-                return
+        withTimeout(androidStartupTimeout()) {
+            runProcessCancellable(waitCommand)
+
+            val bootCheckCommand = createAdbCommand()
+            bootCheckCommand.addParameters("shell", "getprop", "sys.boot_completed")
+
+            while (true) {
+                val result = runProcessCancellable(
+                    bootCheckCommand,
+                    timeout = 15.seconds,
+                    checkExitCode = false,
+                )
+                if (result.exitCode == 0 && result.stdout.trim() == "1") break
+                delay(10.seconds)
             }
-            println("Waiting for emulator boot ($counter)...")
-            try {
-                Thread.sleep(10000)
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
+
+            println("Waiting for Package Manager...")
+            val packageManagerCheckCommand = createAdbCommand()
+            packageManagerCheckCommand.addParameters("shell", "pm", "path", "android")
+
+            while (true) {
+                val result = runProcessCancellable(
+                    packageManagerCheckCommand,
+                    timeout = 15.seconds,
+                    checkExitCode = false,
+                )
+                if (result.exitCode == 0 && result.stdout.contains("package:")) break
+                delay(10.seconds)
             }
-            counter++
-            execute = RunUtils.execute(bootCheckCommand)
         }
-        Assert.fail("Can't find booted emulator: " + execute.output)
     }
 
-    fun waitForPackageManager() {
-        println("Waiting for Package Manager...")
-        val packageManagerCheckCommand = createAdbCommand()
-        packageManagerCheckCommand.addParameters("shell", "pm", "path", "android")
-
-        var counter = 0
-        var execute = RunUtils.execute(packageManagerCheckCommand)
-        while (counter < 20) {
-            val output = execute.output
-            if (execute.status && output.contains("package:")) {
-                println("Package Manager is ready!")
-                return
-            }
-
-            println("Waiting for Package Manager ($counter)...")
-            try {
-                Thread.sleep(10000)
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-            counter++
-            execute = RunUtils.execute(packageManagerCheckCommand)
-        }
-        Assert.fail("Can't access Package Manager: " + execute.output)
+    private fun androidStartupTimeout(): Duration {
+        val minutes = System.getenv("kotlin.tests.android.timeout")?.toLongOrNull() ?: 45L
+        return minutes.minutes
     }
 
-    fun stopEmulator() {
-        println("Stopping emulator...")
-
-        stopRedundantEmulators(pathManager)
-
-        finishProcess("emulator64-$platform")
-        finishProcess("emulator-$platform")
+    suspend fun stopAdbServer() {
+        println("Stopping adb server...")
+        runProcessCancellable(stopCommandForAdb)
     }
 
-    fun finishEmulatorProcesses() {
-        println("Stopping adb...")
-        OutputUtils.checkResult(RunUtils.execute(this.stopCommandForAdb))
-        finishProcess("adb")
-        stopDdmsProcess()
-    }
-
-    fun runTestsViaInstrumentation(suiteClassName: String?): String {
+    suspend fun runTestsViaInstrumentation(suiteClassName: String?): String {
         println("Running tests via adb instrumentation for $suiteClassName...")
         val adbCommand = createAdbCommand()
         adbCommand.addParameters(
@@ -275,42 +221,8 @@ class Emulator(private val pathManager: PathManager, private val platform: Strin
             "-e", "class", suiteClassName,
             "org.jetbrains.kotlin.android.tests.gradle/org.jetbrains.kotlin.android.tests.KotlinBoxInstrumentation"
         )
-        val execute = RunUtils.execute(adbCommand)
-        return execute.output
-    }
-
-    private fun stopRedundantEmulators(pathManager: PathManager) {
-        val commandLineForListOfDevices = createAdbCommand()
-        commandLineForListOfDevices.addParameter("devices")
-        val runResult = RunUtils.execute(commandLineForListOfDevices)
-        OutputUtils.checkResult(runResult)
-
-        val matcher: Matcher = EMULATOR_PATTERN.matcher(runResult.output)
-        var isDdmsStopped = false
-        while (matcher.find()) {
-            println("Stopping redundant emulator...")
-            val commandLineForStoppingEmulators = GeneralCommandLine()
-            if (SystemInfo.isWindows) {
-                commandLineForStoppingEmulators.exePath = "taskkill"
-                commandLineForStoppingEmulators.addParameter("/F")
-                commandLineForStoppingEmulators.addParameter("/IM")
-                commandLineForStoppingEmulators.addParameter("emulator-arm.exe")
-                OutputUtils.checkResult(RunUtils.execute(commandLineForStoppingEmulators))
-                break
-            } else {
-                if (!isDdmsStopped && SystemInfo.isUnix) {
-                    stopDdmsProcess()
-                    isDdmsStopped = true
-                }
-                commandLineForStoppingEmulators.exePath = pathManager.platformToolsFolderInAndroidSdk + "/adb"
-                commandLineForStoppingEmulators.addParameter("-s")
-                commandLineForStoppingEmulators.addParameter(matcher.group())
-                commandLineForStoppingEmulators.addParameter("emu")
-                commandLineForStoppingEmulators.addParameter("kill")
-                OutputUtils.checkResult(RunUtils.execute(commandLineForStoppingEmulators))
-            }
-        }
-        OutputUtils.checkResult(RunUtils.execute(commandLineForListOfDevices))
+        val execute = runProcessCancellable(adbCommand)
+        return execute.stdout
     }
 
     companion object {
@@ -319,54 +231,8 @@ class Emulator(private val pathManager: PathManager, private val platform: Strin
         private const val AVD_NAME = "kotlin_box_test_avd"
         private const val SYSTEM_IMAGE_API = "26"
 
-        private val EMULATOR_PATTERN: Pattern = Pattern.compile("emulator-([0-9])*")
-
         private val isRunningInCi: Boolean
             get() = java.lang.Boolean.getBoolean("kotlin.test.android.teamcity")
                     || !StringUtil.isEmpty(System.getenv("TEAMCITY_VERSION"))
-
-        //Only for Unix
-        private fun stopDdmsProcess() {
-            if (SystemInfo.isUnix) {
-                val listOfEmulatorProcess = GeneralCommandLine()
-                listOfEmulatorProcess.exePath = "sh"
-                listOfEmulatorProcess.addParameter("-c")
-                listOfEmulatorProcess.addParameter("ps aux | grep emulator")
-                val runResult = RunUtils.execute(listOfEmulatorProcess)
-                OutputUtils.checkResult(runResult)
-                val pidFromPsCommand = OutputUtils.getPidFromPsCommand(runResult.output)
-                if (pidFromPsCommand != null) {
-                    val killCommand = GeneralCommandLine()
-                    killCommand.exePath = "kill"
-                    killCommand.addParameter(pidFromPsCommand)
-                    RunUtils.execute(killCommand)
-                }
-            }
-        }
-
-        //Only for Unix
-        private fun finishProcess(processName: String) {
-            if (SystemInfo.isUnix) {
-                val pidOfProcess = GeneralCommandLine()
-                if (SystemInfo.isMac) {
-                    pidOfProcess.exePath = "pgrep"
-                    pidOfProcess.addParameter("-f")
-                } else {
-                    pidOfProcess.exePath = "pidof"
-                }
-                pidOfProcess.addParameter(processName)
-                val runResult = RunUtils.execute(pidOfProcess)
-                val processIdsStr = runResult.output.substring(("pidof $processName").length)
-                val processIds = StringUtil.getWordsIn(processIdsStr)
-                for (pid in processIds) {
-                    val killCommand = GeneralCommandLine()
-                    killCommand.exePath = "kill"
-                    killCommand.addParameter("-s")
-                    killCommand.addParameter("9")
-                    killCommand.addParameter(pid)
-                    RunUtils.execute(killCommand)
-                }
-            }
-        }
     }
 }

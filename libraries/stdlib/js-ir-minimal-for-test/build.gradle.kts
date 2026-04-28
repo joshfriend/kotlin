@@ -8,11 +8,6 @@ plugins {
 kotlin {
     js {
         nodejs()
-
-        // Use the same name as the full stdlib. This is so that in per-module box tests, the JS module corresponding
-        // to the standard library would have a predicatable name, no matter which flavor of stdlib the test is compiled against.
-        // In some test logic, there are certain assumptions about that name. For example, see `JsWrongModuleHandler`.
-        outputModuleName.set("kotlin-kotlin-stdlib")
     }
 }
 val commonMainFullSources by task<Sync> {
@@ -232,6 +227,14 @@ tasks {
     }
 
     named<KotlinCompilationTask<*>>("compileKotlinJs") {
-        compilerOptions.freeCompilerArgs.add("-Xir-module-name=kotlin")
+        compilerOptions {
+            freeCompilerArgs.addAll(
+                "-Xir-module-name=kotlin",
+                // Use the same name as the full stdlib. This is so that in per-module box tests, the JS module corresponding
+                // to the standard library would have a predicatable name, no matter which flavor of stdlib the test is compiled against.
+                // In some test logic, there are certain assumptions about that name. For example, see `JsWrongModuleHandler`.
+                "-Xir-per-module-output-name=kotlin-kotlin-stdlib"
+            )
+        }
     }
 }

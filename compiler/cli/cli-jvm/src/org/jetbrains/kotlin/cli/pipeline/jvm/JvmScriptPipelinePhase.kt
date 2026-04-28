@@ -17,6 +17,7 @@ import org.jetbrains.kotlin.cli.jvm.compiler.KotlinCoreEnvironment
 import org.jetbrains.kotlin.cli.pipeline.ConfigurationPipelineArtifact
 import org.jetbrains.kotlin.cli.pipeline.PipelinePhase
 import org.jetbrains.kotlin.cli.report
+import org.jetbrains.kotlin.compiler.plugin.getCompilerExtensions
 import org.jetbrains.kotlin.config.expressionToEvaluate
 
 object JvmScriptPipelinePhase : PipelinePhase<ConfigurationPipelineArtifact, JvmScriptPipelineArtifact>(
@@ -46,7 +47,8 @@ object JvmScriptPipelinePhase : PipelinePhase<ConfigurationPipelineArtifact, Jvm
             val argumentsStub = K2JVMCompilerArguments().apply {
                 script = true
             }
-            val scriptingEvaluator = ScriptEvaluationExtension.getInstances(projectEnvironment.project)
+            projectEnvironment
+            val scriptingEvaluator = configuration.getCompilerExtensions(ScriptEvaluationExtension)
                 .find { it.isAccepted(argumentsStub) }
             if (scriptingEvaluator == null) {
                 configuration.report(SCRIPTING_ERROR, "Unable to evaluate script, no scripting plugin loaded")

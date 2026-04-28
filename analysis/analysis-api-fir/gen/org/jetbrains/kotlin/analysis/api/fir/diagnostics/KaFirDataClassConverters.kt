@@ -3940,6 +3940,13 @@ private fun KaDiagnosticConverterBuilder.addConversions89() {
             token,
         )
     }
+    add(FirErrors.UNSUPPORTED_ARRAY_OF_NOTHING_IN_CLASS_LITERAL_LHS) { firDiagnostic ->
+        UnsupportedArrayOfNothingInClassLiteralLhsImpl(
+            firDiagnostic.a,
+            firDiagnostic as KtPsiDiagnostic,
+            token,
+        )
+    }
     add(FirErrors.ACTUAL_TYPE_ALIAS_WITH_USE_SITE_VARIANCE) { firDiagnostic ->
         ActualTypeAliasWithUseSiteVarianceImpl(
             firDiagnostic as KtPsiDiagnostic,

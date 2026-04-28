@@ -2514,6 +2514,11 @@ sealed interface KaFirDiagnostic<PSI : PsiElement> : KaDiagnosticWithPsi<PSI> {
         override val diagnosticClass get() = UnsupportedClassLiteralsWithEmptyLhs::class
     }
 
+    interface UnsupportedArrayOfNothingInClassLiteralLhs : KaFirDiagnostic<PsiElement> {
+        override val diagnosticClass get() = UnsupportedArrayOfNothingInClassLiteralLhs::class
+        val unsupported: String
+    }
+
     interface MutablePropertyWithCapturedType : KaFirDiagnostic<PsiElement> {
         override val diagnosticClass get() = MutablePropertyWithCapturedType::class
     }

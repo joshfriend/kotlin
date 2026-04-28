@@ -46,9 +46,10 @@ object FirArrayOfNothingQualifierChecker : FirQualifiedAccessExpressionChecker(M
     }
 }
 
+context(context: CheckerContext)
 internal fun ConeKotlinType.unsupportedArrayOfNothingKind(languageVersionSettings: LanguageVersionSettings): ArrayOfNothingKind? {
     if (!this.isArrayTypeOrNullableArrayType) return null
-    val typeParameterType = typeArguments.firstOrNull()?.type ?: return null
+    val typeParameterType = typeArguments.firstOrNull()?.type?.fullyExpandedType() ?: return null
     return typeParameterType.unsupportedKindOfNothingAsReifiedOrInArray(languageVersionSettings)
 }
 

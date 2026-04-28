@@ -46,9 +46,10 @@ object FirArrayOfNullableNothingExpressionChecker : FirQualifiedAccessExpression
     }
 }
 
+context(context: CheckerContext)
 internal fun ConeKotlinType.isArrayOfNullableNothing(): Boolean {
     if (!this.isArrayTypeOrNullableArrayType) return false
-    val typeParameterType = typeArguments.firstOrNull()?.type ?: return false
+    val typeParameterType = typeArguments.firstOrNull()?.type?.fullyExpandedType() ?: return false
     return typeParameterType.isNullableNothing
 }
 
